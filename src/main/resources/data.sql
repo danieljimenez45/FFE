@@ -171,3 +171,33 @@ VALUES
     (42, 11, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
     (43, 11, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
     (44, 11, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+
+-- Datos de ejemplo USUARIOS
+-- Contraseña: Admin1
+insert into USUARIOS (username, nombre, apellidos, email, password)
+values ('admin', 'Admin', 'Admin Admin', 'admin@prueba.net', 'Admin1');
+
+insert into USER_ROLES (user_id, roles)
+values (1, 'ADMIN');
+
+-- Contraseña: User1
+insert into USUARIOS (username, nombre, apellidos, email, password)
+values ('jose', 'Jose', 'Jose User', 'user@prueba.net', 'User1');
+
+insert into USER_ROLES (user_id, roles)
+values (2, 'USER');
+
+-- Contraseña: Test1
+insert into USUARIOS (username, nombre, apellidos, email, password)
+values ('test', 'Test', 'Test Test', 'test@prueba.net', 'Test1');
+
+insert into USER_ROLES (user_id, roles)
+values (3, 'USER');
+
+-- Contraseña: Otro1
+insert into USUARIOS (username, nombre, apellidos, email, password)
+values ('maría', 'María', 'María Otro', 'otro@prueba.net', 'Otro1');
+
+insert into USER_ROLES (user_id, roles)
+values (4, 'USER');
