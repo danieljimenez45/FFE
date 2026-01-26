@@ -1,14 +1,13 @@
-package com.entradas_cine.ffe.cine.peliculas.models;
+package com.entradas_cine.ffe.rest.peliculas.models;
 
 
-import com.entradas_cine.ffe.cine.sesiones.models.Sesion;
+import com.entradas_cine.ffe.rest.sesiones.models.Sesion;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 
 @Builder
 @ToString
@@ -17,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
 @Table(name = "PELICULAS")
 @Schema(name = "peliculas")
 public class Pelicula {
@@ -57,30 +55,10 @@ public class Pelicula {
     @Schema(description = "Fecha de estreno de la película", example = "2010-07-16")
     private LocalDate estreno;
 
-    public enum Genero {
-        ACCION,
-        COMEDIA,
-        DRAMA,
-        TERROR,
-        CIENCIA_FICCION,
-        FANTASIA,
-        ROMANCE,
-        SUSPENSE,
-        AVENTURAS
-    }
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, updatable = false)
     @Schema(description = "Clasificación de la película", example = "MAYORES_12")
     private ClasificacionEdad clasificacionEdad;
-
-    public enum ClasificacionEdad {
-        TP,
-        MAYORES_7,
-        MAYORES_12,
-        MAYORES_16,
-        MAYORES_18
-    }
 
     @Column(nullable = false)
     @Builder.Default
