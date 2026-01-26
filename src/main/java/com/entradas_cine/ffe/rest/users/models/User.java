@@ -1,6 +1,7 @@
 package com.entradas_cine.ffe.rest.users.models;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -53,6 +54,12 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Schema(description = "Estado del Usuario", example = "ACTIVO")
+
+    private Estado estado;
 
 }
     /* Relación con entradas, un usuario puede tener muchas entradas
