@@ -3,6 +3,8 @@ package com.entradas_cine.ffe.cine.peliculas.controllers;
 import com.entradas_cine.ffe.cine.peliculas.dto.PeliculaCreateDto;
 import com.entradas_cine.ffe.cine.peliculas.dto.PeliculaResponseDto;
 import com.entradas_cine.ffe.cine.peliculas.dto.PeliculaUpdateEstadoDto;
+import com.entradas_cine.ffe.cine.peliculas.models.ClasificacionEdad;
+import com.entradas_cine.ffe.cine.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import com.entradas_cine.ffe.cine.peliculas.services.PeliculaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,14 +48,14 @@ public class PeliculaRestController {
     }
 
     @GetMapping("/buscar/genero")
-    public ResponseEntity<List<PeliculaResponseDto>> findByGenero(@RequestParam Pelicula.Genero genero) {
+    public ResponseEntity<List<PeliculaResponseDto>> findByGenero(@RequestParam Genero genero) {
         return ResponseEntity.ok(peliculaService.findByGenero(genero));
     }
 
     @GetMapping("/buscar")
     public ResponseEntity<Page<PeliculaResponseDto>> buscarAvanzado(
-            @RequestParam(required = false) Pelicula.Genero genero,
-            @RequestParam(required = false) Pelicula.ClasificacionEdad edad,
+            @RequestParam(required = false) Genero genero,
+            @RequestParam(required = false) ClasificacionEdad edad,
             @RequestParam(required = false) Boolean activa,
             Pageable pageable
     ) {

@@ -1,5 +1,6 @@
 package com.entradas_cine.ffe.cine.peliculas.repositories;
 
+import com.entradas_cine.ffe.cine.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +22,9 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Long>, JpaSp
 
     // ===== FILTROS =====
 
-    List<Pelicula> findByGeneroAndActivaTrue(Pelicula.Genero genero);
+    List<Pelicula> findByGeneroAndActivaTrue(Genero genero);
 
-    Page<Pelicula> findByGeneroAndActivaTrue(Pelicula.Genero genero, Pageable pageable);
+    Page<Pelicula> findByGeneroAndActivaTrue(Genero genero, Pageable pageable);
 
     List<Pelicula> findByTituloContainingIgnoreCaseAndActivaTrue(String titulo);
 
