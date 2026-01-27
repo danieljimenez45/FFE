@@ -1,6 +1,8 @@
 package com.entradas_cine.ffe.cine.peliculas.dto;
 
 
+import com.entradas_cine.ffe.cine.peliculas.models.ClasificacionEdad;
+import com.entradas_cine.ffe.cine.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -27,7 +29,7 @@ public class PeliculaResponseDto {
     private String director;
 
     @Schema(description = "Género de la película", example = "CIENCIA_FICCION")
-    private Pelicula.Genero genero;
+    private Genero genero;
 
     @Schema(description = "Duración de la película en minutos", example = "148")
     private Integer duracion;
@@ -39,7 +41,7 @@ public class PeliculaResponseDto {
     private String sinopsis;
 
     @Schema(description = "Clasificación de edad de la película", example = "MAYORES_12")
-    private Pelicula.ClasificacionEdad clasificacionEdad;
+    private ClasificacionEdad clasificacionEdad;
 
     @Schema(description = "Indica si la película está activa", example = "true")
     private Boolean activa;

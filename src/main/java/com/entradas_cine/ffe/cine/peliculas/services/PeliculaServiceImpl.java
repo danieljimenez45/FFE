@@ -6,6 +6,8 @@ import com.entradas_cine.ffe.cine.peliculas.dto.PeliculaUpdateEstadoDto;
 import com.entradas_cine.ffe.cine.peliculas.exceptions.PeliculaBadRequest;
 import com.entradas_cine.ffe.cine.peliculas.exceptions.PeliculaNotFound;
 import com.entradas_cine.ffe.cine.peliculas.mappers.PeliculaMapper;
+import com.entradas_cine.ffe.cine.peliculas.models.ClasificacionEdad;
+import com.entradas_cine.ffe.cine.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import com.entradas_cine.ffe.cine.peliculas.repositories.PeliculaRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +75,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
-    public List<PeliculaResponseDto> findByGenero(Pelicula.Genero genero) {
+    public List<PeliculaResponseDto> findByGenero(Genero genero) {
         return peliculaRepository
                 .findByGeneroAndActivaTrue(genero)
                 .stream()
@@ -93,8 +95,8 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public Page<PeliculaResponseDto> buscarAvanzado(
-            Pelicula.Genero genero,
-            Pelicula.ClasificacionEdad edad,
+            Genero genero,
+            ClasificacionEdad edad,
             Boolean activa,
             Pageable pageable
     ){

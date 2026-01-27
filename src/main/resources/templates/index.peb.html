@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cartelera</title>
+</head>
+<body>
+
+<h1>Cartelera</h1>
+
+{% if peliculas is empty %}
+<p>No hay películas disponibles</p>
+{% else %}
+<ul>
+    {% for pelicula in peliculas %}
+    <li>
+        <strong>{{ pelicula.titulo }}</strong><br>
+        Género: {{ pelicula.genero }}<br>
+        Director: {{ pelicula.director }}<br>
+        Duración: {{ pelicula.duracion }} min<br>
+        Estreno: {{ pelicula.estreno }}
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>

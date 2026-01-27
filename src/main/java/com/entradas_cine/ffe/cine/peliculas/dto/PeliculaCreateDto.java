@@ -1,5 +1,7 @@
 package com.entradas_cine.ffe.cine.peliculas.dto;
 
+import com.entradas_cine.ffe.cine.peliculas.models.ClasificacionEdad;
+import com.entradas_cine.ffe.cine.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -21,7 +23,7 @@ public class PeliculaCreateDto {
 
     @NotNull(message = "El genero es obligatorio")
     @Schema(description = "Género de la película", example = "CIENCIA_FICCION")
-    private final Pelicula.Genero genero;
+    private final Genero genero;
 
     @NotBlank(message = "La sinopsis no puede estar vacía")
     @Schema(description = "Sinopsis de la película", example = "Un ladrón que roba secretos corporativos a través del uso de la tecnología de compartir sueños es")
@@ -42,6 +44,6 @@ public class PeliculaCreateDto {
 
     @NotNull(message = "La clasificación de edad es obligatoria")
     @Schema(description = "Clasificación de edad de la película", example = "MAYORES_12")
-    private final Pelicula.ClasificacionEdad clasificacionEdad;
+    private final ClasificacionEdad clasificacionEdad;
 
 }
