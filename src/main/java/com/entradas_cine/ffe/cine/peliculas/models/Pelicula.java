@@ -27,6 +27,7 @@ public class Pelicula {
     @Schema(description = "Identificador único de la película", example = "1")
     private Long id;
 
+    @ToString.Exclude
     @OneToMany
     @JoinColumn(name = "id_pelicula")
     @Schema(description = "Sesiones asociadas a la película", example = "Sesión de las 18:00")

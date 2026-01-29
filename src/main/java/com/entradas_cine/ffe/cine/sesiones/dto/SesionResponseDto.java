@@ -1,6 +1,9 @@
 package com.entradas_cine.ffe.cine.sesiones.dto;
 
+import com.entradas_cine.ffe.cine.sesiones.models.Horario;
+import com.entradas_cine.ffe.cine.sesiones.models.Sala;
 import com.entradas_cine.ffe.cine.sesiones.models.Sesion;
+import com.entradas_cine.ffe.cine.sesiones.models.TipoProyeccion;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -24,13 +27,13 @@ public class SesionResponseDto {
     private LocalDate fecha;
 
     @Schema(example = "H18_30")
-    private Sesion.Horario horario;
+    private Horario horario;
 
     @Schema(example = "SALA_1")
-    private Sesion.Sala sala;
+    private Sala sala;
 
     @Schema(example = "IMAX")
-    private Sesion.TipoProyeccion tipoProyeccion;
+    private TipoProyeccion tipoProyeccion;
 
     @Schema(example = "10.50")
     private BigDecimal precio;

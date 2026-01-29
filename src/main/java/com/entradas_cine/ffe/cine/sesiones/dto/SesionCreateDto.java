@@ -1,6 +1,9 @@
 package com.entradas_cine.ffe.cine.sesiones.dto;
 
-import com.entradas_cine.ffe.cine.sesiones.models.Sesion;
+
+import com.entradas_cine.ffe.cine.sesiones.models.Horario;
+import com.entradas_cine.ffe.cine.sesiones.models.Sala;
+import com.entradas_cine.ffe.cine.sesiones.models.TipoProyeccion;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -24,15 +27,15 @@ public class SesionCreateDto {
 
     @NotNull(message = "El horario es obligatorio")
     @Schema(description = "Horario de la sesión", example = "H18_30")
-    private final Sesion.Horario horario;
+    private final Horario horario;
 
     @NotNull(message = "La sala es obligatorio")
     @Schema(description = "Sala de la sesión", example = "SALA_1")
-    private final Sesion.Sala sala;
+    private final Sala sala;
 
     @NotNull(message = "El tipo de proyección es obligatorio")
     @Schema(description = "Tipo de proyección de la sesión", example = "IMAX")
-    private final Sesion.TipoProyeccion tipoProyeccion;
+    private final TipoProyeccion tipoProyeccion;
 
     @NotNull(message = "El precio es obligatorio")
     @Schema(description = "Precio de la sesión", example = "10.50")
