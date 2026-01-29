@@ -2,7 +2,7 @@ package com.entradas_cine.ffe.cine.sesiones.repositories;
 
 import com.entradas_cine.ffe.cine.peliculas.models.Pelicula;
 import com.entradas_cine.ffe.cine.sesiones.models.Sesion;
-import com.entradas_cine.ffe.cine.sesiones.models.Sesion.Horario;
+import com.entradas_cine.ffe.cine.sesiones.models.Horario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
