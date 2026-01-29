@@ -171,3 +171,75 @@ VALUES
     (42, 11, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
     (43, 11, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
     (44, 11, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (45, 12, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (46, 12, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (47, 12, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (48, 12, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (49, 13, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (50, 13, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (51, 13, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (52, 13, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (53, 14, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (54, 14, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (55, 14, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (56, 14, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (57, 15, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (58, 15, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (59, 15, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (60, 15, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (61, 16, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (62, 16, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (63, 16, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (64, 16, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (65, 17, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (66, 17, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (67, 17, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (68, 17, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (69, 18, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (70, 18, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (71, 18, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (72, 18, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (73, 19, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (74, 19, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (75, 19, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (76, 19, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (77, 20, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (78, 20, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (79, 20, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (80, 20, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
