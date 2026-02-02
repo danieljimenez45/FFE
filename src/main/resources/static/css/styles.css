@@ -88,30 +88,8 @@
 }
 
 .contenedor-padre{
-    background: linear-gradient(
-            to right,
-            #050a14,
-            #0b1a33,
-            #b08d28,
-            #e0c066,
-            #b08d28,
-            #0b1a33,
-            #050a14
-    );
-    background-size: 600% 100%;
-    animation: fondoCineDorado 18s ease-in-out infinite;
-}
+    background: #0b1a33;
 
-@keyframes fondoCineDorado {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
 }
 
 
