@@ -87,31 +87,33 @@
     backdrop-filter: blur(10px);
 }
 
-/*
-.video-wrapper{
-    position: relative;
-    min-height: 100vh;
-}
-.video-bg{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    z-index: -1;
-}
-.video-overlay{
-    position: relative;
-    z-index: 1;
-}
-*/
-
 .contenedor-padre{
-    /*background: radial-gradient(circle at center top, #0a1c3a, #051122 900px, #051122);*/
-    background: linear-gradient(to right, #1a2c6a, #051122);
+    background: linear-gradient(
+            to right,
+            #050a14,
+            #0b1a33,
+            #b08d28,
+            #e0c066,
+            #b08d28,
+            #0b1a33,
+            #050a14
+    );
+    background-size: 600% 100%;
+    animation: fondoCineDorado 18s ease-in-out infinite;
 }
+
+@keyframes fondoCineDorado {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 .boton-sipno{
     color: #ffffff;
