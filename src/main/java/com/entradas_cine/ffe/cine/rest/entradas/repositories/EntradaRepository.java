@@ -18,4 +18,6 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
     List<Entrada> findBySesion(Sesion sesion);
 
     Page<Entrada> findBySesion(Sesion sesion, Pageable pageable);
+
+    boolean existsBySesionAndFilaAndNumero(Sesion sesion, Integer fila, Integer numero);
 }

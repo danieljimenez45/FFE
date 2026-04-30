@@ -1,6 +1,7 @@
 package com.entradas_cine.ffe.cine.rest.entradas.mappers;
 
 
+import com.entradas_cine.ffe.cine.rest.entradas.dto.ButacaOcupadaResponseDto;
 import com.entradas_cine.ffe.cine.rest.entradas.dto.EntradaCreateDto;
 import com.entradas_cine.ffe.cine.rest.entradas.dto.EntradaResponseDto;
 import com.entradas_cine.ffe.cine.rest.entradas.models.Entrada;
@@ -52,5 +53,16 @@ public class EntradaMapper {
     public Page<EntradaResponseDto> toResponseDtoPage (Page<Entrada> entradas) {
         log.info("Page Mapping Entradas to Entrada Response DTO");
         return entradas.map(this::toEntradaResponseDto);
+    }
+
+    public List<ButacaOcupadaResponseDto> toButacasOcupadas(List<Entrada> entradas) {
+        log.info("Mapping Entradas to occupied seats DTO");
+
+        return entradas.stream()
+                .map(entrada -> ButacaOcupadaResponseDto.builder()
+                        .fila(entrada.getFila())
+                        .numero(entrada.getNumero())
+                        .build())
+                .toList();
     }
 }

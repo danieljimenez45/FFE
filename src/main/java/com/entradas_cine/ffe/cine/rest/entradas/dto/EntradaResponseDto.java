@@ -1,11 +1,7 @@
 package com.entradas_cine.ffe.cine.rest.entradas.dto;
 
 
-import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDateTime;

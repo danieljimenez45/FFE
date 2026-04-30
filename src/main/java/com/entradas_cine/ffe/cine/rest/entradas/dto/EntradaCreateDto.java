@@ -1,14 +1,13 @@
 package com.entradas_cine.ffe.cine.rest.entradas.dto;
 
 
-import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +17,7 @@ import java.time.LocalDateTime;
 public class EntradaCreateDto {
 
     @NotNull(message = "El id de la sesión es obligatorio")
+    @JsonAlias({"id_sesion", "sesionId", "idSesionId", "sesion"})
     @Schema(name = "Identificador de la sesión a la que pertenece la entrada", example = "1")
     private Long idSesion;
 
@@ -36,6 +36,7 @@ public class EntradaCreateDto {
     private Float precio;
 
     @NotNull(message = "La fecha y hora son obligatorias")
-    @Schema(description = "Fecha y hora en la que se compró la entrada", example = "2024-12-31")
+    @JsonDeserialize(using = EntradaFechaDeserializer.class)
+    @Schema(description = "Fecha y hora de compra. Formatos validos: yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd'T'HH:mm:ssXXX, yyyy-MM-dd, dd-MM-yyyy", example = "2024-12-31T18:30:00")
     private LocalDateTime fecha;
 }
