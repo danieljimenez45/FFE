@@ -22,6 +22,12 @@ public class SesionRestController {
 
     private final SesionService sesionService;
 
+    @GetMapping
+    public ResponseEntity<List<SesionResponseDto>> findAll() {
+        log.info("Buscando todas las sesiones");
+        return ResponseEntity.ok(sesionService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<SesionResponseDto> findById(@PathVariable Long id) {
       log.info("Buscando sesion con ID: {}", id);

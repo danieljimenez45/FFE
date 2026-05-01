@@ -15,6 +15,8 @@ public interface PeliculaService {
 
     PeliculaResponseDto create(PeliculaCreateDto dto);
 
+    List<PeliculaResponseDto> findAll();
+
     List<PeliculaResponseDto> findAllActivas();
     Page<PeliculaResponseDto> findAllActivasPages(Pageable pageable);
 

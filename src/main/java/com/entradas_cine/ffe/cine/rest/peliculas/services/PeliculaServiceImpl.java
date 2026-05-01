@@ -52,6 +52,14 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
+    public List<PeliculaResponseDto> findAll() {
+        return peliculaRepository.findAll()
+                .stream()
+                .map(peliculaMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
     public List<PeliculaResponseDto> findAllActivas() {
         return peliculaRepository.findByActivaTrue()
                 .stream()

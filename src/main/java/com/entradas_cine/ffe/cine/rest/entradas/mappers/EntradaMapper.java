@@ -1,6 +1,7 @@
 package com.entradas_cine.ffe.cine.rest.entradas.mappers;
 
 
+import com.entradas_cine.ffe.cine.rest.entradas.dto.ButacaOcupadaResponseDto;
 import com.entradas_cine.ffe.cine.rest.entradas.dto.EntradaCreateDto;
 import com.entradas_cine.ffe.cine.rest.entradas.dto.EntradaResponseDto;
 import com.entradas_cine.ffe.cine.rest.entradas.models.Entrada;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -22,8 +24,8 @@ public class EntradaMapper {
                 .id(null)
                 .fila(dto.getFila())
                 .numero(dto.getNumero())
-                .fecha(dto.getFecha())
-                .precio(dto.getPrecio())
+                .fecha(LocalDateTime.now())
+                .precio(sesion.getPrecio().floatValue())
                 .sesion(sesion)
                 .build();
     }
@@ -52,5 +54,16 @@ public class EntradaMapper {
     public Page<EntradaResponseDto> toResponseDtoPage (Page<Entrada> entradas) {
         log.info("Page Mapping Entradas to Entrada Response DTO");
         return entradas.map(this::toEntradaResponseDto);
+    }
+
+    public List<ButacaOcupadaResponseDto> toButacasOcupadas(List<Entrada> entradas) {
+        log.info("Mapping Entradas to occupied seats DTO");
+
+        return entradas.stream()
+                .map(entrada -> ButacaOcupadaResponseDto.builder()
+                        .fila(entrada.getFila())
+                        .numero(entrada.getNumero())
+                        .build())
+                .toList();
     }
 }

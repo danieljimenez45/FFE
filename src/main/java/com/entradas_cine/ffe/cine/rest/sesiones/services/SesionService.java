@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface SesionService {
 
+    List<SesionResponseDto> findAll();
+
     SesionResponseDto findById(Long id);
 
     List<SesionResponseDto> findByPelicula(Long peliculaId);

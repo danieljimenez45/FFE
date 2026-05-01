@@ -31,7 +31,7 @@ public class PeliculaRestController {
         return ResponseEntity.ok(peliculaService.findById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<PeliculaResponseDto>> findAllActivas() {
         return ResponseEntity.ok(peliculaService.findAllActivas());
     }

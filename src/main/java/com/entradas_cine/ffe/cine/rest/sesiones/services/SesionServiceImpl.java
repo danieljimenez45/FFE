@@ -27,6 +27,14 @@ public class SesionServiceImpl implements  SesionService {
     private final PeliculaRepository peliculaRepository;
 
     @Override
+    public List<SesionResponseDto> findAll() {
+        return sesionRepository.findAll()
+                .stream()
+                .map(sesionMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
     public SesionResponseDto findById(Long id) {
         Sesion sesion = sesionRepository.findById(id)
                 .orElseThrow(() -> new SesionNotFound(id));
