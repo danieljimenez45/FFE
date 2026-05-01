@@ -36,7 +36,6 @@ public class EntradaServiceImpl implements EntradaService {
                         "Sesion con id " + entradaCreateDto.getIdSesion() + " no encontrada"
                 ));
 
-<<<<<<< HEAD
         int maxFilas = sesion.getSala().getMaxFilas();
         int maxNumeros = sesion.getSala().getMaxNumeros();
         if (entradaCreateDto.getFila() > maxFilas) {
@@ -50,8 +49,6 @@ public class EntradaServiceImpl implements EntradaService {
             );
         }
 
-=======
->>>>>>> 9b0f9153605aa8e80e5568724a31fcae18ded1f8
         boolean butacaOcupada = entradaRepository.existsBySesionAndFilaAndNumero(
                 sesion,
                 entradaCreateDto.getFila(),
