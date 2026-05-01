@@ -48,6 +48,45 @@ public class EntradaRestController {
     public ResponseEntity<Page<EntradaResponseDto>> findBySesionPage(@PathVariable Long id, Pageable pageable) {
         log.info("EntradaRestController.findBySesionPage: {} - {}", id, pageable);
         return ResponseEntity.ok(entradaService.findBySesion(id, pageable));
+<<<<<<< HEAD
+=======
+    }
+
+    @GetMapping("/sesion/{id}/butacas-ocupadas")
+    public ResponseEntity<List<ButacaOcupadaResponseDto>> findButacasOcupadasBySesion(@PathVariable Long id) {
+        log.info("EntradaRestController.findButacasOcupadasBySesion: {}", id);
+        return ResponseEntity.ok(entradaService.findButacasOcupadasBySesion(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.info("EntradaRestController.deleteById: {}", id);
+        entradaService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+
+        BindingResult result = ex.getBindingResult();
+        problemDetail.setDetail("Falló la validación para el objeto='" + result.getObjectName()
+                + "'. " + "Núm. errores: " + result.getErrorCount());
+
+        Map<String, String> errores = new HashMap<>();
+        result.getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errores.put(fieldName, errorMessage);
+        });
+
+        problemDetail.setProperty("errores", errores);
+        return problemDetail;
+>>>>>>> 9b0f9153605aa8e80e5568724a31fcae18ded1f8
     }
 
     @GetMapping("/sesion/{id}/butacas-ocupadas")
