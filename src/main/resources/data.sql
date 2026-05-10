@@ -223,3 +223,37 @@ values
     (47, 4, 8, 10.00, '2026-01-20 13:10:00'),
     (48, 3, 7, 11.50, '2026-01-20 13:15:00'),
     (54, 2, 6, 10.75, '2026-01-20 13:20:00');
+
+-- Sesiones adicionales (películas 17–20) tomadas del branch marius-frontend; ids nuevos para no romper ENTRADAS existentes
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (55, 17, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (56, 17, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (57, 17, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (58, 17, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (59, 18, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (60, 18, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (61, 18, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (62, 18, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (63, 19, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (64, 19, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (65, 19, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (66, 19, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+
+insert into SESIONES
+(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (67, 20, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (68, 20, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (69, 20, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (70, 20, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
