@@ -18,6 +18,6 @@ public class PeliculaWebController {
     public String listarPeliculas(Model model){
 
         model.addAttribute("peliculas", peliculaRepository.findAll());
-        return "index";
+        return "peliculas/index";
     }
 }
