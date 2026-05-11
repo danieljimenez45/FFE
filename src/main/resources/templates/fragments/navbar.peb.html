@@ -14,15 +14,21 @@
         <ul class="navbar-nav d-none d-lg-flex gap-3">
 
             <li class="nav-item">
-                <a class="nav-link" href="/">Inicio</a>
+                <a class="nav-link" href="/">
+                    {{ message('nav.home') }}
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/">Películas</a>
+                <a class="nav-link" href="/">
+                    {{ message('nav.pelicula') }}
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/">Sesiones</a>
+                <a class="nav-link" href="/">
+                    {{ message('nav.sessions') }}
+                </a>
             </li>
 
         </ul>
@@ -32,15 +38,21 @@
             <ul class="navbar-nav">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
+                    <a class="nav-link" href="/">
+                        {{ message('nav.home') }}
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Películas</a>
+                    <a class="nav-link" href="/">
+                        {{ message('nav.pelicula') }}
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Sesiones</a>
+                    <a class="nav-link" href="/">
+                        {{ message('nav.sessions') }}
+                    </a>
                 </li>
 
             </ul>
@@ -56,7 +68,7 @@
         </div>
 
 
-        <div class="d-flex justify-content-end gap-2">
+        <div class="d-flex justify-content-end align-items-center gap-2">
             <!-- Buscador -->
             <form class="d-flex align-items-center gap-2 me-3">
                 <label>
@@ -65,13 +77,57 @@
 
                 <input type="search"
                        class="form-control text-center buscador"
-                       placeholder="Busca tu película">
+                       placeholder="{{ message('nav.search') }}">
             </form>
 
             <!-- Login -->
             <a href="/login" class="btn boton-sesion">
-                Login
+                {{ message('nav.login') }}
             </a>
+
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <i class="bi bi-globe"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="?lang=es">
+                            <img src="https://flagcdn.com/w20/es.png" width="20" alt="ES">
+                            Español
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="?lang=en">
+                            <img src="https://flagcdn.com/w20/gb.png" width="20" alt="EN">
+                            English
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="?lang=fr">
+                            <img src="https://flagcdn.com/w20/fr.png" width="20" alt="FR">
+                            Français
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="?lang=de">
+                            <img src="https://flagcdn.com/w20/de.png" width="20" alt="DE">
+                            Deutsch
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="?lang=pt">
+                            <img src="https://flagcdn.com/w20/pt.png" width="20" alt="PT">
+                            Português
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
 
     </div>
