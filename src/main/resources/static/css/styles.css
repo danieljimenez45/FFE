@@ -37,7 +37,9 @@
 .ti-cabecera:hover {
     color: #ff6600;
     text-shadow: 0 0 5px #ff6600, 0 0 10px #ff6600;
-    transform: scale(1.2);
+    /* Siento que no queda tan bien esto porque al hacer scale el texto
+    se muestra por encima del botón login:
+    transform: scale(1.2); */
 }
 
 .buscador {

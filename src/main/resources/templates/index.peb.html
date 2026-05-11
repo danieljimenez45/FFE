@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -25,10 +25,9 @@
                     <h1 class="display-4 ti-cabecera">Bienvenidos a FFE Cinema</h1>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <label>
-                        <i class="bi bi-search iconos"></i>
-                    </label>
-                    <input type="text" class="form-control text-center buscador" placeholder="Busca tu pelicula">
+                    <i class="bi bi-search iconos"></i>
+                    <input type="text" id="buscador" class="form-control text-center buscador"
+                        placeholder="Busca tu pelicula">
                 </div>
             </div>
         </div>
@@ -51,6 +50,7 @@
                 <div class="row">
 
                     {% for pelicula in peliculas %}
+                    {% if pelicula.activa %}
                     <div class="col-md-4 mb-4 opacity-100">
                         <div class="card h-auto">
                             <div class="card-body peli-contenedor">
@@ -74,8 +74,8 @@
                                 </p>
                                 <p class="card-text"> Director: {{ pelicula.director }} </p>
                                 <p class="card-text"> Estreno: {{ pelicula.estreno }} </p>
-                                <p class="card-text"> Clasificación Edad: {{ pelicula.clasificacionEdad.displayName }} </p>
-                                <p class="card-text"> En cartelera: {{ pelicula.activa }} </p>
+                                <p class="card-text"> Clasificación: {{ pelicula.clasificacionEdad.displayName }}
+                                </p>
                                 <p class="card-text">
                                     Sesiónes:
                                     <button type="button" class="btn boton-sesion btn-sm" data-bs-toggle="collapse"
@@ -101,7 +101,7 @@
                                             </div>
 
                                             <div class="fw-bold fs-4 text-success">
-                                                {{ sesion.precio }} <i class="bi bi-ticket-perforated"></i>
+                                                {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
                                             </div>
 
                                         </li>
@@ -112,6 +112,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 {% endif %}

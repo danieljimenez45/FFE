@@ -18,7 +18,15 @@ public enum Sala {
         this.displayName = displayName;
     }
 
-    public int getMaxFilas() { return maxFilas; }
-    public int getMaxNumeros() { return maxNumeros; }
-    public String getDisplayName() { return displayName; }
+    public int getMaxFilas() {
+        return maxFilas;
+    }
+
+    public int getMaxNumeros() {
+        return maxNumeros;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }
