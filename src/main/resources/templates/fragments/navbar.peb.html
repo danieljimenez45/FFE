@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg shadow navbar-cine">
+
+    <div class="container-fluid d-flex justify-content-between align-items-center px-5">
+
+
+        <button class="navbar-toggler rayas text-light"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuLateral">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- ENLACES DESKTOP -->
+        <ul class="navbar-nav d-none d-lg-flex gap-3">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/">Inicio</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/">Películas</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/">Sesiones</a>
+            </li>
+
+        </ul>
+
+        <!-- Rayas navbar -->
+        <div class="collapse menu-lateral flex-grow-0 d-lg-none" id="menuLateral">
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Películas</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Sesiones</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- Titulo  -->
+        <div>
+            <a class="navbar-brand fw-bold ti-cabecera" href="/">
+                FFE CINEMA
+                <i class="bi bi-film"></i>
+            </a>
+        </div>
+
+
+        <div class="d-flex justify-content-end gap-2">
+            <!-- Buscador -->
+            <form class="d-flex align-items-center gap-2 me-3">
+                <label>
+                    <i class="bi bi-search iconos"></i>
+                </label>
+
+                <input type="search"
+                       class="form-control text-center buscador"
+                       placeholder="Busca tu película">
+            </form>
+
+            <!-- Login -->
+            <a href="/login" class="btn boton-sesion">
+                Login
+            </a>
+        </div>
+
+    </div>
+</nav>
