@@ -57,7 +57,7 @@
                                 <h5 class="card-title"> {{ pelicula.titulo }} </h5>
 
                                 <p class="card-text text-muted fs-6">
-                                    Género: {{ pelicula.genero }} -- Duración: {{ pelicula.duracion }} min
+                                    Género: {{ pelicula.genero.displayName }} -- Duración: {{ pelicula.duracion }} min
                                 </p>
                                 <p class="card-text"> </p>
                                 <p class="card-text text-truncate">
@@ -74,7 +74,7 @@
                                 </p>
                                 <p class="card-text"> Director: {{ pelicula.director }} </p>
                                 <p class="card-text"> Estreno: {{ pelicula.estreno }} </p>
-                                <p class="card-text"> Clasificación Edad: {{ pelicula.clasificacionEdad }} </p>
+                                <p class="card-text"> Clasificación Edad: {{ pelicula.clasificacionEdad.displayName }} </p>
                                 <p class="card-text"> En cartelera: {{ pelicula.activa }} </p>
                                 <p class="card-text">
                                     Sesiónes:
@@ -90,13 +90,13 @@
                                             class="list-group-item d-flex border-dark justify-content-between align-items-center bg-transparent">
                                             <div>
                                                 <div class="fw-bold">
-                                                    <i class="bi bi-clock pe-2"> {{ sesion.horario }}</i>
-                                                    <i class="bi bi-door-open">{{ sesion.sala }}</i>
+                                                    <i class="bi bi-clock pe-2"> {{ sesion.horario.displayName }}</i>
+                                                    <i class="bi bi-door-open">{{ sesion.sala.displayName }}</i>
                                                 </div>
 
                                                 <small class="text-muted">
                                                     <i class="bi bi-calendar-event pe-2"> {{ sesion.fecha }}</i>
-                                                    <i class="bi bi-film"> {{ sesion.tipoProyeccion }}</i>
+                                                    <i class="bi bi-film"> {{ sesion.tipoProyeccion.displayName }}</i>
                                                 </small>
                                             </div>
 
