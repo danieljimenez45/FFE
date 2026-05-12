@@ -13,6 +13,7 @@
                 {% for pelicula in peliculas %}
                 <div class="col-md-4 mb-4 opacity-100">
                     <div class="card h-100">
+                        <img class="card-img-top" src="/images/peliculas/{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}">
                         <div class="card-body peli-contenedor">
                             <h5 class="card-title"> {{ pelicula.titulo }} </h5>
 
@@ -20,7 +21,7 @@
                                 {{ message('label.peliculas.genero') }}: {{ message('genero.' ~ pelicula.genero) }} -- {{ message('label.duracion') }}: {{ pelicula.duracion }} min
                             </p>
                             <p class="card-text">  </p>
-                            <p class="card-text text-truncate">
+                            <p class="card-text">
                                 {{ message('label.sinopsis') }}:
                                 <button type="button" class="btn boton-sipno"
                                         data-bs-toggle="collapse"
@@ -29,7 +30,7 @@
                                 </button>
                             <div class="collapse mt-2" id="sinopsis{{ pelicula.id }}">
                                 <div class="card-text">
-                                    {{ pelicula.sinopsis }}
+                                    {{ message(pelicula.sinopsis) }}
                                 </div>
                             </div>
                             </p>

@@ -250,6 +250,11 @@ main {
     border-color: #1a2c6a;
 }
 
+.imagen-pelicula{
+    height: 400px;
+    object-fit: cover;
+}
+
 
 /* =========================
    FOOTER y ICONOS

@@ -67,4 +67,7 @@ public class Pelicula {
     @Builder.Default
     private Boolean activa = true;
 
+    @Column(nullable = false)
+    @Schema(description = "Imagen de la pelicula", example = "toystory.jpg")
+    private String imagen;
 }
