@@ -1,11 +1,16 @@
 package com.entradas_cine.ffe.cine.rest.peliculas.controllers;
 
+import com.entradas_cine.ffe.cine.config.ApiRoutes;
 import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaCreateDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaResponseDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaUpdateEstadoDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.ClasificacionEdad;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +18,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/peliculas")
+@RequestMapping(ApiRoutes.PELICULAS)
 @RequiredArgsConstructor
-@Tag(name = "Peliculas", description = "Operaciones relacionadas con las peliculas de cine")
+@Tag(name = "Peliculas", description = "Operaciones relacionadas con las películas de cine")
 public class PeliculaRestController {
 
     private final PeliculaService peliculaService;
 
+    // -------------------------------------------------------------------------
+    // Lectura — público, sin autenticación
+    // -------------------------------------------------------------------------
 
     @GetMapping("/{id}")
     public ResponseEntity<PeliculaResponseDto> findById(@PathVariable Long id) {
@@ -56,30 +65,41 @@ public class PeliculaRestController {
             @RequestParam(required = false) Genero genero,
             @RequestParam(required = false) ClasificacionEdad edad,
             @RequestParam(required = false) Boolean activa,
-            Pageable pageable
-    ) {
-        return ResponseEntity.ok(
-                peliculaService.buscarAvanzado(genero, edad, activa, pageable)
-        );
+            Pageable pageable) {
+        return ResponseEntity.ok(peliculaService.buscarAvanzado(genero, edad, activa, pageable));
     }
 
+    // -------------------------------------------------------------------------
+    // Escritura — solo ADMIN
+    // -------------------------------------------------------------------------
+
+    @Operation(summary = "Crear película (ADMIN)")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Película creada"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Requiere ADMIN")
+    })
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PeliculaResponseDto> create(
-            @RequestBody @Valid PeliculaCreateDto peliculaCreateDto
-    ) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
+            @RequestBody @Valid PeliculaCreateDto peliculaCreateDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(peliculaService.create(peliculaCreateDto));
     }
 
+    @Operation(summary = "Actualizar estado de película (ADMIN)")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Estado actualizado"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Requiere ADMIN")
+    })
+    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/{id}/estado")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PeliculaResponseDto> updateEstado(
             @PathVariable Long id,
-            @RequestBody @Valid PeliculaUpdateEstadoDto peliculaUpdateEstadoDto)
-    {
-        return ResponseEntity.ok(
-                peliculaService.updateEstado(id, peliculaUpdateEstadoDto)
-        );
+            @RequestBody @Valid PeliculaUpdateEstadoDto peliculaUpdateEstadoDto) {
+        return ResponseEntity.ok(peliculaService.updateEstado(id, peliculaUpdateEstadoDto));
     }
-
 }
