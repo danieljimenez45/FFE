@@ -190,7 +190,8 @@ VALUES
 
 /*
     La contrasña para usuarios es la misma clave123
-    La contraseña para admin es clave123
+
+    La contraseña para admin es admin123
 */
 insert into USUARIOS
 (username, nombre, apellidos, email, password, fecha_nacimiento, fecha_registro, rol)

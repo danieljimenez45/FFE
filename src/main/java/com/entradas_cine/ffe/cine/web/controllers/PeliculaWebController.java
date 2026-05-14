@@ -32,6 +32,7 @@ public class PeliculaWebController {
         logger.info("Total películas: {}", peliculas.size());
 
         model.addAttribute("peliculas", peliculas);
+
         return "index";
     }
 
@@ -44,4 +45,17 @@ public class PeliculaWebController {
 
         return "peliculas/detalle_pelicula";
     }
+
+    @GetMapping("/peliculas/lista_peliculas")
+    @Transactional(readOnly = true)
+    public String listaDePeliculas(Model model) {
+        List<PeliculaResponseDto> peliculas = peliculaService.findAll();
+
+        logger.info("Total películas: {}", peliculas.size());
+
+        model.addAttribute("peliculas", peliculas);
+
+        return "peliculas/lista_peliculas";
+    }
+
 }
