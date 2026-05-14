@@ -13,9 +13,12 @@
     {% if pelicula.activa %}
     <div class="col-md-4 mb-4">
         <div class="card h-100">
-            <img class="card-img-top"
-                 src="/images/peliculas/{{ pelicula.imagen }}"
-                 alt="{{ pelicula.titulo }}">
+            <a href="/peliculas/detalle/{{ pelicula.id }}">
+                <img class="card-img-top"
+                     src="/images/peliculas/{{ pelicula.imagen }}"
+                     alt="{{ pelicula.titulo }}">
+            </a>
+
             <div class="card-body peli-contenedor d-flex flex-column">
                 <h5 class="card-title">{{ pelicula.titulo }}</h5>
 

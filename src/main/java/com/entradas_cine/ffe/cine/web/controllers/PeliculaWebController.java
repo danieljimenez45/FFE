@@ -1,14 +1,15 @@
 package com.entradas_cine.ffe.cine.web.controllers;
 
-import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
-import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaRepository;
-import org.hibernate.Hibernate;
+import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaResponseDto;
+import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -17,31 +18,30 @@ public class PeliculaWebController {
 
     private static final Logger logger = LoggerFactory.getLogger(PeliculaWebController.class);
 
-    private final PeliculaRepository peliculaRepository;
+    private final PeliculaService peliculaService;
 
-    public PeliculaWebController(PeliculaRepository peliculaRepository) {
-        this.peliculaRepository = peliculaRepository;
+    public PeliculaWebController(PeliculaService peliculaService) {
+        this.peliculaService = peliculaService;
     }
 
     @GetMapping("/")
     @Transactional(readOnly = true)
     public String listarPeliculas(Model model) {
-        List<Pelicula> peliculas = peliculaRepository.findAllWithSesiones();
+        List<PeliculaResponseDto> peliculas = peliculaService.findAll();
 
         logger.info("Total películas: {}", peliculas.size());
 
-        // Explicitly initialize sesiones to ensure they are loaded before template
-        // accesses them
-        for (Pelicula p : peliculas) {
-            List<?> sesiones = p.getSesiones();
-            logger.info("Película: {}, Sesiones: {}", p.getTitulo(),
-                    sesiones != null ? sesiones.size() : "NULL");
-            if (sesiones != null) {
-                Hibernate.initialize(sesiones);
-            }
-        }
-
         model.addAttribute("peliculas", peliculas);
         return "index";
+    }
+
+    @GetMapping("/peliculas/detalle/{id}")
+    public String detallePelicula(@PathVariable Long id, Model model) {
+
+        PeliculaResponseDto pelicula = peliculaService.findById(id);
+
+        model.addAttribute("pelicula", pelicula);
+
+        return "peliculas/detalle_pelicula";
     }
 }

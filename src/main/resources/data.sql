@@ -188,6 +188,10 @@ VALUES
     (53, 16, '2025-01-03', 'H18_30', 'SALA_5', 'NORMAL', 8.25),
     (54, 16, '2025-01-03', 'H21_00', 'SALA_6', 'IMAX', 10.75);
 
+/*
+    La contrasña para usuarios es la misma clave123
+    La contraseña para admin es clave123
+*/
 insert into USUARIOS
 (username, nombre, apellidos, email, password, fecha_nacimiento, fecha_registro, rol)
 values
