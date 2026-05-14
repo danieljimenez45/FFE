@@ -1,0 +1,28 @@
+package com.entradas_cine.ffe.cine.rest.sesiones.services;
+
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface SesionService {
+
+    List<SesionResponseDto> findAll();
+
+    SesionResponseDto findById(Long id);
+
+    List<SesionResponseDto> findByPelicula(Long peliculaId);
+
+    List<SesionResponseDto> findByPeliculaAndFecha(Long peliculaId, LocalDate fecha);
+
+    List<SesionResponseDto> findProximasSesiones();
+
+    Page<SesionResponseDto> findByPelicula(Long peliculaId, Pageable pageable);
+
+    SesionResponseDto update(Long id, SesionUpdateDto dto);
+
+    void deleteById(Long id);
+}

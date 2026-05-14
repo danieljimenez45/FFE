@@ -1,0 +1,115 @@
+package com.entradas_cine.ffe.cine.rest.sesiones.services;
+
+import com.entradas_cine.ffe.cine.rest.peliculas.exceptions.PeliculaNotFound;
+import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
+import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaRepository;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionNotFound;
+import com.entradas_cine.ffe.cine.rest.sesiones.mappers.SesionMapper;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
+import com.entradas_cine.ffe.cine.rest.sesiones.repositories.SesionRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class SesionServiceImpl implements  SesionService {
+
+    private final SesionRepository sesionRepository;
+    private final SesionMapper sesionMapper;
+    private final PeliculaRepository peliculaRepository;
+
+    @Override
+    public List<SesionResponseDto> findAll() {
+        return sesionRepository.findAll()
+                .stream()
+                .map(sesionMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
+    public SesionResponseDto findById(Long id) {
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new SesionNotFound(id));
+
+        return sesionMapper.toResponseDto(sesion);
+    }
+
+    @Override
+    public List<SesionResponseDto> findByPelicula(Long peliculaId) {
+        log.debug("Buscando sesiones para la pelicula con ID: {}", peliculaId);
+
+        Pelicula pelicula = peliculaRepository.findById(peliculaId)
+                .orElseThrow(
+                        () -> new PeliculaNotFound(peliculaId)
+                );
+
+        return sesionRepository.findByPelicula(pelicula)
+                .stream()
+                .map(sesionMapper::toResponseDto)
+                .toList();
+
+    }
+
+    @Override
+    public List<SesionResponseDto> findByPeliculaAndFecha(Long peliculaId, LocalDate fecha){
+        log.info("Buscando sesiones para la pelicula con ID: {} en la fecha: {}", peliculaId, fecha);
+
+        Pelicula pelicula = peliculaRepository.findById(peliculaId)
+                .orElseThrow(
+                        () -> new PeliculaNotFound(peliculaId)
+                );
+
+        return sesionRepository.findByPeliculaAndFecha(pelicula, fecha)
+                .stream()
+                .map(sesionMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
+    public List<SesionResponseDto> findProximasSesiones() {
+        return sesionRepository.findByFechaAfter(LocalDate.now())
+                .stream()
+                .map(sesionMapper::toResponseDto)
+                .toList();
+    }
+
+    @Override
+    public Page<SesionResponseDto> findByPelicula(Long peliculaId, Pageable pageable) {
+        log.info("Buscando sesiones paginadas para la pelicula con ID: {}", peliculaId);
+
+        Pelicula pelicula = peliculaRepository.findById(peliculaId)
+                .orElseThrow(() -> new PeliculaNotFound(peliculaId));
+
+        return sesionRepository.findByPelicula(pelicula, pageable)
+                .map(sesionMapper::toResponseDto);
+    }
+
+    @Override
+    public SesionResponseDto update(Long id, SesionUpdateDto dto) {
+        log.info("Actualizando sesión con ID: {}", id);
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new SesionNotFound(id));
+        sesionMapper.actualizarSesion(sesion, dto);
+        return sesionMapper.toResponseDto(sesionRepository.save(sesion));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        log.info("Eliminando sesion con ID: {}", id);
+
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new SesionNotFound(id));
+
+        sesionRepository.delete(sesion);
+    }
+
+}

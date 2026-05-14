@@ -1,0 +1,33 @@
+
+{% block titulo %}
+    Error
+
+{% endblock %}
+
+{% block contenido %}
+
+    <div class="container py-5 text-center text-light">
+        <div class="card bg-dark bg-opacity-75 shadow-lg border-danger p-5">
+
+            <h1 class="display-1 fw-bold text-danger">
+                {{ errorCode }}
+            </h1>
+
+            <h2 class="mb-4">
+                {{ errorTitle }}
+            </h2>
+
+            <p class="lead">
+                {{ errorMessage }}
+            </p>
+
+            <div>
+                <a href="{{ errorUrl }}" class="btn btn-danger">
+                    <i class="bi bi-house-door"></i>
+
+                    {{ message('nav.home') }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

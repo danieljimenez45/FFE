@@ -1,0 +1,159 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Crear cuenta — FFE Cinema{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-11 col-md-8 col-lg-6">
+
+        <div class="card card-panel shadow-sm mt-4">
+            <div class="card-body p-4">
+
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-person-plus me-2"></i>Crear cuenta
+                </h2>
+
+                {# error general #}
+                {% if errorMsg is defined %}
+                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        {{ errorMsg }}
+                    </div>
+                {% endif %}
+
+                {# formulario #}
+                <form method="post" action="/auth/register" novalidate>
+
+                    <input type="hidden"
+                           name="{{ _csrf.parameterName }}"
+                           value="{{ _csrf.token }}">
+
+                    {# Fila 1: usuario #}
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">
+                            <i class="bi bi-at me-1"></i>Nombre de usuario
+                        </label>
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               class="form-control"
+                               placeholder="mínimo 3 caracteres"
+                               minlength="3"
+                               maxlength="50"
+                               value="{{ prevUsername | default('') }}"
+                               autocomplete="username"
+                               required
+                               autofocus>
+                    </div>
+
+                    {# Fila 2: nombre y apellidos #}
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-sm-5">
+                            <label for="nombre" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1"></i>Nombre
+                            </label>
+                            <input type="text"
+                                   id="nombre"
+                                   name="nombre"
+                                   class="form-control"
+                                   placeholder="Tu nombre"
+                                   maxlength="100"
+                                   value="{{ prevNombre | default('') }}"
+                                   autocomplete="given-name"
+                                   required>
+                        </div>
+                        <div class="col-12 col-sm-7">
+                            <label for="apellidos" class="form-label fw-semibold">
+                                Apellidos
+                            </label>
+                            <input type="text"
+                                   id="apellidos"
+                                   name="apellidos"
+                                   class="form-control"
+                                   placeholder="Tus apellidos"
+                                   maxlength="150"
+                                   value="{{ prevApellidos | default('') }}"
+                                   autocomplete="family-name"
+                                   required>
+                        </div>
+                    </div>
+
+                    {# Fila 3: email #}
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">
+                            <i class="bi bi-envelope me-1"></i>Correo electrónico
+                        </label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               class="form-control"
+                               placeholder="tu@email.com"
+                               value="{{ prevEmail | default('') }}"
+                               autocomplete="email"
+                               required>
+                    </div>
+
+                    {# Fila 4: fecha de nacimiento #}
+                    <div class="mb-3">
+                        <label for="fechaNacimiento" class="form-label fw-semibold">
+                            <i class="bi bi-calendar me-1"></i>Fecha de nacimiento
+                        </label>
+                        <input type="date"
+                               id="fechaNacimiento"
+                               name="fechaNacimiento"
+                               class="form-control"
+                               value="{{ prevFecha | default('') }}"
+                               max="{{ today }}"
+                               required>
+                    </div>
+
+                    {# Fila 5: contraseña #}
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-semibold">
+                            <i class="bi bi-lock me-1"></i>Contraseña
+                        </label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="mínimo 6 caracteres"
+                               minlength="6"
+                               autocomplete="new-password"
+                               required>
+                    </div>
+
+                    {# Fila 6: confirmar contraseña #}
+                    <div class="mb-4">
+                        <label for="passwordConfirm" class="form-label fw-semibold">
+                            <i class="bi bi-lock-fill me-1"></i>Confirmar contraseña
+                        </label>
+                        <input type="password"
+                               id="passwordConfirm"
+                               name="passwordConfirm"
+                               class="form-control"
+                               placeholder="repite la contraseña"
+                               minlength="6"
+                               autocomplete="new-password"
+                               required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn boton-sesion py-2">
+                            <i class="bi bi-person-check me-1"></i>Crear cuenta
+                        </button>
+                    </div>
+
+                </form>
+
+                <hr class="my-3">
+                <p class="text-center mb-0 small">
+                    ¿Ya tienes cuenta?
+                    <a href="/auth/login" class="fw-semibold">Inicia sesión</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
