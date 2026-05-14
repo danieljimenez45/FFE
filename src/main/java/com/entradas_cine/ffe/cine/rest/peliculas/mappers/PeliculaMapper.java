@@ -32,7 +32,17 @@ public class PeliculaMapper {
     public void actualizarEstado (Pelicula pelicula , PeliculaUpdateEstadoDto dto) {
         log.info("ACtualizando estado de la pelicula");
         pelicula.setActiva(dto.getActiva());
+    }
 
+    public void actualizarPelicula(Pelicula pelicula, PeliculaCreateDto dto) {
+        log.info("Actualizando datos completos de la pelicula id={}", pelicula.getId());
+        pelicula.setTitulo(dto.getTitulo());
+        pelicula.setDirector(dto.getDirector());
+        pelicula.setSinopsis(dto.getSinopsis());
+        pelicula.setDuracion(dto.getDuracion());
+        pelicula.setGenero(dto.getGenero());
+        pelicula.setEstreno(dto.getEstreno());
+        pelicula.setClasificacionEdad(dto.getClasificacionEdad());
     }
 
     public PeliculaResponseDto toResponseDto(Pelicula pelicula) {

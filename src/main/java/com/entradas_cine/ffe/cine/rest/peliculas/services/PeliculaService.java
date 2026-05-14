@@ -25,6 +25,8 @@ public interface PeliculaService {
 
     PeliculaResponseDto findById(Long id);
 
+    PeliculaResponseDto update(Long id, PeliculaCreateDto dto);
+
     PeliculaResponseDto updateEstado(Long id, PeliculaUpdateEstadoDto dto);
 
     Page<PeliculaResponseDto> buscarAvanzado(

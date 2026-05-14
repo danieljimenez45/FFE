@@ -4,6 +4,7 @@ import com.entradas_cine.ffe.cine.rest.peliculas.exceptions.PeliculaNotFound;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
 import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaRepository;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionNotFound;
 import com.entradas_cine.ffe.cine.rest.sesiones.mappers.SesionMapper;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
@@ -90,6 +91,15 @@ public class SesionServiceImpl implements  SesionService {
 
         return sesionRepository.findByPelicula(pelicula, pageable)
                 .map(sesionMapper::toResponseDto);
+    }
+
+    @Override
+    public SesionResponseDto update(Long id, SesionUpdateDto dto) {
+        log.info("Actualizando sesión con ID: {}", id);
+        Sesion sesion = sesionRepository.findById(id)
+                .orElseThrow(() -> new SesionNotFound(id));
+        sesionMapper.actualizarSesion(sesion, dto);
+        return sesionMapper.toResponseDto(sesionRepository.save(sesion));
     }
 
     @Override

@@ -38,8 +38,27 @@ public class FacturaServiceImpl implements FacturaService {
 
     @Override
     public FacturaResponseDto create(FacturaCreateDto dto) {
-        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
-                .orElseThrow(() -> new UsuarioNotFound(dto.getIdUsuario()));
+        // Control de acceso: un USER solo puede crear facturas para sí mismo.
+        // Si no es ADMIN, ignoramos el idUsuario del DTO y usamos el del token
+        // para evitar que un usuario cree facturas a nombre de otro (IDOR).
+        final Long idUsuarioEfectivo;
+        boolean esAdmin = SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (esAdmin) {
+            // ADMIN puede crear facturas para cualquier usuario (dto.idUsuario obligatorio)
+            idUsuarioEfectivo = dto.getIdUsuario();
+        } else {
+            // USER: el idUsuario del DTO se ignora; se usa el del usuario autenticado
+            String username = usernameActual();
+            idUsuarioEfectivo = usuarioRepository.findByUsername(username)
+                    .orElseThrow(() -> new UsuarioNotFound(username))
+                    .getId();
+        }
+
+        Usuario usuario = usuarioRepository.findById(idUsuarioEfectivo)
+                .orElseThrow(() -> new UsuarioNotFound(idUsuarioEfectivo));
 
         List<Entrada> entradas = dto.getIdEntradas().stream()
                 .map(idEntrada -> {

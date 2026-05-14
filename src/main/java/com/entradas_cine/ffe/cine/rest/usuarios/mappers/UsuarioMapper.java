@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioMapper {
 
-    public Usuario toUsuario(UsuarioCreateDto dto, String passwordCifrada) {
-        Rol rol = dto.getRol() == null ? Rol.USER : dto.getRol();
-
+    // El rol se pasa desde el servicio, nunca se lee del DTO para evitar que el cliente se lo asigne
+    public Usuario toUsuario(UsuarioCreateDto dto, String passwordCifrada, Rol rol) {
         return Usuario.builder()
                 .id(null)
                 .username(dto.getUsername())

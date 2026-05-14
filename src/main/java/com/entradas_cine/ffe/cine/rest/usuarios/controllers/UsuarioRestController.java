@@ -36,7 +36,11 @@ public class UsuarioRestController {
 
     private final UsuarioService usuarioService;
 
-    @Operation(summary = "Crear usuario (ADMIN)", description = "Crea un usuario con el rol especificado. Para registro público usar /auth/signup.")
+    @Operation(
+        summary = "Crear usuario estándar (ADMIN)",
+        description = "El administrador da de alta un usuario con rol USER. " +
+                      "Para registro público usar POST /api/v1/auth/signup. " +
+                      "Para crear otro administrador usar POST /api/v1/usuarios/admin.")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Usuario creado"),
         @ApiResponse(responseCode = "401", description = "No autenticado"),
@@ -45,6 +49,21 @@ public class UsuarioRestController {
     @PostMapping
     public ResponseEntity<UsuarioResponseDto> create(@RequestBody @Valid UsuarioCreateDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.create(dto));
+    }
+
+    @Operation(
+        summary = "Crear administrador (ADMIN)",
+        description = "Registra un nuevo usuario con rol ADMIN. " +
+                      "Solo accesible por administradores autenticados. " +
+                      "El campo 'rol' del cuerpo se ignora — el rol ADMIN se asigna siempre.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Administrador creado"),
+        @ApiResponse(responseCode = "401", description = "No autenticado"),
+        @ApiResponse(responseCode = "403", description = "Requiere ADMIN")
+    })
+    @PostMapping("/admin")
+    public ResponseEntity<UsuarioResponseDto> createAdmin(@RequestBody @Valid UsuarioCreateDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.createAdmin(dto));
     }
 
     @Operation(summary = "Buscar usuario por id")

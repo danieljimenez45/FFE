@@ -1,6 +1,5 @@
 package com.entradas_cine.ffe.cine.rest.usuarios.dto;
 
-import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
@@ -43,6 +42,4 @@ public class UsuarioCreateDto {
     @Schema(description = "Fecha de nacimiento", example = "1998-07-15")
     private LocalDate fechaNacimiento;
 
-    @Schema(description = "Rol del usuario. Si no se envia se usa USER", example = "USER")
-    private Rol rol;
 }
