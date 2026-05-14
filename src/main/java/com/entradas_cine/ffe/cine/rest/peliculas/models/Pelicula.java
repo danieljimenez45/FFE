@@ -1,6 +1,5 @@
 package com.entradas_cine.ffe.cine.rest.peliculas.models;
 
-
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -8,7 +7,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 
 @Builder
 @ToString
@@ -28,8 +26,7 @@ public class Pelicula {
     private Long id;
 
     @ToString.Exclude
-    @OneToMany
-    @JoinColumn(name = "id_pelicula")
+    @OneToMany(mappedBy = "pelicula", fetch = FetchType.EAGER)
     @Schema(description = "Sesiones asociadas a la película", example = "Sesión de las 18:00")
     private List<Sesion> sesiones;
 
@@ -67,4 +64,7 @@ public class Pelicula {
     @Builder.Default
     private Boolean activa = true;
 
+    @Column(nullable = false)
+    @Schema(description = "Imagen de la pelicula", example = "toystory.jpg")
+    private String imagen;
 }
