@@ -1,6 +1,5 @@
 package com.entradas_cine.ffe.cine.config.auth;
 
-import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import com.entradas_cine.ffe.cine.rest.usuarios.models.Usuario;
 import com.entradas_cine.ffe.cine.rest.usuarios.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +35,10 @@ public class AuthUsersService implements UserDetailsService {
                         "Usuario no encontrado: " + username));
 
         // Mapeo de Rol a authority de Spring Security
-        String authority = usuario.getRol() == Rol.ADMIN
-                ? "ROLE_ADMIN"
-                : "ROLE_USER";
+        String authority = switch (usuario.getRol()) {
+            case ADMIN -> "ROLE_ADMIN";
+            case USER  -> "ROLE_USER";
+        };
 
         return User.builder()
                 .username(usuario.getUsername())

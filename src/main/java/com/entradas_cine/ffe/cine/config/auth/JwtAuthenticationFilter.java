@@ -36,19 +36,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        log.info("Procesando request: {} {}", request.getMethod(), request.getRequestURI());
+        log.debug("Procesando request: {} {}", request.getMethod(), request.getRequestURI());
 
         final String authHeader = request.getHeader("Authorization");
 
         // Sin cabecera o sin "Bearer ": dejar pasar (rutas permitAll)
         if (!StringUtils.hasText(authHeader)
                 || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
-            log.info("Sin cabecera Authorization válida, continuando sin autenticar");
+            log.debug("Sin cabecera Authorization válida, continuando sin autenticar");
             filterChain.doFilter(request, response);
             return;
         }
 
-        log.info("Cabecera Authorization encontrada, procesando token");
+        log.debug("Cabecera Authorization encontrada, procesando token");
         final String jwt = authHeader.substring(7);
 
         // Extraer username del token; si falla → 401
@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("Username extraído del token: {}", userName);
+        log.debug("Username extraído del token: {}", userName);
 
         if (StringUtils.hasText(userName)
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -80,7 +80,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // Validar token y establecer contexto de seguridad
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                log.info("Token válido, autenticando usuario: {}", userName);
+                log.debug("Token válido, autenticando usuario: {}", userName);
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(

@@ -1,18 +1,34 @@
 package com.entradas_cine.ffe.cine.web.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
- * Rellena datos comunes en todas las vistas Pebble sin repetirlos en cada controlador.
- * Así las plantillas pueden mostrar el nombre de la app, quién ha iniciado sesión
- * y si es administrador. El token CSRF lo añade Spring al modelo como {@code _csrf}.
+ * Añade atributos comunes al modelo de todas las vistas para no repetirlo en cada controlador.
+ * Pebble no inyecta el token CSRF automáticamente como Thymeleaf, así que se hace aquí
+ * para que todos los formularios tengan acceso a él sin código extra.
  */
 @ControllerAdvice
 public class GlobalControllerAdvice {
+
+    /**
+     * Pasa el token CSRF al modelo para que los formularios Pebble puedan usarlo.
+     * Se llama a getToken() aquí (antes del renderizado) para evitar que Spring Security
+     * intente crear la sesión cuando la respuesta ya está comprometida.
+     */
+    @ModelAttribute("_csrf")
+    public CsrfToken csrfToken(HttpServletRequest request) {
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        if (token != null) {
+            token.getToken(); // fuerza la resolución eager antes de que se renderice la vista
+        }
+        return token;
+    }
 
     /** Título corto de la aplicación para cabeceras y pie de página. */
     @ModelAttribute("appName")
