@@ -2,6 +2,7 @@ package com.entradas_cine.ffe.cine.web.controllers;
 
 import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaResponseDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,11 @@ public class PeliculaWebController {
     private static final Logger logger = LoggerFactory.getLogger(PeliculaWebController.class);
 
     private final PeliculaService peliculaService;
+    private final SesionService sesionService;
 
-    public PeliculaWebController(PeliculaService peliculaService) {
+    public PeliculaWebController(PeliculaService peliculaService, SesionService sesionService) {
         this.peliculaService = peliculaService;
+        this.sesionService = sesionService;
     }
 
     @GetMapping("/")
@@ -37,11 +40,14 @@ public class PeliculaWebController {
     }
 
     @GetMapping("/peliculas/detalle/{id}")
+    @Transactional(readOnly = true)
     public String detallePelicula(@PathVariable Long id, Model model) {
 
         PeliculaResponseDto pelicula = peliculaService.findById(id);
+        var sesiones = sesionService.findByPelicula(id);
 
         model.addAttribute("pelicula", pelicula);
+        model.addAttribute("sesiones", sesiones);
 
         return "peliculas/detalle_pelicula";
     }

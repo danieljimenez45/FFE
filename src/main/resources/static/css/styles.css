@@ -505,6 +505,13 @@ main {
 
 
 /* =========================
+   CONFIRMACION COMPRA
+========================= */
+.confirmacion-page {
+    color: #f0f0f0;
+}
+
+/* =========================
    FOOTER y ICONOS
 ========================= */
 .autores{

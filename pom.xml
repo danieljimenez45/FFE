@@ -159,6 +159,13 @@
             <version>${bootstrap-icons.version}</version>
         </dependency>
 
+        <!-- PDF generation -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+              <version>1.3.30</version>
+        </dependency>
+
     </dependencies>
 
     <build>

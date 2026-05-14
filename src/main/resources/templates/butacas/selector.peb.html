@@ -91,6 +91,14 @@
                             <div id="seat-selected-list" class="d-flex flex-wrap gap-2"></div>
                             <div id="seat-empty" class="text-muted small mt-2">Todavía no has seleccionado ninguna butaca.</div>
                         </div>
+
+                        <form id="compra-form" method="post" action="/sesiones/{{ sesion.id }}/comprar" class="mt-4">
+                            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                            <input type="hidden" id="butacas-input" name="butacas" value="">
+                            <button type="submit" id="btn-comprar" class="btn btn-warning fw-bold w-100 py-2 disabled" disabled>
+                                <i class="bi bi-credit-card me-2"></i>Ir al pago
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -113,6 +121,9 @@
         currency: 'EUR'
     });
 
+    const btnComprar = document.getElementById('btn-comprar');
+    const butacasInput = document.getElementById('butacas-input');
+
     function renderSelection() {
         selectedList.innerHTML = '';
         const seats = Array.from(selectedSeats.values());
@@ -120,6 +131,11 @@
         countLabel.textContent = seats.length;
         totalLabel.textContent = moneyFormat.format(seats.length * price);
         emptyMessage.classList.toggle('d-none', seats.length > 0);
+
+        const hasSeats = seats.length > 0;
+        btnComprar.disabled = !hasSeats;
+        btnComprar.classList.toggle('disabled', !hasSeats);
+        butacasInput.value = seats.map(s => s.key).join(',');
 
         seats.forEach(seat => {
             const badge = document.createElement('span');

@@ -1,0 +1,74 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Compra confirmada — FFE Cinema{% endblock %}
+
+{% block contenido %}
+<div class="confirmacion-page">
+
+    {# Banner éxito #}
+    <div class="d-flex align-items-center gap-3 mb-4">
+        <i class="bi bi-check-circle-fill text-success" style="font-size:2.5rem;"></i>
+        <div>
+            <h1 class="h3 fw-bold mb-0 text-white">¡Compra confirmada!</h1>
+            <p class="text-white mb-0">Tus entradas han sido reservadas correctamente.</p>
+        </div>
+    </div>
+
+    {# Resumen rápido #}
+    <div class="row g-3 mb-4">
+        <div class="col-sm-4">
+            <div class="card card-panel p-3 text-center">
+                <div class="text-muted small mb-1">Código de factura</div>
+                <div class="fw-bold text-white font-monospace">{{ factura.codigoFactura }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card card-panel p-3 text-center">
+                <div class="text-muted small mb-1">Entradas</div>
+                <div class="fw-bold text-white">{{ factura.entradas | length }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card card-panel p-3 text-center">
+                <div class="text-muted small mb-1">Total</div>
+                <div class="fw-bold text-success fs-5">{{ factura.total }} €</div>
+            </div>
+        </div>
+    </div>
+
+    {# Acciones #}
+    <div class="d-flex gap-2 mb-4">
+        <a href="/facturas/{{ factura.numeroFactura }}/pdf/descargar?dl=true"
+           class="btn btn-warning fw-bold">
+            <i class="bi bi-download me-2"></i>Descargar PDF
+        </a>
+        <a href="/" class="btn btn-outline-light">
+            <i class="bi bi-house me-2"></i>Volver al inicio
+        </a>
+    </div>
+
+    {# Preview del PDF #}
+    <div class="card card-panel shadow-lg p-0 overflow-hidden">
+        <div class="px-3 py-2 d-flex align-items-center gap-2"
+             style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <i class="bi bi-file-earmark-pdf text-danger"></i>
+            <span class="small text-muted">Vista previa de tu factura</span>
+        </div>
+        <embed src="/facturas/{{ factura.numeroFactura }}/pdf/descargar"
+               type="application/pdf"
+               width="100%"
+               height="700px"
+               class="d-block">
+        </embed>
+        <noscript>
+            <div class="p-4 text-center text-muted">
+                Tu navegador no puede mostrar el PDF directamente.
+                <a href="/facturas/{{ factura.numeroFactura }}/pdf/descargar?dl=true" class="text-warning">
+                    Descárgalo aquí.
+                </a>
+            </div>
+        </noscript>
+    </div>
+
+</div>
+{% endblock %}
