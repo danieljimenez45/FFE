@@ -189,16 +189,16 @@ VALUES
 insert into USUARIOS
 (username, nombre, apellidos, email, password, fecha_nacimiento, fecha_registro, rol)
 values
-    ('admin', 'Admin', 'Sistema', 'admin@cineffe.com', 'admin123', '1990-01-10', '2026-01-10 10:00:00', 'ADMIN'),
-    ('laura', 'Laura', 'Martinez Ruiz', 'laura@email.com', 'clave123', '1995-04-15', '2026-01-11 10:00:00', 'USER'),
-    ('david', 'David', 'Sanchez Lopez', 'david@email.com', 'clave123', '1993-07-22', '2026-01-12 10:00:00', 'USER'),
-    ('marta', 'Marta', 'Fernandez Gil', 'marta@email.com', 'clave123', '1998-09-30', '2026-01-13 10:00:00', 'USER'),
-    ('sergio', 'Sergio', 'Diaz Perez', 'sergio@email.com', 'clave123', '1991-12-05', '2026-01-14 10:00:00', 'USER'),
-    ('irene', 'Irene', 'Romero Navas', 'irene@email.com', 'clave123', '1997-03-18', '2026-01-15 10:00:00', 'USER'),
-    ('pablo', 'Pablo', 'Torres Cano', 'pablo@email.com', 'clave123', '1992-11-11', '2026-01-16 10:00:00', 'USER'),
-    ('nerea', 'Nerea', 'Molina Cruz', 'nerea@email.com', 'clave123', '1996-06-08', '2026-01-17 10:00:00', 'USER'),
-    ('carlos', 'Carlos', 'Vega Pastor', 'carlos@email.com', 'clave123', '1989-08-27', '2026-01-18 10:00:00', 'USER'),
-    ('andrea', 'Andrea', 'Ortega Leon', 'andrea@email.com', 'clave123', '2000-02-21', '2026-01-19 10:00:00', 'USER');
+    ('admin', 'Admin', 'Sistema', 'admin@cineffe.com', '$2a$10$XIq.srTsZxnXDSCWd/jATeBukHFh9SQHJTlcCvKd3Pa1wjRuNejIu', '1990-01-10', '2026-01-10 10:00:00', 'ADMIN'),
+    ('laura', 'Laura', 'Martinez Ruiz', 'laura@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1995-04-15', '2026-01-11 10:00:00', 'USER'),
+    ('david', 'David', 'Sanchez Lopez', 'david@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1993-07-22', '2026-01-12 10:00:00', 'USER'),
+    ('marta', 'Marta', 'Fernandez Gil', 'marta@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1998-09-30', '2026-01-13 10:00:00', 'USER'),
+    ('sergio', 'Sergio', 'Diaz Perez', 'sergio@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1991-12-05', '2026-01-14 10:00:00', 'USER'),
+    ('irene', 'Irene', 'Romero Navas', 'irene@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1997-03-18', '2026-01-15 10:00:00', 'USER'),
+    ('pablo', 'Pablo', 'Torres Cano', 'pablo@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1992-11-11', '2026-01-16 10:00:00', 'USER'),
+    ('nerea', 'Nerea', 'Molina Cruz', 'nerea@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1996-06-08', '2026-01-17 10:00:00', 'USER'),
+    ('carlos', 'Carlos', 'Vega Pastor', 'carlos@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '1989-08-27', '2026-01-18 10:00:00', 'USER'),
+    ('andrea', 'Andrea', 'Ortega Leon', 'andrea@email.com', '$2a$10$2uuJWWkfzRzOICbinKm4ouss9eYA5pETHMcc.5fTig6G9CpTTFR.K', '2000-02-21', '2026-01-19 10:00:00', 'USER');
 
 insert into ENTRADAS
 (id_sesion, fila, numero, precio, fecha)

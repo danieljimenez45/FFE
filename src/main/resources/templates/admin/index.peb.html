@@ -1,0 +1,622 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Panel de administración — FFE Cinema{% endblock %}
+
+{% block contenido %}
+
+{# mensajes flash #}
+{% if successMsg is defined %}
+<div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-check-circle-fill"></i>{{ successMsg }}
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+{% if errorMsg is defined %}
+<div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>{{ errorMsg }}
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+
+{# cabecera #}
+<div class="d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-shield-lock-fill fs-2 text-warning"></i>
+    <div>
+        <h2 class="mb-0 fw-bold">Panel de administración</h2>
+        <p class="text-muted small mb-0">Gestión completa de usuarios, películas y sesiones</p>
+    </div>
+</div>
+
+{# tarjetas resumen #}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4">
+        <div class="card text-center border-0 shadow-sm">
+            <div class="card-body py-3">
+                <div class="fs-2 fw-bold text-primary">{{ usuarios | length }}</div>
+                <div class="small text-muted"><i class="bi bi-people me-1"></i>Usuarios</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4">
+        <div class="card text-center border-0 shadow-sm">
+            <div class="card-body py-3">
+                <div class="fs-2 fw-bold text-success">{{ peliculas | length }}</div>
+                <div class="small text-muted"><i class="bi bi-film me-1"></i>Películas</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4">
+        <div class="card text-center border-0 shadow-sm">
+            <div class="card-body py-3">
+                <div class="fs-2 fw-bold text-info">{{ sesiones | length }}</div>
+                <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>Sesiones</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# pestañas #}
+<ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab-usuarios-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-usuarios"
+                type="button" role="tab" aria-controls="tab-usuarios" aria-selected="true">
+            <i class="bi bi-people me-1"></i>Usuarios
+            <span class="badge bg-secondary ms-1">{{ usuarios | length }}</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-peliculas-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-peliculas"
+                type="button" role="tab" aria-controls="tab-peliculas" aria-selected="false">
+            <i class="bi bi-film me-1"></i>Películas
+            <span class="badge bg-secondary ms-1">{{ peliculas | length }}</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-sesiones-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-sesiones"
+                type="button" role="tab" aria-controls="tab-sesiones" aria-selected="false">
+            <i class="bi bi-calendar-event me-1"></i>Sesiones
+            <span class="badge bg-secondary ms-1">{{ sesiones | length }}</span>
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="adminTabsContent">
+
+    {# tab usuarios #}
+    <div class="tab-pane fade show active" id="tab-usuarios" role="tabpanel" aria-labelledby="tab-usuarios-btn">
+
+        <div class="d-flex justify-content-end gap-2 mb-3">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
+                <i class="bi bi-person-plus me-1"></i>Nuevo usuario
+            </button>
+            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearAdmin">
+                <i class="bi bi-shield-plus me-1"></i>Nuevo admin
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Registro</th>
+                        <th scope="col" aria-label="Acciones"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr>
+                        <td class="text-muted small">{{ u.id }}</td>
+                        <td class="fw-semibold">{{ u.username }}</td>
+                        <td>{{ u.nombre }} {{ u.apellidos }}</td>
+                        <td class="small">{{ u.email }}</td>
+                        <td>
+                            {% if u.rol.name == 'ADMIN' %}
+                                <span class="badge bg-danger">ADMIN</span>
+                            {% else %}
+                                <span class="badge bg-secondary">USER</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ u.fechaRegistro }}</td>
+                        <td>
+                            <form method="post" action="/admin/usuarios/{{ u.id }}/eliminar"
+                                  onsubmit="return confirm('¿Eliminar al usuario {{ u.username }}?')">
+                                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar usuario">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="7" class="text-center text-muted">No hay usuarios registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# tab películas #}
+    <div class="tab-pane fade" id="tab-peliculas" role="tabpanel" aria-labelledby="tab-peliculas-btn">
+
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearPelicula">
+                <i class="bi bi-plus-circle me-1"></i>Nueva película
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Director</th>
+                        <th scope="col">Género</th>
+                        <th scope="col">Duración</th>
+                        <th scope="col">Estreno</th>
+                        <th scope="col">Clasificación</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" aria-label="Acciones"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in peliculas %}
+                    <tr>
+                        <td class="text-muted small">{{ p.id }}</td>
+                        <td class="fw-semibold">{{ p.titulo }}</td>
+                        <td class="small">{{ p.director }}</td>
+                        <td><span class="badge bg-primary">{{ p.genero }}</span></td>
+                        <td class="small">{{ p.duracion }} min</td>
+                        <td class="small text-muted">{{ p.estreno }}</td>
+                        <td><span class="badge bg-secondary small">{{ p.clasificacionEdad }}</span></td>
+                        <td>
+                            {% if p.activa %}
+                                <span class="badge bg-success">Activa</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactiva</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm"
+                                        aria-label="Editar película"
+                                        data-id="{{ p.id }}"
+                                        data-titulo="{{ p.titulo | escape }}"
+                                        data-director="{{ p.director | escape }}"
+                                        data-sinopsis="{{ p.sinopsis | escape }}"
+                                        data-duracion="{{ p.duracion }}"
+                                        data-genero="{{ p.genero }}"
+                                        data-estreno="{{ p.estreno }}"
+                                        data-clasificacion="{{ p.clasificacionEdad }}"
+                                        onclick="abrirEditPelicula(this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <form method="post" action="/admin/peliculas/{{ p.id }}/toggle">
+                                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                    <button type="submit"
+                                            class="btn btn-sm {% if p.activa %}btn-outline-secondary{% else %}btn-outline-success{% endif %}"
+                                            aria-label="{% if p.activa %}Desactivar{% else %}Activar{% endif %}">
+                                        <i class="bi {% if p.activa %}bi-eye-slash{% else %}bi-eye{% endif %}"></i>
+                                    </button>
+                                </form>
+                                <form method="post" action="/admin/peliculas/{{ p.id }}/eliminar"
+                                      onsubmit="return confirm('¿Eliminar la película {{ p.titulo }}?')">
+                                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar película">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="9" class="text-center text-muted">No hay películas registradas.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# tab sesiones #}
+    <div class="tab-pane fade" id="tab-sesiones" role="tabpanel" aria-labelledby="tab-sesiones-btn">
+
+        <div class="table-responsive">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Película</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Horario</th>
+                        <th scope="col">Sala</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col" aria-label="Acciones"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in sesiones %}
+                    <tr>
+                        <td class="text-muted small">{{ s.id }}</td>
+                        <td class="fw-semibold">{{ s.pelicula }}</td>
+                        <td class="small">{{ s.fecha }}</td>
+                        <td><span class="badge bg-info text-dark">{{ s.horario }}</span></td>
+                        <td class="small">{{ s.sala }}</td>
+                        <td><span class="badge bg-primary">{{ s.tipoProyeccion }}</span></td>
+                        <td class="small fw-semibold">{{ s.precio }} €</td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm"
+                                        aria-label="Editar sesión"
+                                        data-id="{{ s.id }}"
+                                        data-fecha="{{ s.fecha }}"
+                                        data-horario="{{ s.horario }}"
+                                        data-sala="{{ s.sala }}"
+                                        data-tipo="{{ s.tipoProyeccion }}"
+                                        data-precio="{{ s.precio }}"
+                                        onclick="abrirEditSesion(this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <form method="post" action="/admin/sesiones/{{ s.id }}/eliminar"
+                                      onsubmit="return confirm('¿Eliminar la sesión #{{ s.id }}?')">
+                                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar sesión">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="8" class="text-center text-muted">No hay sesiones programadas.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{# modales #}
+
+{# Modal: Crear usuario (USER) #}
+<div class="modal fade" id="modalCrearUsuario" tabindex="-1"
+     aria-labelledby="modalCrearUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/usuarios/crear">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearUsuarioLabel">
+                        <i class="bi bi-person-plus me-2"></i>Nuevo usuario
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    {{ camposUsuario(today) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Crear usuario
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Crear administrador (ADMIN) #}
+<div class="modal fade" id="modalCrearAdmin" tabindex="-1"
+     aria-labelledby="modalCrearAdminLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/usuarios/admin/crear">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header bg-warning-subtle">
+                    <h5 class="modal-title" id="modalCrearAdminLabel">
+                        <i class="bi bi-shield-plus me-2"></i>Nuevo administrador
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning py-2 small">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Este usuario tendrá acceso completo al panel de administración.
+                    </div>
+                    {{ camposUsuario(today) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-check-lg me-1"></i>Crear administrador
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Crear película #}
+<div class="modal fade" id="modalCrearPelicula" tabindex="-1"
+     aria-labelledby="modalCrearPeliculaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" action="/admin/peliculas/crear">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearPeliculaLabel">
+                        <i class="bi bi-film me-2"></i>Nueva película
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="cpTitulo" class="form-label fw-semibold">Título</label>
+                            <input type="text" id="cpTitulo" name="titulo" class="form-control" required maxlength="60">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cpDirector" class="form-label fw-semibold">Director</label>
+                            <input type="text" id="cpDirector" name="director" class="form-control" required maxlength="40">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cpDuracion" class="form-label fw-semibold">Duración (min)</label>
+                            <input type="number" id="cpDuracion" name="duracion" class="form-control" required min="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cpGenero" class="form-label fw-semibold">Género</label>
+                            <select id="cpGenero" name="genero" class="form-select" required>
+                                <option value="" disabled selected>Selecciona...</option>
+                                {% for g in generos %}
+                                <option value="{{ g }}">{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cpClasificacion" class="form-label fw-semibold">Clasificación de edad</label>
+                            <select id="cpClasificacion" name="clasificacionEdad" class="form-select" required>
+                                <option value="" disabled selected>Selecciona...</option>
+                                {% for e in edades %}
+                                <option value="{{ e }}">{{ e }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cpEstreno" class="form-label fw-semibold">Fecha de estreno</label>
+                            <input type="date" id="cpEstreno" name="estreno" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="cpSinopsis" class="form-label fw-semibold">Sinopsis</label>
+                            <textarea id="cpSinopsis" name="sinopsis" class="form-control" rows="3"
+                                      required maxlength="250"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Crear película
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Editar película #}
+<div class="modal fade" id="modalEditarPelicula" tabindex="-1"
+     aria-labelledby="modalEditarPeliculaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" id="formEditarPelicula" action="">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarPeliculaLabel">
+                        <i class="bi bi-pencil-square me-2"></i>Editar película
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="editPelTitulo" class="form-label fw-semibold">Título</label>
+                            <input type="text" id="editPelTitulo" name="titulo" class="form-control" required maxlength="60">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPelDirector" class="form-label fw-semibold">Director</label>
+                            <input type="text" id="editPelDirector" name="director" class="form-control" required maxlength="40">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPelDuracion" class="form-label fw-semibold">Duración (min)</label>
+                            <input type="number" id="editPelDuracion" name="duracion" class="form-control" required min="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPelGenero" class="form-label fw-semibold">Género</label>
+                            <select id="editPelGenero" name="genero" class="form-select" required>
+                                {% for g in generos %}
+                                <option value="{{ g }}">{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPelClasificacion" class="form-label fw-semibold">Clasificación de edad</label>
+                            <select id="editPelClasificacion" name="clasificacionEdad" class="form-select" required>
+                                {% for e in edades %}
+                                <option value="{{ e }}">{{ e }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editPelEstreno" class="form-label fw-semibold">Fecha de estreno</label>
+                            <input type="date" id="editPelEstreno" name="estreno" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="editPelSinopsis" class="form-label fw-semibold">Sinopsis</label>
+                            <textarea id="editPelSinopsis" name="sinopsis" class="form-control" rows="3" required maxlength="250"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Editar sesión #}
+<div class="modal fade" id="modalEditarSesion" tabindex="-1"
+     aria-labelledby="modalEditarSesionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="formEditarSesion" action="">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarSesionLabel">
+                        <i class="bi bi-pencil-square me-2"></i>Editar sesión
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="editSesionFecha" class="form-label fw-semibold">Fecha</label>
+                            <input type="date" id="editSesionFecha" name="fecha" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editSesionHorario" class="form-label fw-semibold">Horario</label>
+                            <select id="editSesionHorario" name="horario" class="form-select" required>
+                                {% for h in horarios %}
+                                <option value="{{ h }}">{{ h }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editSesionSala" class="form-label fw-semibold">Sala</label>
+                            <select id="editSesionSala" name="sala" class="form-select" required>
+                                {% for s in salas %}
+                                <option value="{{ s }}">{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editSesionTipo" class="form-label fw-semibold">Tipo de proyección</label>
+                            <select id="editSesionTipo" name="tipoProyeccion" class="form-select" required>
+                                {% for t in tiposProyeccion %}
+                                <option value="{{ t }}">{{ t }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editSesionPrecio" class="form-label fw-semibold">Precio (€)</label>
+                            <input type="number" id="editSesionPrecio" name="precio" class="form-control"
+                                   required min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# macro con los campos comunes de usuario para no repetirlos en cada modal #}
+{% macro camposUsuario(today) %}
+<div class="row g-3">
+    <div class="col-12">
+        <label class="form-label fw-semibold">Username</label>
+        <input type="text" name="username" aria-label="Username" class="form-control" required minlength="3" maxlength="50">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold">Nombre</label>
+        <input type="text" name="nombre" aria-label="Nombre" class="form-control" required maxlength="100">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold">Apellidos</label>
+        <input type="text" name="apellidos" aria-label="Apellidos" class="form-control" required maxlength="150">
+    </div>
+    <div class="col-12">
+        <label class="form-label fw-semibold">Email</label>
+        <input type="email" name="email" aria-label="Email" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold">Contraseña</label>
+        <input type="password" name="password" aria-label="Contraseña" class="form-control" required minlength="6">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-semibold">Fecha de nacimiento</label>
+        <input type="date" name="fechaNacimiento" aria-label="Fecha de nacimiento" class="form-control" required max="{{ today }}">
+    </div>
+</div>
+{% endmacro %}
+
+{# scripts #}
+<script>
+    /* Activar la pestaña correcta al volver tras un POST */
+    (function () {
+        const hash = window.location.hash;
+        if (hash) {
+            const btn = document.querySelector('[data-bs-target="' + hash + '"]');
+            if (btn) {
+                new bootstrap.Tab(btn).show();
+            }
+        }
+    })();
+
+    /* Rellenar el modal de edición de película con los datos del botón pulsado */
+    function abrirEditPelicula(btn) {
+        const d = btn.dataset;
+        document.getElementById('formEditarPelicula').action = '/admin/peliculas/' + d.id + '/editar';
+        document.getElementById('editPelTitulo').value    = d.titulo;
+        document.getElementById('editPelDirector').value  = d.director;
+        document.getElementById('editPelSinopsis').value  = d.sinopsis;
+        document.getElementById('editPelDuracion').value  = d.duracion;
+        document.getElementById('editPelEstreno').value   = d.estreno;
+
+        const selGenero = document.getElementById('editPelGenero');
+        for (let opt of selGenero.options) { opt.selected = (opt.value === d.genero); }
+
+        const selClasif = document.getElementById('editPelClasificacion');
+        for (let opt of selClasif.options) { opt.selected = (opt.value === d.clasificacion); }
+
+        new bootstrap.Modal(document.getElementById('modalEditarPelicula')).show();
+    }
+
+    /* Rellenar el modal de edición de sesión con los datos del botón pulsado */
+    function abrirEditSesion(btn) {
+        const d = btn.dataset;
+        document.getElementById('formEditarSesion').action = '/admin/sesiones/' + d.id + '/editar';
+        document.getElementById('editSesionFecha').value   = d.fecha;
+        document.getElementById('editSesionPrecio').value  = d.precio;
+
+        const selHorario = document.getElementById('editSesionHorario');
+        for (let opt of selHorario.options) { opt.selected = (opt.value === d.horario); }
+
+        const selSala = document.getElementById('editSesionSala');
+        for (let opt of selSala.options) { opt.selected = (opt.value === d.sala); }
+
+        const selTipo = document.getElementById('editSesionTipo');
+        for (let opt of selTipo.options) { opt.selected = (opt.value === d.tipo); }
+
+        new bootstrap.Modal(document.getElementById('modalEditarSesion')).show();
+    }
+</script>
+
+{% endblock %}
