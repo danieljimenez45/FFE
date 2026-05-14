@@ -217,12 +217,21 @@ main {
    PELÍCULAS / CARDS
 ========================= */
 .peli-contenedor{
-    background: rgba(110, 108, 108, 0.35);
+    background: rgba(20, 30, 60, 0.75);
     border: solid 1px rgba(255, 255, 255, 0.3);
     border-radius: 16px;
-    color: #000000;
+    color: #f0f0f0;
     transition: all ease 0.4s;
     backdrop-filter: blur(10px);
+}
+
+.peli-contenedor .text-muted {
+    color: #b0b8cc !important;
+}
+
+.peli-contenedor .list-group-item {
+    color: #f0f0f0;
+    background: transparent;
 }
 
 .peli-contenedor:hover {
@@ -238,9 +247,78 @@ main {
     background: #0b1a33;
 }
 
+/* Tarjetas de películas: transparentes para el efecto glassmorphism */
 .card {
     background: transparent;
     border: none;
+}
+
+/* Tarjetas de formularios (login, registro, perfil, admin) */
+.card-panel {
+    background: rgba(15, 25, 55, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #f0f0f0;
+}
+
+.card-panel .card-title,
+.card-panel .form-label,
+.card-panel p,
+.card-panel dt,
+.card-panel dd,
+.card-panel h5,
+.card-panel small {
+    color: #f0f0f0;
+}
+
+.card-panel .text-muted {
+    color: #9baabf !important;
+}
+
+.card-panel .form-control {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #f0f0f0;
+}
+
+.card-panel .form-control::placeholder {
+    color: #7a8fac;
+}
+
+.card-panel .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #cf4f00;
+    color: #f0f0f0;
+    box-shadow: 0 0 0 0.2rem rgba(207, 79, 0, 0.25);
+}
+
+.card-panel hr {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-panel a {
+    color: #cf8040;
+}
+
+.card-panel a:hover {
+    color: #ff9955;
+}
+
+.card-panel .alert-danger {
+    background-color: rgba(180, 40, 40, 0.35);
+    border-color: rgba(220, 80, 80, 0.5);
+    color: #ffbbbb;
+}
+
+.card-panel .alert-success {
+    background-color: rgba(30, 120, 60, 0.35);
+    border-color: rgba(60, 180, 100, 0.5);
+    color: #aaffcc;
+}
+
+.card-panel .alert-info {
+    background-color: rgba(20, 80, 160, 0.35);
+    border-color: rgba(60, 130, 220, 0.5);
+    color: #aaccff;
 }
 
 
@@ -299,6 +377,186 @@ main {
 .autores{
     color: #ffcc00;
     text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+}
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+/* Tablas */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: transparent;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.06);
+    --bs-table-border-color: rgba(255, 255, 255, 0.08);
+    --bs-table-color: #cdd5e0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Forzar color de texto en todas las celdas (Bootstrap lo sobreescribe con vars internas) */
+.table > :not(caption) > * > * {
+    color: #cdd5e0;
+    background-color: transparent;
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+    padding: 0.65rem 0.75rem;
+}
+
+.table > tbody > tr:hover > * {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #e8f0ff;
+}
+
+.table .text-muted,
+.table td.text-muted {
+    color: #5a7090 !important;
+}
+
+.table td.small,
+.table td.fw-semibold {
+    color: #cdd5e0;
+}
+
+.table thead.table-dark > tr > th {
+    background-color: #060e1f;
+    color: #8a9fb8;
+    letter-spacing: 0.06em;
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+}
+
+/* Nav tabs */
+.nav-tabs {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 4px;
+}
+
+.nav-tabs .nav-link {
+    color: #7a8ca5;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    text-shadow: none;
+    transition: color 0.2s, background 0.2s;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #c8d4e8;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: none;
+}
+
+.nav-tabs .nav-link.active {
+    color: #e8f0ff;
+    background: #0d1832;
+    border-color: rgba(255, 255, 255, 0.12) rgba(255, 255, 255, 0.12) #0d1832;
+    font-weight: 600;
+}
+
+/* Modales */
+.modal-content {
+    background: #0d1832;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: #d8e2f0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.1rem 1.4rem;
+}
+
+/* Header del modal de admin (antes bg-warning-subtle) */
+.modal-header.modal-header-admin {
+    background: linear-gradient(135deg, rgba(180, 120, 0, 0.15), rgba(207, 79, 0, 0.1));
+    border-bottom: 1px solid rgba(200, 150, 0, 0.2);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.9rem 1.4rem;
+}
+
+.modal-title {
+    color: #e8f0ff;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 1.4rem;
+}
+
+.modal-content .form-label {
+    color: #9aaec5;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+
+.modal-content .form-control,
+.modal-content .form-select {
+    background-color: #071020;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 7px;
+    color: #d8e2f0;
+    padding: 0.5rem 0.75rem;
+    color-scheme: dark;
+}
+
+.modal-content .form-control::placeholder {
+    color: #3d5068;
+}
+
+.modal-content .form-control:focus,
+.modal-content .form-select:focus {
+    background-color: #071020;
+    border-color: #cf4f00;
+    color: #e8f0ff;
+    box-shadow: 0 0 0 3px rgba(207, 79, 0, 0.2);
+    outline: none;
+}
+
+.modal-content .form-select option {
+    background: #0d1832;
+    color: #d8e2f0;
+}
+
+.modal-content .btn-close {
+    filter: invert(1) grayscale(100%) brightness(180%);
+    opacity: 0.6;
+}
+
+.modal-content .btn-close:hover {
+    opacity: 1;
+}
+
+.modal-content .alert-warning {
+    background-color: rgba(180, 120, 0, 0.15);
+    border: 1px solid rgba(200, 150, 0, 0.3);
+    color: #e8b84b;
+    border-radius: 7px;
+}
+
+/* Botón secundario en modales */
+.modal-footer .btn-secondary {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #9aaec5;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #d8e2f0;
 }
 
 /* Responsive */

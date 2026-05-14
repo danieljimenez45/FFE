@@ -30,7 +30,7 @@
 {# tarjetas resumen #}
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-4">
-        <div class="card text-center border-0 shadow-sm">
+        <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-primary">{{ usuarios | length }}</div>
                 <div class="small text-muted"><i class="bi bi-people me-1"></i>Usuarios</div>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="col-6 col-md-4">
-        <div class="card text-center border-0 shadow-sm">
+        <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-success">{{ peliculas | length }}</div>
                 <div class="small text-muted"><i class="bi bi-film me-1"></i>Películas</div>
@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="col-6 col-md-4">
-        <div class="card text-center border-0 shadow-sm">
+        <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-info">{{ sesiones | length }}</div>
                 <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>Sesiones</div>
@@ -173,10 +173,10 @@
                         <td class="text-muted small">{{ p.id }}</td>
                         <td class="fw-semibold">{{ p.titulo }}</td>
                         <td class="small">{{ p.director }}</td>
-                        <td><span class="badge bg-primary">{{ p.genero }}</span></td>
+                        <td><span class="badge bg-primary">{{ p.genero.displayName }}</span></td>
                         <td class="small">{{ p.duracion }} min</td>
                         <td class="small text-muted">{{ p.estreno }}</td>
-                        <td><span class="badge bg-secondary small">{{ p.clasificacionEdad }}</span></td>
+                        <td><span class="badge bg-secondary small">{{ p.clasificacionEdad.displayName }}</span></td>
                         <td>
                             {% if p.activa %}
                                 <span class="badge bg-success">Activa</span>
@@ -246,11 +246,11 @@
                     {% for s in sesiones %}
                     <tr>
                         <td class="text-muted small">{{ s.id }}</td>
-                        <td class="fw-semibold">{{ s.pelicula }}</td>
+                        <td class="fw-semibold">{{ s.pelicula.titulo }}</td>
                         <td class="small">{{ s.fecha }}</td>
-                        <td><span class="badge bg-info text-dark">{{ s.horario }}</span></td>
-                        <td class="small">{{ s.sala }}</td>
-                        <td><span class="badge bg-primary">{{ s.tipoProyeccion }}</span></td>
+                        <td><span class="badge bg-info text-dark">{{ s.horario.displayName }}</span></td>
+                        <td class="small">{{ s.sala.displayName }}</td>
+                        <td><span class="badge bg-primary">{{ s.tipoProyeccion.displayName }}</span></td>
                         <td class="small fw-semibold">{{ s.precio }} €</td>
                         <td>
                             <div class="d-flex gap-1">
@@ -321,7 +321,7 @@
         <div class="modal-content">
             <form method="post" action="/admin/usuarios/admin/crear">
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
-                <div class="modal-header bg-warning-subtle">
+                <div class="modal-header modal-header-admin">
                     <h5 class="modal-title" id="modalCrearAdminLabel">
                         <i class="bi bi-shield-plus me-2"></i>Nuevo administrador
                     </h5>
@@ -377,7 +377,7 @@
                             <select id="cpGenero" name="genero" class="form-select" required>
                                 <option value="" disabled selected>Selecciona...</option>
                                 {% for g in generos %}
-                                <option value="{{ g }}">{{ g }}</option>
+                                <option value="{{ g }}">{{ g.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -386,7 +386,7 @@
                             <select id="cpClasificacion" name="clasificacionEdad" class="form-select" required>
                                 <option value="" disabled selected>Selecciona...</option>
                                 {% for e in edades %}
-                                <option value="{{ e }}">{{ e }}</option>
+                                <option value="{{ e }}">{{ e.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -443,7 +443,7 @@
                             <label for="editPelGenero" class="form-label fw-semibold">Género</label>
                             <select id="editPelGenero" name="genero" class="form-select" required>
                                 {% for g in generos %}
-                                <option value="{{ g }}">{{ g }}</option>
+                                <option value="{{ g }}">{{ g.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -451,7 +451,7 @@
                             <label for="editPelClasificacion" class="form-label fw-semibold">Clasificación de edad</label>
                             <select id="editPelClasificacion" name="clasificacionEdad" class="form-select" required>
                                 {% for e in edades %}
-                                <option value="{{ e }}">{{ e }}</option>
+                                <option value="{{ e }}">{{ e.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -499,7 +499,7 @@
                             <label for="editSesionHorario" class="form-label fw-semibold">Horario</label>
                             <select id="editSesionHorario" name="horario" class="form-select" required>
                                 {% for h in horarios %}
-                                <option value="{{ h }}">{{ h }}</option>
+                                <option value="{{ h }}">{{ h.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -507,7 +507,7 @@
                             <label for="editSesionSala" class="form-label fw-semibold">Sala</label>
                             <select id="editSesionSala" name="sala" class="form-select" required>
                                 {% for s in salas %}
-                                <option value="{{ s }}">{{ s }}</option>
+                                <option value="{{ s }}">{{ s.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -515,7 +515,7 @@
                             <label for="editSesionTipo" class="form-label fw-semibold">Tipo de proyección</label>
                             <select id="editSesionTipo" name="tipoProyeccion" class="form-select" required>
                                 {% for t in tiposProyeccion %}
-                                <option value="{{ t }}">{{ t }}</option>
+                                <option value="{{ t }}">{{ t.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
