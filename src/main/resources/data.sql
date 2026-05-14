@@ -82,6 +82,8 @@ values
  'sinopsis.seven',
  127, 'David Fincher', '1995-09-22', 'MAYORES_18', true, 'seven.jpg');
 
+ALTER TABLE PELICULAS ALTER COLUMN ID RESTART WITH 21;
+
 
 insert into SESIONES
 (id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)

@@ -24,6 +24,7 @@ public class PeliculaMapper {
         pelicula.setDirector(dto.getDirector());
         pelicula.setEstreno(dto.getEstreno());
         pelicula.setClasificacionEdad(dto.getClasificacionEdad());
+        pelicula.setImagen(dto.getImagen() != null ? dto.getImagen() : "default.jpg");
 
         log.info("Pelicula creada: {}", pelicula);
         return pelicula;

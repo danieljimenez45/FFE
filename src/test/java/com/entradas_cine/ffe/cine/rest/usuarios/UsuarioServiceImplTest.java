@@ -65,7 +65,6 @@ class UsuarioServiceImplTest {
                 .email("admin1@email.com")
                 .password("secreto123")
                 .fechaNacimiento(LocalDate.of(1990, 1, 1))
-                .rol(Rol.ADMIN)
                 .build();
 
         usuarioService.create(dto);
