@@ -13,7 +13,7 @@
         {% if pelicula.activa %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                <a href="/peliculas/detalle_pelicula">
+                <a href="/peliculas/detalle/{{ pelicula.id }}">
                     <img class="card-img-top"
                          src="/images/peliculas/{{ pelicula.imagen }}"
                          alt="{{ pelicula.titulo }}">
