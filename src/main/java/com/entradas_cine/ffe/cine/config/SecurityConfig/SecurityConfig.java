@@ -278,6 +278,7 @@ public class SecurityConfig {
                 // Home, login, registro y recursos estáticos sin sesión
                 .requestMatchers(
                     "/",
+                    "/sesiones/*/butacas",
                     "/auth/login",
                     "/auth/register",
                     "/error",
