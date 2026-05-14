@@ -222,8 +222,14 @@ main {
     /* Sin border radius de momento me dices si queda mejor */
     border-radius: 0px;
     color: #f0f0f0;
+    cursor: pointer;
     transition: all ease 0.4s;
     backdrop-filter: blur(10px);
+}
+
+.peli-contenedor:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
 }
 
 .peli-contenedor .text-muted {
@@ -233,6 +239,10 @@ main {
 .peli-contenedor .list-group-item {
     color: #f0f0f0;
     background: transparent;
+}
+
+.peli-contenedor .list-group.list-group-flush .list-group-item {
+    border-color: rgba(255, 255, 255, 0.75) !important;
 }
 
 .sesion-item-link {
