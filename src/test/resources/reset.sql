@@ -12,7 +12,8 @@ create table PELICULAS (
     director varchar(40) not null,
     estreno date not null,
     clasificacion_edad varchar(20) not null,
-    activa boolean not null
+    activa boolean not null,
+    imagen varchar(30) not null
 
 );
 

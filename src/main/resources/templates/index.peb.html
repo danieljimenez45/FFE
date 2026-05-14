@@ -47,7 +47,12 @@
                 <p>No hay películas disponibles</p>
                 {% else %}
 
-                <div class="row">
+                {% for pelicula in peliculas %}
+                <div class="col-md-4 mb-4 opacity-100">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="/images/peliculas/{{ pelicula.imagen }}" alt="{{ pelicula.titulo }}">
+                        <div class="card-body peli-contenedor">
+                            <h5 class="card-title"> {{ pelicula.titulo }} </h5>
 
                     {% for pelicula in peliculas %}
                     {% if pelicula.activa %}
@@ -110,6 +115,7 @@
                                 </div>
                                 </p>
                             </div>
+                            </p>
                         </div>
                     </div>
                     {% endif %}
