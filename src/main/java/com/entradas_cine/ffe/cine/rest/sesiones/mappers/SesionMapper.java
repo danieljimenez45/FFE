@@ -31,11 +31,17 @@ public class SesionMapper {
     public void actualizarSesion(Sesion sesion, SesionUpdateDto dto) {
         log.info("Actualizando sesión");
 
+        if (dto.getFecha() != null) {
+            sesion.setFecha(dto.getFecha());
+        }
         if (dto.getHorario() != null) {
             sesion.setHorario(dto.getHorario());
         }
         if (dto.getSala() != null) {
             sesion.setSala(dto.getSala());
+        }
+        if (dto.getTipoProyeccion() != null) {
+            sesion.setTipoProyeccion(dto.getTipoProyeccion());
         }
         if (dto.getPrecio() != null) {
             sesion.setPrecio(dto.getPrecio());

@@ -1,0 +1,91 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Iniciar sesión — FFE Cinema{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-body p-4">
+
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-person-circle me-2"></i>Iniciar sesión
+                </h2>
+
+                {# mensajes de estado #}
+                {% if errorMsg is defined %}
+                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        {{ errorMsg }}
+                    </div>
+                {% endif %}
+
+                {% if logoutMsg is defined %}
+                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-check-circle-fill"></i>
+                        {{ logoutMsg }}
+                    </div>
+                {% endif %}
+
+                {% if infoMsg is defined %}
+                    <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-info-circle-fill"></i>
+                        {{ infoMsg }}
+                    </div>
+                {% endif %}
+
+                {# formulario — el POST va a /auth/login-post, que gestiona Spring Security #}
+                <form method="post" action="/auth/login-post">
+
+                    <input type="hidden"
+                           name="{{ _csrf.parameterName }}"
+                           value="{{ _csrf.token }}">
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">
+                            <i class="bi bi-person me-1"></i>Usuario
+                        </label>
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               class="form-control"
+                               placeholder="Introduce tu usuario"
+                               autocomplete="username"
+                               required
+                               autofocus>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">
+                            <i class="bi bi-lock me-1"></i>Contraseña
+                        </label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Introduce tu contraseña"
+                               autocomplete="current-password"
+                               required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn boton-sesion py-2">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Entrar
+                        </button>
+                    </div>
+
+                </form>
+
+                <hr class="my-3">
+                <p class="text-center mb-0 small">
+                    ¿No tienes cuenta?
+                    <a href="/auth/register" class="fw-semibold">Regístrate</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

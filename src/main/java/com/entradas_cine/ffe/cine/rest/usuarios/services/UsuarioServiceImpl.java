@@ -6,6 +6,7 @@ import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
 import com.entradas_cine.ffe.cine.rest.usuarios.exceptions.UsuarioBadRequest;
 import com.entradas_cine.ffe.cine.rest.usuarios.exceptions.UsuarioNotFound;
 import com.entradas_cine.ffe.cine.rest.usuarios.mappers.UsuarioMapper;
+import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import com.entradas_cine.ffe.cine.rest.usuarios.models.Usuario;
 import com.entradas_cine.ffe.cine.rest.usuarios.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioResponseDto create(UsuarioCreateDto dto) {
-        log.info("Creando usuario con username {}", dto.getUsername());
+        log.info("Creando usuario (USER) con username {}", dto.getUsername());
+        return crearConRol(dto, Rol.USER);
+    }
 
+    @Override
+    public UsuarioResponseDto createAdmin(UsuarioCreateDto dto) {
+        log.info("Creando usuario ADMIN con username {}", dto.getUsername());
+        return crearConRol(dto, Rol.ADMIN);
+    }
+
+    /**
+     * Lógica común de creación de usuario.
+     * El rol se pasa explícitamente desde el metodo llamante — nunca se acepta
+     * del DTO para evitar que el cliente decida su propio privilegio.
+     */
+    private UsuarioResponseDto crearConRol(UsuarioCreateDto dto, Rol rol) {
         if (usuarioRepository.existsByUsername(dto.getUsername())) {
             throw new UsuarioBadRequest("Ya existe un usuario con username " + dto.getUsername());
         }
@@ -37,7 +52,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         String passwordCifrada = passwordEncoder.encode(dto.getPassword());
-        Usuario usuario = usuarioMapper.toUsuario(dto, passwordCifrada);
+        Usuario usuario = usuarioMapper.toUsuario(dto, passwordCifrada, rol);
         Usuario saved = usuarioRepository.save(usuario);
 
         return usuarioMapper.toResponseDto(saved);

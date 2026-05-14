@@ -92,6 +92,14 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
+    public PeliculaResponseDto update(Long id, PeliculaCreateDto dto) {
+        Pelicula pelicula = peliculaRepository.findById(id)
+                .orElseThrow(() -> new PeliculaNotFound(id));
+        peliculaMapper.actualizarPelicula(pelicula, dto);
+        return peliculaMapper.toResponseDto(peliculaRepository.save(pelicula));
+    }
+
+    @Override
     public PeliculaResponseDto updateEstado(Long id, PeliculaUpdateEstadoDto peliculaUpdateEstadoDto) {
         Pelicula pelicula = peliculaRepository.findById(id)
                 .orElseThrow(() ->  new PeliculaNotFound(id));
