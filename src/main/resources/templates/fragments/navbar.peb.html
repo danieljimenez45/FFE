@@ -56,7 +56,6 @@
                 </li>
 
             </ul>
-
         </div>
 
         <!-- Titulo  -->
@@ -71,19 +70,57 @@
         <div class="d-flex justify-content-end align-items-center gap-2">
             <!-- Buscador -->
             <form class="d-flex align-items-center gap-2 me-3">
-                <label>
+                <label for="navSearch">
                     <i class="bi bi-search iconos"></i>
                 </label>
 
                 <input type="search"
+                       id="navSearch"
                        class="form-control text-center buscador"
                        placeholder="{{ message('nav.search') }}">
             </form>
 
-            <!-- Login -->
-            <a href="/login" class="btn boton-sesion">
-                {{ message('nav.login') }}
-            </a>
+            <!-- Login / Perfil -->
+            {% if isAuthenticated %}
+                <div class="dropdown">
+                    <button class="btn boton-sesion dropdown-toggle d-flex align-items-center gap-2"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <span class="d-none d-sm-inline">{{ currentUser }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="/perfil">
+                                <i class="bi bi-person me-2"></i>Mi perfil
+                            </a>
+                        </li>
+                        {% if isAdmin %}
+                        <li>
+                            <a class="dropdown-item" href="/admin">
+                                <i class="bi bi-shield-lock me-2"></i>Administración
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="post" action="/auth/logout" class="m-0">
+                                <input type="hidden"
+                                       name="{{ _csrf.parameterName }}"
+                                       value="{{ _csrf.token }}">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <a href="/auth/login" class="btn boton-sesion">
+                    {{ message('nav.login') }}
+                </a>
+            {% endif %}
 
             <div class="dropdown">
                 <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
@@ -127,8 +164,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
-
     </div>
 </nav>
