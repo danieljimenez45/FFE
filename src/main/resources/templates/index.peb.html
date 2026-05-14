@@ -12,11 +12,12 @@
     {% for pelicula in peliculas %}
     {% if pelicula.activa %}
     <div class="col-md-4 mb-4">
-        <div class="card h-100">
+        <div class="card h-auto  peli-contenedor">
             <img class="card-img-top"
                  src="/images/peliculas/{{ pelicula.imagen }}"
                  alt="{{ pelicula.titulo }}">
-            <div class="card-body peli-contenedor d-flex flex-column">
+                 <!-- Peli contenedor -->
+            <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ pelicula.titulo }}</h5>
 
                 <p class="card-text text-muted fs-6">
@@ -53,22 +54,26 @@
                     <div class="collapse mt-2" id="sesiones{{ pelicula.id }}">
                         <ul class="list-group list-group-flush">
                             {% for sesion in pelicula.sesiones %}
-                            <li class="list-group-item d-flex border-dark justify-content-between align-items-center bg-transparent">
-                                <div>
-                                    <div class="fw-bold">
-                                        <i class="bi bi-clock pe-2"></i>{{ sesion.horario.displayName }}
-                                        &nbsp;
-                                        <i class="bi bi-door-open"></i>{{ sesion.sala.displayName }}
+                            <li class="list-group-item border-dark bg-transparent p-0">
+                                <a href="/sesiones/{{ sesion.id }}/butacas"
+                                   class="sesion-item-link d-flex justify-content-between align-items-center text-decoration-none"
+                                   aria-label="Seleccionar butacas para la sesión {{ sesion.id }}">
+                                    <div>
+                                        <div class="fw-bold">
+                                            <i class="bi bi-clock pe-2"></i>{{ sesion.horario.displayName }}
+                                            &nbsp;
+                                            <i class="bi bi-door-open"></i>{{ sesion.sala.displayName }}
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-event pe-2"></i>{{ sesion.fecha }}
+                                            &nbsp;
+                                            <i class="bi bi-film"></i> {{ sesion.tipoProyeccion.displayName }}
+                                        </small>
                                     </div>
-                                    <small class="text-muted">
-                                        <i class="bi bi-calendar-event pe-2"></i>{{ sesion.fecha }}
-                                        &nbsp;
-                                        <i class="bi bi-film"></i> {{ sesion.tipoProyeccion.displayName }}
-                                    </small>
-                                </div>
-                                <div class="fw-bold fs-4 text-success">
-                                    {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
-                                </div>
+                                    <div class="fw-bold fs-4 text-success">
+                                        {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
+                                    </div>
+                                </a>
                             </li>
                             {% endfor %}
                         </ul>

@@ -217,9 +217,10 @@ main {
    PELÍCULAS / CARDS
 ========================= */
 .peli-contenedor{
-    background: rgba(20, 30, 60, 0.75);
+    background: rgba(26, 38, 71, 0.75);
     border: solid 1px rgba(255, 255, 255, 0.3);
-    border-radius: 16px;
+    /* Sin border radius de momento me dices si queda mejor */
+    border-radius: 0px;
     color: #f0f0f0;
     transition: all ease 0.4s;
     backdrop-filter: blur(10px);
@@ -234,9 +235,27 @@ main {
     background: transparent;
 }
 
+.sesion-item-link {
+    color: #f0f0f0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sesion-item-link:hover,
+.sesion-item-link:focus-visible {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.sesion-item-link small.text-muted {
+    color: #b0b8cc !important;
+}
+
 .peli-contenedor:hover {
     border: solid 1px rgba(255, 255, 255, 0.3);
-    outline: 3px solid #ffffff;
+    outline: 2px solid #ffffff;
     outline-offset: 3px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25),
         0 0 15px rgba(0, 0, 0, 0.25);
@@ -249,7 +268,6 @@ main {
 
 /* Tarjetas de películas: transparentes para el efecto glassmorphism */
 .card {
-    background: transparent;
     border: none;
 }
 
