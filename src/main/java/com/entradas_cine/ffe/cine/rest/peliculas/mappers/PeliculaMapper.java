@@ -57,6 +57,7 @@ public class PeliculaMapper {
                 .estreno(pelicula.getEstreno())
                 .clasificacionEdad(pelicula.getClasificacionEdad())
                 .activa(pelicula.getActiva())
+                .imagen(pelicula.getImagen())
                 .build();
     }
 

@@ -45,4 +45,7 @@ public class PeliculaResponseDto {
     @Schema(description = "Indica si la película está activa", example = "true")
     private Boolean activa;
 
+    @Schema(description = "Imagen de la pelicula")
+    private String imagen;
+
 }
