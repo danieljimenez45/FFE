@@ -117,14 +117,18 @@ main {
 ========================= */
 .rayas {
     color: white;
-    transition: all ease 0.4s;
+    transition: all ease 0.60s;
     display: inline-block;
 }
 
-.rayas:hover {
-    color: #ffcc00;
+.navbar-toggler[aria-expanded="true"]{
     transform: rotate(90deg);
+    color: #ffcc00;
     text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
 }
 
 .ti-cabecera {
@@ -185,6 +189,10 @@ main {
 }
 
 .menu-lateral{
+
+    display: flex;
+    justify-content: center;
+
     position: absolute;
 
     top: 100%;
@@ -193,11 +201,19 @@ main {
     width: 260px;
     min-height: calc(100vh - 70px);
 
-    background: rgba(255, 255, 255, 0.60);
-
+    background:  rgba(10, 10, 10, 0.95);
     padding: 2rem 1.5rem;
 
     z-index: 999;
+
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.4s ease;
+}
+
+.menu-lateral.show{
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .menu-lateral .nav-link {
@@ -212,6 +228,56 @@ main {
     text-shadow: 0 0 5px #ff6600;
 }
 
+.cerrar-menu{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: transparent;
+    border: none;
+
+    color: white;
+
+    font-size: 1.5rem;
+
+    transition: all ease 0.3s;
+}
+
+.cerrar-menu:hover{
+    color: #ff0202;
+    text-shadow: 0 0 5px red, 0 0 10px red;
+    transform: scale(1.1) rotate(90deg);
+}
+
+.dropdown-idioma{
+    margin-left: 12px;
+}
+
+.menu-idiomas{
+    --bs-dropdown-bg: rgba(10, 10, 10, 0.96);
+    margin-top: 12px !important;
+    z-index: 9999;
+    background: rgba(10, 10, 10, 0.96);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+
+    backdrop-filter: blur(10px);
+
+    padding: 0.5rem;
+}
+
+.menu-idiomas .dropdown-item{
+    color: white;
+    border-radius: 8px;
+    transition: all ease 0.3s;
+}
+
+.menu-idiomas .dropdown-item:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffcc00;
+    transform: translateX(4px);
+    text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+}
 
 /* =========================
    PELÍCULAS / CARDS
@@ -760,3 +826,46 @@ main {
         margin-right: 0.5rem !important;
     }
 }
+
+/* =========================
+   INDEX
+========================= */
+
+#carouselPeliculas{
+    width: 70%;
+    margin: 40px auto;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carousel-item img{
+    height: 60vh;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+@media (max-width: 768px){
+
+    #carouselPeliculas{
+        width: 95%;
+    }
+
+    .carousel-item img{
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+    }
+}
+
+.carousel-indicators button{
+    width: 12px !important;
+    height: 12px !important;
+    transform: rotate(45deg);
+    margin: 0 8px !important;
+    border-radius: 2px;
+}
+
+.carousel-indicators{
+    bottom: -10px;
+}
+

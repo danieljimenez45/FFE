@@ -60,6 +60,7 @@ public class PeliculaWebController {
         logger.info("Total películas: {}", peliculas.size());
 
         model.addAttribute("peliculas", peliculas);
+        model.addAttribute("mostrarBuscador", true);
 
         return "peliculas/lista_peliculas";
     }
