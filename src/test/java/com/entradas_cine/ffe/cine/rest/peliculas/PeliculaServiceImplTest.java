@@ -33,7 +33,7 @@ class PeliculaServiceImplTest {
         PeliculaResponseDto result = peliculaService.findById(1L);
 
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getTitulo()).isEqualTo("Toy Story");
+        assertThat(result.getTitulo()).isEqualTo("pelicula.titulo.toy_story");
         assertThat(result.getDirector()).isEqualTo("John Lasseter");
         assertThat(result.getGenero()).isEqualTo(Genero.AVENTURAS);
     }
@@ -88,7 +88,7 @@ class PeliculaServiceImplTest {
     @Test
     void create_deberiaFallarSiTituloYaExiste() {
         PeliculaCreateDto dto = PeliculaCreateDto.builder()
-                .titulo("Toy Story") // ya existe en data.sql
+                .titulo("pelicula.titulo.toy_story") // ya existe en data.sql
                 .genero(Genero.AVENTURAS)
                 .sinopsis("Sinopsis duplicada")
                 .duracion(90)
@@ -133,10 +133,10 @@ class PeliculaServiceImplTest {
 
     @Test
     void findByTitulo_deberiaEncontrarPorTituloExacto() {
-        List<PeliculaResponseDto> resultado = peliculaService.findByTitulo("Inception");
+        List<PeliculaResponseDto> resultado = peliculaService.findByTitulo("pelicula.titulo.inception");
 
         assertThat(resultado).hasSize(1);
-        assertThat(resultado.get(0).getTitulo()).isEqualTo("Inception");
+        assertThat(resultado.get(0).getTitulo()).isEqualTo("pelicula.titulo.inception");
     }
 
     @Test
@@ -145,7 +145,7 @@ class PeliculaServiceImplTest {
         List<PeliculaResponseDto> resultado = peliculaService.findByTitulo("Futuro");
 
         assertThat(resultado).isNotEmpty();
-        assertThat(resultado).anyMatch(p -> p.getTitulo().contains("Futuro"));
+        assertThat(resultado).anyMatch(p -> p.getTitulo().toLowerCase().contains("futuro"));
     }
 
     // --- findByGenero ---
