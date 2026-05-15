@@ -1,6 +1,6 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Crear cuenta — FFE Cinema{% endblock %}
+{% block titulo %}{{ message('register.page.title') }}{% endblock %}
 
 {% block contenido %}
 <div class="row justify-content-center">
@@ -10,7 +10,7 @@
             <div class="card-body p-4">
 
                 <h2 class="card-title text-center mb-4">
-                    <i class="bi bi-person-plus me-2"></i>Crear cuenta
+                    <i class="bi bi-person-plus me-2"></i>{{ message('register.heading') }}
                 </h2>
 
                 {# error general #}
@@ -31,13 +31,13 @@
                     {# Fila 1: usuario #}
                     <div class="mb-3">
                         <label for="username" class="form-label fw-semibold">
-                            <i class="bi bi-at me-1"></i>Nombre de usuario
+                            <i class="bi bi-at me-1"></i>{{ message('register.label.username') }}
                         </label>
                         <input type="text"
                                id="username"
                                name="username"
                                class="form-control"
-                               placeholder="mínimo 3 caracteres"
+                               placeholder="{{ message('register.placeholder.username') }}"
                                minlength="3"
                                maxlength="50"
                                value="{{ prevUsername | default('') }}"
@@ -50,13 +50,13 @@
                     <div class="row g-3 mb-3">
                         <div class="col-12 col-sm-5">
                             <label for="nombre" class="form-label fw-semibold">
-                                <i class="bi bi-person me-1"></i>Nombre
+                                <i class="bi bi-person me-1"></i>{{ message('register.label.nombre') }}
                             </label>
                             <input type="text"
                                    id="nombre"
                                    name="nombre"
                                    class="form-control"
-                                   placeholder="Tu nombre"
+                                   placeholder="{{ message('register.placeholder.nombre') }}"
                                    maxlength="100"
                                    value="{{ prevNombre | default('') }}"
                                    autocomplete="given-name"
@@ -64,13 +64,13 @@
                         </div>
                         <div class="col-12 col-sm-7">
                             <label for="apellidos" class="form-label fw-semibold">
-                                Apellidos
+                                {{ message('register.label.apellidos') }}
                             </label>
                             <input type="text"
                                    id="apellidos"
                                    name="apellidos"
                                    class="form-control"
-                                   placeholder="Tus apellidos"
+                                   placeholder="{{ message('register.placeholder.apellidos') }}"
                                    maxlength="150"
                                    value="{{ prevApellidos | default('') }}"
                                    autocomplete="family-name"
@@ -81,13 +81,13 @@
                     {# Fila 3: email #}
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">
-                            <i class="bi bi-envelope me-1"></i>Correo electrónico
+                            <i class="bi bi-envelope me-1"></i>{{ message('register.label.email') }}
                         </label>
                         <input type="email"
                                id="email"
                                name="email"
                                class="form-control"
-                               placeholder="tu@email.com"
+                               placeholder="{{ message('register.placeholder.email') }}"
                                value="{{ prevEmail | default('') }}"
                                autocomplete="email"
                                required>
@@ -96,7 +96,7 @@
                     {# Fila 4: fecha de nacimiento #}
                     <div class="mb-3">
                         <label for="fechaNacimiento" class="form-label fw-semibold">
-                            <i class="bi bi-calendar me-1"></i>Fecha de nacimiento
+                            <i class="bi bi-calendar me-1"></i>{{ message('register.label.fecha.nacimiento') }}
                         </label>
                         <input type="date"
                                id="fechaNacimiento"
@@ -110,13 +110,13 @@
                     {# Fila 5: contraseña #}
                     <div class="mb-3">
                         <label for="password" class="form-label fw-semibold">
-                            <i class="bi bi-lock me-1"></i>Contraseña
+                            <i class="bi bi-lock me-1"></i>{{ message('register.label.password') }}
                         </label>
                         <input type="password"
                                id="password"
                                name="password"
                                class="form-control"
-                               placeholder="mínimo 6 caracteres"
+                               placeholder="{{ message('register.placeholder.password') }}"
                                minlength="6"
                                autocomplete="new-password"
                                required>
@@ -125,13 +125,13 @@
                     {# Fila 6: confirmar contraseña #}
                     <div class="mb-4">
                         <label for="passwordConfirm" class="form-label fw-semibold">
-                            <i class="bi bi-lock-fill me-1"></i>Confirmar contraseña
+                            <i class="bi bi-lock-fill me-1"></i>{{ message('register.label.password.confirm') }}
                         </label>
                         <input type="password"
                                id="passwordConfirm"
                                name="passwordConfirm"
                                class="form-control"
-                               placeholder="repite la contraseña"
+                               placeholder="{{ message('register.placeholder.password.confirm') }}"
                                minlength="6"
                                autocomplete="new-password"
                                required>
@@ -139,7 +139,7 @@
 
                     <div class="d-grid">
                         <button type="submit" class="btn boton-sesion py-2">
-                            <i class="bi bi-person-check me-1"></i>Crear cuenta
+                            <i class="bi bi-person-check me-1"></i>{{ message('register.btn.submit') }}
                         </button>
                     </div>
 
@@ -147,8 +147,8 @@
 
                 <hr class="my-3">
                 <p class="text-center mb-0 small">
-                    ¿Ya tienes cuenta?
-                    <a href="/auth/login" class="fw-semibold">Inicia sesión</a>
+                    {{ message('register.have.account') }}
+                    <a href="/auth/login" class="fw-semibold">{{ message('register.link.login') }}</a>
                 </p>
 
             </div>

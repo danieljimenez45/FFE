@@ -5,12 +5,15 @@ import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaUpdateEstadoDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.ClasificacionEdad;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.TipoProyeccion;
 import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioCreateDto;
+import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
+import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import com.entradas_cine.ffe.cine.rest.usuarios.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +55,7 @@ public class AdminController {
         model.addAttribute("horarios",        Arrays.asList(Horario.values()));
         model.addAttribute("salas",           Arrays.asList(Sala.values()));
         model.addAttribute("tiposProyeccion", Arrays.asList(TipoProyeccion.values()));
+        model.addAttribute("roles",           Arrays.asList(Rol.values()));
         model.addAttribute("today",           LocalDate.now().toString());
         return "admin/index";
     }
@@ -94,6 +98,38 @@ public class AdminController {
             log.info("Admin eliminó usuario id={}", id);
         } catch (Exception e) {
             ra.addFlashAttribute("errorMsg", "No se pudo eliminar el usuario: " + e.getMessage());
+        }
+        return "redirect:/admin#tab-usuarios";
+    }
+
+    @PostMapping("/usuarios/{id}/editar")
+    public String editarUsuario(
+            @PathVariable Long id,
+            @RequestParam String nombre,
+            @RequestParam String apellidos,
+            @RequestParam String email,
+            @RequestParam String fechaNacimiento,
+            @RequestParam String rol,
+            @RequestParam(required = false) String password,
+            RedirectAttributes ra) {
+
+        try {
+            String pwd = (password != null && !password.isBlank()) ? password : null;
+            UsuarioUpdateDto dto = UsuarioUpdateDto.builder()
+                    .nombre(nombre)
+                    .apellidos(apellidos)
+                    .email(email)
+                    .fechaNacimiento(LocalDate.parse(fechaNacimiento))
+                    .rol(Rol.valueOf(rol))
+                    .password(pwd)
+                    .build();
+            usuarioService.update(id, dto);
+            ra.addFlashAttribute("successMsg", "Usuario #" + id + " actualizado correctamente.");
+            log.info("Admin editó usuario id={}", id);
+        } catch (DateTimeParseException e) {
+            ra.addFlashAttribute("errorMsg", "Fecha de nacimiento no válida.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMsg", "No se pudo actualizar el usuario: " + e.getMessage());
         }
         return "redirect:/admin#tab-usuarios";
     }
@@ -194,6 +230,36 @@ public class AdminController {
     }
 
     // -- Sesiones --------------------------------------------------
+
+    @PostMapping("/sesiones/crear")
+    public String crearSesion(
+            @RequestParam Long idPelicula,
+            @RequestParam String fecha,
+            @RequestParam String horario,
+            @RequestParam String sala,
+            @RequestParam String tipoProyeccion,
+            @RequestParam java.math.BigDecimal precio,
+            RedirectAttributes ra) {
+
+        try {
+            SesionCreateDto dto = SesionCreateDto.builder()
+                    .idPelicula(idPelicula)
+                    .fecha(LocalDate.parse(fecha))
+                    .horario(Horario.valueOf(horario))
+                    .sala(Sala.valueOf(sala))
+                    .tipoProyeccion(TipoProyeccion.valueOf(tipoProyeccion))
+                    .precio(precio)
+                    .build();
+            sesionService.create(dto);
+            ra.addFlashAttribute("successMsg", "Sesión creada correctamente.");
+            log.info("Admin creó sesión para película id={}", idPelicula);
+        } catch (DateTimeParseException e) {
+            ra.addFlashAttribute("errorMsg", "Fecha no válida.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMsg", "No se pudo crear la sesión: " + e.getMessage());
+        }
+        return "redirect:/admin#tab-sesiones";
+    }
 
     @PostMapping("/sesiones/{id}/editar")
     public String editarSesion(

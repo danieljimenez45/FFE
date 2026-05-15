@@ -1,6 +1,6 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Compra confirmada — FFE Cinema{% endblock %}
+{% block titulo %}{{ message('confirmacion.page.title') }}{% endblock %}
 
 {% block contenido %}
 <div class="confirmacion-page">
@@ -9,8 +9,8 @@
     <div class="d-flex align-items-center gap-3 mb-4">
         <i class="bi bi-check-circle-fill text-success" style="font-size:2.5rem;"></i>
         <div>
-            <h1 class="h3 fw-bold mb-0 text-white">¡Compra confirmada!</h1>
-            <p class="text-white mb-0">Tus entradas han sido reservadas correctamente.</p>
+            <h1 class="h3 fw-bold mb-0 text-white">{{ message('confirmacion.heading') }}</h1>
+            <p class="text-white mb-0">{{ message('confirmacion.subtitle') }}</p>
         </div>
     </div>
 
@@ -18,19 +18,19 @@
     <div class="row g-3 mb-4">
         <div class="col-sm-4">
             <div class="card card-panel p-3 text-center">
-                <div class="text-muted small mb-1">Código de factura</div>
+                <div class="text-muted small mb-1">{{ message('confirmacion.label.codigo') }}</div>
                 <div class="fw-bold text-white font-monospace">{{ factura.codigoFactura }}</div>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="card card-panel p-3 text-center">
-                <div class="text-muted small mb-1">Entradas</div>
+                <div class="text-muted small mb-1">{{ message('confirmacion.label.entradas') }}</div>
                 <div class="fw-bold text-white">{{ factura.entradas | length }}</div>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="card card-panel p-3 text-center">
-                <div class="text-muted small mb-1">Total</div>
+                <div class="text-muted small mb-1">{{ message('confirmacion.label.total') }}</div>
                 <div class="fw-bold text-success fs-5">{{ factura.total }} €</div>
             </div>
         </div>
@@ -40,10 +40,10 @@
     <div class="d-flex gap-2 mb-4">
         <a href="/facturas/{{ factura.numeroFactura }}/pdf/descargar?dl=true"
            class="btn btn-warning fw-bold">
-            <i class="bi bi-download me-2"></i>Descargar PDF
+            <i class="bi bi-download me-2"></i>{{ message('confirmacion.btn.pdf') }}
         </a>
         <a href="/" class="btn btn-outline-light">
-            <i class="bi bi-house me-2"></i>Volver al inicio
+            <i class="bi bi-house me-2"></i>{{ message('confirmacion.btn.home') }}
         </a>
     </div>
 
@@ -52,7 +52,7 @@
         <div class="px-3 py-2 d-flex align-items-center gap-2"
              style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
             <i class="bi bi-file-earmark-pdf text-danger"></i>
-            <span class="small text-muted">Vista previa de tu factura</span>
+            <span class="small text-muted">{{ message('confirmacion.preview') }}</span>
         </div>
         <embed src="/facturas/{{ factura.numeroFactura }}/pdf/descargar"
                type="application/pdf"
@@ -62,9 +62,9 @@
         </embed>
         <noscript>
             <div class="p-4 text-center text-muted">
-                Tu navegador no puede mostrar el PDF directamente.
+                {{ message('confirmacion.noscript') }}
                 <a href="/facturas/{{ factura.numeroFactura }}/pdf/descargar?dl=true" class="text-warning">
-                    Descárgalo aquí.
+                    {{ message('confirmacion.noscript.link') }}
                 </a>
             </div>
         </noscript>

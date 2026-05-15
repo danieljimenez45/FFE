@@ -783,6 +783,83 @@ main {
     border-radius: 7px;
 }
 
+/* TABLAS ADMIN - ORDENACION Y PAGINACION */
+
+/* Cabeceras ordenables */
+th[data-sortable] {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: color 0.15s, background-color 0.15s;
+}
+
+th[data-sortable]:hover {
+    color: #c8d8f0 !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sort-icon {
+    font-size: 0.6rem;
+    vertical-align: middle;
+    margin-left: 5px;
+    opacity: 0.35;
+    transition: opacity 0.15s;
+}
+
+th[data-sortable]:hover .sort-icon {
+    opacity: 0.75;
+}
+
+/* Paginación oscura para el panel admin */
+.admin-pagination .pagination {
+    --bs-pagination-bg: transparent;
+    --bs-pagination-color: #7a8ca5;
+    --bs-pagination-border-color: rgba(255, 255, 255, 0.1);
+    --bs-pagination-hover-bg: rgba(255, 255, 255, 0.07);
+    --bs-pagination-hover-color: #e8f0ff;
+    --bs-pagination-hover-border-color: rgba(255, 255, 255, 0.18);
+    --bs-pagination-active-bg: #cf4f00;
+    --bs-pagination-active-border-color: #cf4f00;
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-disabled-bg: transparent;
+    --bs-pagination-disabled-color: #2d3e52;
+    --bs-pagination-disabled-border-color: rgba(255, 255, 255, 0.05);
+    gap: 2px;
+}
+
+.admin-pagination .page-link {
+    border-radius: 6px !important;
+    font-size: 0.78rem;
+    min-width: 32px;
+    text-align: center;
+    padding: 0.3rem 0.55rem;
+}
+
+/* Scrollbar moderno para las tablas del admin */
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(207, 79, 0, 0.5) rgba(255, 255, 255, 0.04);
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 99px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(207, 79, 0, 0.5);
+    border-radius: 99px;
+    transition: background 0.2s;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: rgba(207, 79, 0, 0.85);
+}
+
 /* Botón secundario en modales */
 .modal-footer .btn-secondary {
     background: rgba(255, 255, 255, 0.07);
