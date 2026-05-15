@@ -1,0 +1,171 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Butacas - {{ sesion.pelicula.titulo }}{% endblock %}
+
+{% block contenido %}
+
+<div class="butacas-page">
+    <div class="mb-4">
+        <h1 class="display-4 fw-bold text-white mb-2">Elige tus butacas</h1>
+        <p class="lead text-white mb-0">
+            Selecciona las butacas disponibles para la sesión de
+            <span class="fw-semibold">{{ sesion.pelicula.titulo }}</span>.
+        </p>
+    </div>
+
+    <div class="row g-4 align-items-start">
+        <div class="col-lg-4">
+            <div class="card card-panel shadow-lg h-100">
+                <div class="card-body">
+                    <img class="img-fluid mb-3 butacas-poster"
+                         src="/images/peliculas/{{ sesion.pelicula.imagen }}"
+                         alt="{{ sesion.pelicula.titulo }}">
+
+                    <h2 class="h3 fw-bold mb-2">{{ sesion.pelicula.titulo }}</h2>
+                    <p class="text-muted mb-3">{{ sesion.pelicula.genero.displayName }}</p>
+
+                    <dl class="row mb-0 small">
+                        <dt class="col-5">Fecha</dt>
+                        <dd class="col-7">{{ sesion.fecha }}</dd>
+
+                        <dt class="col-5">Horario</dt>
+                        <dd class="col-7">{{ sesion.horario.displayName }}</dd>
+
+                        <dt class="col-5">Sala</dt>
+                        <dd class="col-7">{{ sesion.sala.displayName }}</dd>
+
+                        <dt class="col-5">Proyección</dt>
+                        <dd class="col-7">{{ sesion.tipoProyeccion.displayName }}</dd>
+
+                        <dt class="col-5">Precio</dt>
+                        <dd class="col-7 fw-semibold">{{ sesion.precio }} €</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card card-panel shadow-lg">
+                <div class="card-body">
+                    <div class="screen-banner mb-4">PANTALLA</div>
+
+                    <div class="seat-grid-wrapper">
+                        {% for fila in filasButacas %}
+                        <div class="seat-row">
+                            <div class="seat-row-label">Fila {{ fila.numeroFila }}</div>
+                            <div class="seat-row-seats">
+                                {% for butaca in fila.butacas %}
+                                <button type="button"
+                                        class="butaca-btn {% if butaca.ocupada %}butaca-ocupada{% else %}butaca-libre{% endif %}"
+                                        data-seat-key="{{ butaca.key }}"
+                                        data-seat-label="Fila {{ butaca.fila }}, butaca {{ butaca.numero }}"
+                                        {% if butaca.ocupada %}disabled aria-disabled="true"{% else %}aria-pressed="false"{% endif %}>
+                                    <i class="bi bi-thunderbolt-fill"></i>
+                                </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="seat-legend d-flex flex-wrap gap-3 mt-4 mb-2">
+                        <span class="legend-item"><i class="bi bi-thunderbolt-fill legend-free-icon"></i>Disponible</span>
+                        <span class="legend-item"><i class="bi bi-thunderbolt-fill legend-selected-icon"></i>Seleccionada</span>
+                        <span class="legend-item"><i class="bi bi-thunderbolt-fill legend-occupied-icon"></i>Ocupada</span>
+                    </div>
+
+                    <div class="seat-summary mt-3 p-3 rounded-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div>
+                                <div class="text-muted small">Seleccionadas</div>
+                                <div class="fs-4 fw-bold"><span id="seat-count">0</span> butacas</div>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-muted small">Total estimado</div>
+                                <div class="fs-4 fw-bold" id="seat-total">0,00 €</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <div class="text-muted small mb-2">Butacas elegidas</div>
+                            <div id="seat-selected-list" class="d-flex flex-wrap gap-2"></div>
+                            <div id="seat-empty" class="text-muted small mt-2">Todavía no has seleccionado ninguna butaca.</div>
+                        </div>
+
+                        <form id="compra-form" method="post" action="/sesiones/{{ sesion.id }}/comprar" class="mt-4">
+                            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                            <input type="hidden" id="butacas-input" name="butacas" value="">
+                            <button type="submit" id="btn-comprar" class="btn btn-warning fw-bold w-100 py-2 disabled" disabled>
+                                <i class="bi bi-credit-card me-2"></i>Ir al pago
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(() => {
+    const seatButtons = Array.from(document.querySelectorAll('.butaca-btn:not(:disabled)'));
+    const selectedList = document.getElementById('seat-selected-list');
+    const emptyMessage = document.getElementById('seat-empty');
+    const countLabel = document.getElementById('seat-count');
+    const totalLabel = document.getElementById('seat-total');
+    const price = Number.parseFloat('{{ sesion.precio }}'.replace(',', '.')) || 0;
+    const selectedSeats = new Map();
+
+    const moneyFormat = new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: 'EUR'
+    });
+
+    const btnComprar = document.getElementById('btn-comprar');
+    const butacasInput = document.getElementById('butacas-input');
+
+    function renderSelection() {
+        selectedList.innerHTML = '';
+        const seats = Array.from(selectedSeats.values());
+
+        countLabel.textContent = seats.length;
+        totalLabel.textContent = moneyFormat.format(seats.length * price);
+        emptyMessage.classList.toggle('d-none', seats.length > 0);
+
+        const hasSeats = seats.length > 0;
+        btnComprar.disabled = !hasSeats;
+        btnComprar.classList.toggle('disabled', !hasSeats);
+        butacasInput.value = seats.map(s => s.key).join(',');
+
+        seats.forEach(seat => {
+            const badge = document.createElement('span');
+            badge.className = 'badge rounded-pill text-bg-light seat-chip';
+            badge.textContent = seat.label;
+            selectedList.appendChild(badge);
+        });
+    }
+
+    seatButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const seatKey = button.dataset.seatKey;
+            const seatLabel = button.dataset.seatLabel;
+
+            if (selectedSeats.has(seatKey)) {
+                selectedSeats.delete(seatKey);
+                button.classList.remove('butaca-seleccionada');
+                button.setAttribute('aria-pressed', 'false');
+            } else {
+                selectedSeats.set(seatKey, { key: seatKey, label: seatLabel });
+                button.classList.add('butaca-seleccionada');
+                button.setAttribute('aria-pressed', 'true');
+            }
+
+            renderSelection();
+        });
+    });
+
+    renderSelection();
+})();
+</script>
+
+{% endblock %}

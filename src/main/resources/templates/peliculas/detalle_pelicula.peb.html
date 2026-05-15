@@ -1,0 +1,31 @@
+
+{% extends "fragments/layout" %}
+
+{% block titulo %}
+    Detalle Película
+{% endblock %}
+
+{% block contenido %}
+<div class="container py-4 text-white">
+    <h1 class="mb-3">{{ pelicula.titulo }}</h1>
+
+    <p class="mb-4 text-white">
+        Selecciona una sesión para ir directamente al selector de butacas.
+    </p>
+
+    {% if sesiones is empty %}
+    <p class="text-white mb-0">Esta película no tiene sesiones disponibles.</p>
+    {% else %}
+    <div class="d-flex flex-column gap-2">
+        {% for sesion in sesiones %}
+        <a class="btn boton-sesion text-start"
+           href="/sesiones/{{ sesion.id }}/butacas">
+            <i class="bi bi-ticket-perforated me-2"></i>
+            {{ sesion.fecha }} - {{ message('horario.' ~ sesion.horario) }} - {{ message('sala.' ~ sesion.sala) }}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

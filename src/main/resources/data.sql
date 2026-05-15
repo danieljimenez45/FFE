@@ -82,6 +82,8 @@ values
  'sinopsis.seven',
  127, 'David Fincher', '1995-09-22', 'MAYORES_18', true, 'seven.jpg');
 
+ALTER TABLE PELICULAS ALTER COLUMN ID RESTART WITH 21;
+
 
 -- Sesiones: IDs generados automáticamente por el motor (1-70 en orden de inserción)
 -- Las referencias id_pelicula coinciden con el orden de inserción de PELICULAS (1-20)
@@ -188,6 +190,11 @@ VALUES
     (16, '2025-01-03', 'H18_30', 'SALA_5', 'NORMAL', 8.25),
     (16, '2025-01-03', 'H21_00', 'SALA_6', 'IMAX', 10.75);
 
+/*
+    La contrasña para usuarios es la misma clave123
+
+    La contraseña para admin es admin123
+*/
 insert into USUARIOS
 (username, nombre, apellidos, email, password, fecha_nacimiento, fecha_registro, rol)
 values

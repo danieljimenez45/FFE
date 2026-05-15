@@ -1,87 +1,76 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Cartelera — FFE Cinema{% endblock %}
+{% block titulo %}
+    Cartelera — FFE Cinema
+{% endblock %}
 
 {% block contenido %}
 
-{% if peliculas is empty %}
-    <p class="text-center text-muted mt-4">No hay películas disponibles</p>
-{% else %}
+    <div id="carouselPeliculas" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
-<div class="row">
-    {% for pelicula in peliculas %}
-    {% if pelicula.activa %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <img class="card-img-top"
-                 src="/images/peliculas/{{ pelicula.imagen }}"
-                 alt="{{ pelicula.titulo }}">
-            <div class="card-body peli-contenedor d-flex flex-column">
-                <h5 class="card-title">{{ pelicula.titulo }}</h5>
+    <h1 class="text-center ti-cabecera">
+        {{ message('home.ofertas') }}
+    </h1>
 
-                <p class="card-text text-muted fs-6">
-                    Género: {{ pelicula.genero.displayName }} &mdash; Duración: {{ pelicula.duracion }} min
-                </p>
+        <!-- INDICADORES CARRUSEL -->
+    <div class="carousel-indicators">
 
-                <div class="card-text mb-2">
-                    <span>Sinopsis:</span>
-                    <button type="button" class="btn boton-sipno btn-sm"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#sinopsis{{ pelicula.id }}"
-                            aria-expanded="false"
-                            aria-controls="sinopsis{{ pelicula.id }}">
-                        ver más
-                    </button>
-                    <div class="collapse mt-2" id="sinopsis{{ pelicula.id }}">
-                        <div class="small">{{ message(pelicula.sinopsis) }}</div>
-                    </div>
-                </div>
+        <button type="button"
+                data-bs-target="#carouselPeliculas"
+                data-bs-slide-to="0"
+                class="active">
+        </button>
 
-                <p class="card-text">Director: {{ pelicula.director }}</p>
-                <p class="card-text">Estreno: {{ pelicula.estreno }}</p>
-                <p class="card-text">Clasificación: {{ pelicula.clasificacionEdad.displayName }}</p>
+        <button type="button"
+                data-bs-target="#carouselPeliculas"
+                data-bs-slide-to="1">
+        </button>
 
-                <div class="card-text mt-auto">
-                    <span>Sesiones:</span>
-                    <button type="button" class="btn boton-sesion btn-sm"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#sesiones{{ pelicula.id }}"
-                            aria-expanded="false"
-                            aria-controls="sesiones{{ pelicula.id }}">
-                        ver sesiones disponibles
-                    </button>
-                    <div class="collapse mt-2" id="sesiones{{ pelicula.id }}">
-                        <ul class="list-group list-group-flush">
-                            {% for sesion in pelicula.sesiones %}
-                            <li class="list-group-item d-flex border-dark justify-content-between align-items-center bg-transparent">
-                                <div>
-                                    <div class="fw-bold">
-                                        <i class="bi bi-clock pe-2"></i>{{ sesion.horario.displayName }}
-                                        &nbsp;
-                                        <i class="bi bi-door-open"></i>{{ sesion.sala.displayName }}
-                                    </div>
-                                    <small class="text-muted">
-                                        <i class="bi bi-calendar-event pe-2"></i>{{ sesion.fecha }}
-                                        &nbsp;
-                                        <i class="bi bi-film"></i> {{ sesion.tipoProyeccion.displayName }}
-                                    </small>
-                                </div>
-                                <div class="fw-bold fs-4 text-success">
-                                    {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
+        <button type="button"
+                data-bs-target="#carouselPeliculas"
+                data-bs-slide-to="2">
+        </button>
 
+    </div>
+
+        <!-- CARRUSEL DE IMAGENES -->
+    <div class="carousel-inner">
+
+        <div class="carousel-item active" data-bs-interval="4000">
+
+            <img src="/images/index/inter_carr.png" class="d-block w-100" alt="Interstellar">
+
+            <div class="carousel-caption">
+                <a href="/peliculas/detalle/7" class="btn btn-outline-warning">
+                    {{ message('home.boton.ver') }}
+                </a>
             </div>
         </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-</div>
 
-{% endif %}
+        <div class="carousel-item">
+            <img src="/images/index/origen_carr.png" class="d-block w-100" alt="Inception">
+
+            <div class="carousel-caption">
+                <a href="/peliculas/detalle/6" class="btn btn-outline-warning">
+                    {{ message('home.boton.ver') }}
+                </a>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="/images/index/gladita_carr.png" class="d-block w-100" alt="Gladiator">
+
+            <div class="carousel-caption">
+                <a href="/peliculas/detalle/10" class="btn btn-outline-warning">
+                    {{ message('home.boton.ver') }}
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+        <!-- CONTROLADORES FLECHAS -->
+
+</div>
 
 {% endblock %}

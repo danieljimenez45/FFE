@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -87,6 +88,7 @@ public class FacturaServiceImpl implements FacturaService {
      * Los ADMIN pueden ver cualquier factura.
      */
     @Override
+    @Transactional(readOnly = true)
     public FacturaResponseDto findById(Long id) {
         Factura factura = facturaRepository.findById(id)
                 .orElseThrow(() -> new FacturaNotFound(id));
@@ -103,6 +105,7 @@ public class FacturaServiceImpl implements FacturaService {
 
     /** Solo accesible por ADMIN (protegido vía @PreAuthorize en el controlador). */
     @Override
+    @Transactional(readOnly = true)
     public List<FacturaResponseDto> findAll() {
         return facturaMapper.toResponseDtoList(facturaRepository.findAll());
     }
@@ -112,6 +115,7 @@ public class FacturaServiceImpl implements FacturaService {
      * Control de acceso: un usuario normal solo puede consultar sus propias facturas.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<FacturaResponseDto> findByUsuarioId(Long usuarioId) {
         // Verificar que el usuario solicitado existe
         if (!usuarioRepository.existsById(usuarioId)) {
@@ -134,6 +138,7 @@ public class FacturaServiceImpl implements FacturaService {
      * Ruta /me/facturas — no necesita check adicional porque siempre es el usuario en sesión.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<FacturaResponseDto> findMisFacturas() {
         String username = usernameActual();
         log.info("Buscando facturas del usuario autenticado: {}", username);

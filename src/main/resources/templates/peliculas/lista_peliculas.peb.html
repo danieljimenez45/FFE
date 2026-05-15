@@ -1,0 +1,100 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}Cartelera — FFE Cinema{% endblock %}
+
+{% block contenido %}
+
+    {% if peliculas is empty %}
+        <p class="text-center text-muted mt-4">{{ message('label.peliculas.empty') }}</p>
+    {% else %}
+
+    <div class="row">
+        {% for pelicula in peliculas %}
+            <div class="col-md-4 mb-4 opacity-100">
+                <div class="card h-100">
+
+                    <a href="/peliculas/detalle/{{ pelicula.id }}">
+                        <img class="card-img-top"
+                             src="/images/peliculas/{{ pelicula.imagen }}"
+                             alt="{{ pelicula.titulo }}">
+                    </a>
+
+                    <div class="card-body peli-contenedor">
+                        <h5 class="card-title">{{ pelicula.titulo }}</h5>
+
+                        <p class="card-text text-muted fs-6">
+                            {{ message('label.peliculas.genero') }}:
+                            {{ message('genero.' ~ pelicula.genero) }}
+                            --
+                            {{ message('label.duracion') }}:
+                            {{ pelicula.duracion }} min
+                        </p>
+
+                        <p class="card-text">
+                            {{ message('label.sinopsis') }}:
+                            <button type="button" class="btn boton-sipno"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#sinopsis{{ pelicula.id }}">
+                                {{ message('label.mas') }}
+                            </button>
+                        </p>
+
+                        <div class="collapse mt-2" id="sinopsis{{ pelicula.id }}">
+                            <div class="card-text">
+                                {{ message(pelicula.sinopsis) }}
+                            </div>
+                        </div>
+
+                        <p class="card-text">{{ message('label.director') }}: {{ pelicula.director }}</p>
+                        <p class="card-text">{{ message('label.estreno') }}: {{ pelicula.estreno }}</p>
+                        <p class="card-text">{{ message('label.clasificacion') }}: {{ message('clasificacion.' ~ pelicula.clasificacionEdad) }}</p>
+                        <p class="card-text">{{ message('label.cartelera') }}: {{ message('cartelera.' ~ pelicula.activa) }}</p>
+
+                        <p class="card-text">
+                            {{ message('nav.sessions') }}:
+                            <button type="button" class="btn boton-sesion btn-sm"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#sesiones{{ pelicula.id }}">
+                                {{ message('label.ver.sesiones') }}
+                            </button>
+                        </p>
+
+                        <div class="collapse mt-2" id="sesiones{{ pelicula.id }}">
+                            <ul class="list-group list-group-flush">
+                                {% for sesion in pelicula.sesiones %}
+                                <li class="list-group-item d-flex border-dark justify-content-between align-items-center bg-transparent">
+                                    <div>
+                                        <div class="fw-bold">
+                                            <i class="bi bi-clock pe-2"></i>
+                                            {{ message('horario.' ~ sesion.horario) }}
+
+                                            <i class="bi bi-door-open ms-2"></i>
+                                            {{ message('sala.' ~ sesion.sala) }}
+                                        </div>
+
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-event pe-2"></i>
+                                            {{ sesion.fecha }}
+
+                                            <i class="bi bi-film ms-2"></i>
+                                            {{ message('proyeccion.' ~ sesion.tipoProyeccion) }}
+                                        </small>
+                                    </div>
+
+                                    <div class="fw-bold fs-4 text-success">
+                                        {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+{% endblock %}

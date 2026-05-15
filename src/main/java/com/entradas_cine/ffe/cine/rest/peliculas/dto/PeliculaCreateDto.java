@@ -45,4 +45,6 @@ public class PeliculaCreateDto {
     @Schema(description = "Clasificación de edad de la película", example = "MAYORES_12")
     private final ClasificacionEdad clasificacionEdad;
 
+    @Schema(description = "Nombre del archivo de imagen", example = "inception.jpg")
+    private final String imagen;
 }
