@@ -12,6 +12,8 @@ import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.TipoProyeccion;
 import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioCreateDto;
+import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
+import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import com.entradas_cine.ffe.cine.rest.usuarios.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +55,7 @@ public class AdminController {
         model.addAttribute("horarios",        Arrays.asList(Horario.values()));
         model.addAttribute("salas",           Arrays.asList(Sala.values()));
         model.addAttribute("tiposProyeccion", Arrays.asList(TipoProyeccion.values()));
+        model.addAttribute("roles",           Arrays.asList(Rol.values()));
         model.addAttribute("today",           LocalDate.now().toString());
         return "admin/index";
     }
@@ -95,6 +98,38 @@ public class AdminController {
             log.info("Admin eliminó usuario id={}", id);
         } catch (Exception e) {
             ra.addFlashAttribute("errorMsg", "No se pudo eliminar el usuario: " + e.getMessage());
+        }
+        return "redirect:/admin#tab-usuarios";
+    }
+
+    @PostMapping("/usuarios/{id}/editar")
+    public String editarUsuario(
+            @PathVariable Long id,
+            @RequestParam String nombre,
+            @RequestParam String apellidos,
+            @RequestParam String email,
+            @RequestParam String fechaNacimiento,
+            @RequestParam String rol,
+            @RequestParam(required = false) String password,
+            RedirectAttributes ra) {
+
+        try {
+            String pwd = (password != null && !password.isBlank()) ? password : null;
+            UsuarioUpdateDto dto = UsuarioUpdateDto.builder()
+                    .nombre(nombre)
+                    .apellidos(apellidos)
+                    .email(email)
+                    .fechaNacimiento(LocalDate.parse(fechaNacimiento))
+                    .rol(Rol.valueOf(rol))
+                    .password(pwd)
+                    .build();
+            usuarioService.update(id, dto);
+            ra.addFlashAttribute("successMsg", "Usuario #" + id + " actualizado correctamente.");
+            log.info("Admin editó usuario id={}", id);
+        } catch (DateTimeParseException e) {
+            ra.addFlashAttribute("errorMsg", "Fecha de nacimiento no válida.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMsg", "No se pudo actualizar el usuario: " + e.getMessage());
         }
         return "redirect:/admin#tab-usuarios";
     }

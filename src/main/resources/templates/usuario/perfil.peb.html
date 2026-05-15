@@ -1,10 +1,24 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Mi perfil — FFE Cinema{% endblock %}
+{% block titulo %}{{ message('profile.page.title') }}{% endblock %}
 
 {% block contenido %}
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
+
+        {# mensajes flash #}
+        {% if successMsg is defined %}
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 mt-4" role="alert">
+            <i class="bi bi-check-circle-fill"></i>{{ successMsg }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+        {% if errorMsg is defined %}
+        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 mt-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>{{ errorMsg }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
 
         <div class="card card-panel shadow-sm mt-4">
             <div class="card-body p-4">
@@ -18,11 +32,11 @@
                     <p class="text-muted small mb-1">@{{ usuario.username }}</p>
                     {% if isAdmin %}
                         <span class="badge bg-danger">
-                            <i class="bi bi-shield-lock-fill me-1"></i>Administrador
+                            <i class="bi bi-shield-lock-fill me-1"></i>{{ message('profile.rol.admin') }}
                         </span>
                     {% else %}
                         <span class="badge bg-secondary">
-                            <i class="bi bi-person-fill me-1"></i>Usuario
+                            <i class="bi bi-person-fill me-1"></i>{{ message('profile.rol.user') }}
                         </span>
                     {% endif %}
                 </div>
@@ -31,38 +45,38 @@
 
                 {# datos #}
                 <h5 class="mb-3">
-                    <i class="bi bi-info-circle me-2"></i>Datos personales
+                    <i class="bi bi-info-circle me-2"></i>{{ message('profile.section.personal') }}
                 </h5>
 
                 <dl class="row mb-0">
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-person me-1"></i>Usuario
+                        <i class="bi bi-person me-1"></i>{{ message('profile.label.username') }}
                     </dt>
                     <dd class="col-sm-7 fw-semibold">{{ usuario.username }}</dd>
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-type me-1"></i>Nombre
+                        <i class="bi bi-type me-1"></i>{{ message('profile.label.nombre') }}
                     </dt>
                     <dd class="col-sm-7">{{ usuario.nombre }}</dd>
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-type me-1"></i>Apellidos
+                        <i class="bi bi-type me-1"></i>{{ message('profile.label.apellidos') }}
                     </dt>
                     <dd class="col-sm-7">{{ usuario.apellidos }}</dd>
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-envelope me-1"></i>Correo electrónico
+                        <i class="bi bi-envelope me-1"></i>{{ message('profile.label.email') }}
                     </dt>
                     <dd class="col-sm-7">{{ usuario.email }}</dd>
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-calendar-event me-1"></i>Fecha de nacimiento
+                        <i class="bi bi-calendar-event me-1"></i>{{ message('profile.label.fecha.nacimiento') }}
                     </dt>
                     <dd class="col-sm-7">{{ usuario.fechaNacimiento }}</dd>
 
                     <dt class="col-sm-5 text-muted fw-normal">
-                        <i class="bi bi-calendar-plus me-1"></i>Miembro desde
+                        <i class="bi bi-calendar-plus me-1"></i>{{ message('profile.label.miembro.desde') }}
                     </dt>
                     <dd class="col-sm-7 text-muted small">{{ usuario.fechaRegistro }}</dd>
 
@@ -72,14 +86,71 @@
 
                 {# botones #}
                 <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <button type="button" class="btn btn-outline-warning btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                        <i class="bi bi-pencil me-1"></i>{{ message('profile.btn.editar') }}
+                    </button>
                     <a href="/" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-house me-1"></i>Volver al inicio
+                        <i class="bi bi-house me-1"></i>{{ message('profile.btn.home') }}
                     </a>
                 </div>
 
             </div>
         </div>
 
+    </div>
+</div>
+
+{# Modal: Editar perfil #}
+<div class="modal fade" id="modalEditarPerfil" tabindex="-1"
+     aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/perfil/editar">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarPerfilLabel">
+                        <i class="bi bi-pencil-square me-2"></i>{{ message('profile.modal.editar') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="epNombre" class="form-label fw-semibold">{{ message('profile.label.nombre') }}</label>
+                            <input type="text" id="epNombre" name="nombre" class="form-control"
+                                   value="{{ usuario.nombre }}" required maxlength="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="epApellidos" class="form-label fw-semibold">{{ message('profile.label.apellidos') }}</label>
+                            <input type="text" id="epApellidos" name="apellidos" class="form-control"
+                                   value="{{ usuario.apellidos }}" required maxlength="150">
+                        </div>
+                        <div class="col-12">
+                            <label for="epEmail" class="form-label fw-semibold">{{ message('profile.label.email') }}</label>
+                            <input type="email" id="epEmail" name="email" class="form-control"
+                                   value="{{ usuario.email }}" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="epFecha" class="form-label fw-semibold">{{ message('profile.label.fecha.nacimiento') }}</label>
+                            <input type="date" id="epFecha" name="fechaNacimiento" class="form-control"
+                                   value="{{ usuario.fechaNacimiento }}" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="epPassword" class="form-label fw-semibold">{{ message('admin.form.password.optional') }}</label>
+                            <input type="password" id="epPassword" name="password" class="form-control"
+                                   minlength="6" autocomplete="new-password">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.guardar') }}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

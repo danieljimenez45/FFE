@@ -104,13 +104,13 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item" href="/perfil">
-                                <i class="bi bi-person me-2"></i>Mi perfil
+                                <i class="bi bi-person me-2"></i>{{ message('nav.profile') }}
                             </a>
                         </li>
                         {% if isAdmin %}
                         <li>
                             <a class="dropdown-item" href="/admin">
-                                <i class="bi bi-shield-lock me-2"></i>Administración
+                                <i class="bi bi-shield-lock me-2"></i>{{ message('nav.admin') }}
                             </a>
                         </li>
                         {% endif %}
@@ -121,7 +121,7 @@
                                        name="{{ _csrf.parameterName }}"
                                        value="{{ _csrf.token }}">
                                 <button type="submit" class="dropdown-item text-danger">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+                                    <i class="bi bi-box-arrow-right me-2"></i>{{ message('nav.logout') }}
                                 </button>
                             </form>
                         </li>
@@ -134,10 +134,7 @@
             {% endif %}
 
             <!-- IDIOMA -->
-            {% set idioma = request.getParameter('lang') %}
-                {% if idioma == null %}
-                    {% set idioma = 'es' %}
-                {% endif %}
+            {% set idioma = locale.language %}
                 <div class="dropdown dropdown-idioma">
                     <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button">
 

@@ -1,6 +1,7 @@
 package com.entradas_cine.ffe.cine.web.controllers;
 
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioResponseDto;
+import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
 import com.entradas_cine.ffe.cine.rest.usuarios.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
 
 /**
  * Muestra la página de perfil del usuario autenticado.
@@ -30,5 +36,37 @@ public class PerfilController {
         model.addAttribute("usuario", usuario);
         log.debug("Perfil solicitado por '{}'", username);
         return "usuario/perfil";
+    }
+
+    @PostMapping("/editar")
+    public String editarPerfil(
+            Authentication authentication,
+            @RequestParam String nombre,
+            @RequestParam String apellidos,
+            @RequestParam String email,
+            @RequestParam String fechaNacimiento,
+            @RequestParam(required = false) String password,
+            RedirectAttributes ra) {
+
+        String username = authentication.getName();
+        try {
+            // Fetch current user to preserve their rol — users cannot change their own role
+            UsuarioResponseDto current = usuarioService.findByUsername(username);
+            String pwd = (password != null && !password.isBlank()) ? password : null;
+            UsuarioUpdateDto dto = UsuarioUpdateDto.builder()
+                    .nombre(nombre)
+                    .apellidos(apellidos)
+                    .email(email)
+                    .fechaNacimiento(LocalDate.parse(fechaNacimiento))
+                    .rol(current.getRol())   // keep existing role
+                    .password(pwd)
+                    .build();
+            usuarioService.update(current.getId(), dto);
+            ra.addFlashAttribute("successMsg", "Perfil actualizado correctamente.");
+            log.info("Usuario '{}' actualizó su perfil", username);
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMsg", "No se pudo actualizar el perfil: " + e.getMessage());
+        }
+        return "redirect:/perfil";
     }
 }

@@ -126,14 +126,27 @@
                         </td>
                         <td class="small text-muted">{{ u.fechaRegistro }}</td>
                         <td>
-                            <form method="post" action="/admin/usuarios/{{ u.id }}/eliminar"
-                                  data-confirm-msg="{{ (message('admin.confirm.eliminar.usuario') ~ ' ' ~ u.username ~ '?')| escape }}"
-                                  onsubmit="return confirm(this.dataset.confirmMsg)">
-                                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
-                                <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="{{ message('admin.aria.eliminar.usuario') }}">
-                                    <i class="bi bi-trash"></i>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm"
+                                        aria-label="{{ message('admin.aria.editar.usuario') }}"
+                                        data-id="{{ u.id }}"
+                                        data-nombre="{{ u.nombre | escape }}"
+                                        data-apellidos="{{ u.apellidos | escape }}"
+                                        data-email="{{ u.email | escape }}"
+                                        data-fecha="{{ u.fechaNacimiento }}"
+                                        data-rol="{{ u.rol }}"
+                                        onclick="abrirEditUsuario(this)">
+                                    <i class="bi bi-pencil"></i>
                                 </button>
-                            </form>
+                                <form method="post" action="/admin/usuarios/{{ u.id }}/eliminar"
+                                      data-confirm-msg="{{ (message('admin.confirm.eliminar.usuario') ~ ' ' ~ u.username ~ '?')| escape }}"
+                                      onsubmit="return confirm(this.dataset.confirmMsg)">
+                                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="{{ message('admin.aria.eliminar.usuario') }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     {% else %}
@@ -299,6 +312,62 @@
 
 {# modales #}
 
+{# Modal: Editar usuario #}
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1"
+     aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="formEditarUsuario" action="">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarUsuarioLabel">
+                        <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.usuario') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editUsNombre" class="form-label fw-semibold">{{ message('admin.form.nombre') }}</label>
+                            <input type="text" id="editUsNombre" name="nombre" class="form-control" required maxlength="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editUsApellidos" class="form-label fw-semibold">{{ message('admin.form.apellidos') }}</label>
+                            <input type="text" id="editUsApellidos" name="apellidos" class="form-control" required maxlength="150">
+                        </div>
+                        <div class="col-12">
+                            <label for="editUsEmail" class="form-label fw-semibold">{{ message('admin.form.email') }}</label>
+                            <input type="email" id="editUsEmail" name="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editUsFecha" class="form-label fw-semibold">{{ message('admin.form.fecha.nacimiento') }}</label>
+                            <input type="date" id="editUsFecha" name="fechaNacimiento" class="form-control" required max="{{ today }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editUsRol" class="form-label fw-semibold">{{ message('admin.form.rol') }}</label>
+                            <select id="editUsRol" name="rol" class="form-select" required>
+                                {% for r in roles %}
+                                <option value="{{ r }}">{{ r }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="editUsPassword" class="form-label fw-semibold">{{ message('admin.form.password.optional') }}</label>
+                            <input type="password" id="editUsPassword" name="password" class="form-control" minlength="6" autocomplete="new-password">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.guardar') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {# Modal: Crear usuario (USER) #}
 <div class="modal fade" id="modalCrearUsuario" tabindex="-1"
      aria-labelledby="modalCrearUsuarioLabel" aria-hidden="true">
@@ -310,7 +379,7 @@
                     <h5 class="modal-title" id="modalCrearUsuarioLabel">
                         <i class="bi bi-person-plus me-2"></i>{{ message('admin.modal.nuevo.usuario') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     {{ camposUsuario(today) }}
@@ -337,7 +406,7 @@
                     <h5 class="modal-title" id="modalCrearAdminLabel">
                         <i class="bi bi-shield-plus me-2"></i>{{ message('admin.modal.nuevo.admin') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning py-2 small">
@@ -368,7 +437,7 @@
                     <h5 class="modal-title" id="modalCrearPeliculaLabel">
                         <i class="bi bi-film me-2"></i>{{ message('admin.modal.nueva.pelicula') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -435,7 +504,7 @@
                     <h5 class="modal-title" id="modalEditarPeliculaLabel">
                         <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.pelicula') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -499,7 +568,7 @@
                     <h5 class="modal-title" id="modalEditarSesionLabel">
                         <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.sesion') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -560,7 +629,7 @@
                     <h5 class="modal-title" id="modalCrearSesionLabel">
                         <i class="bi bi-calendar-plus me-2"></i>{{ message('admin.modal.nueva.sesion') }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ message('btn.cerrar') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -802,6 +871,22 @@
         new AdminTable('tabla-peliculas', 'pag-peliculas', 10);
         new AdminTable('tabla-sesiones',  'pag-sesiones',  10);
     });
+
+    /* Rellenar el modal de edición de usuario con los datos del botón pulsado */
+    function abrirEditUsuario(btn) {
+        const d = btn.dataset;
+        document.getElementById('formEditarUsuario').action = '/admin/usuarios/' + d.id + '/editar';
+        document.getElementById('editUsNombre').value    = d.nombre;
+        document.getElementById('editUsApellidos').value = d.apellidos;
+        document.getElementById('editUsEmail').value     = d.email;
+        document.getElementById('editUsFecha').value     = d.fecha;
+        document.getElementById('editUsPassword').value  = '';
+
+        const selRol = document.getElementById('editUsRol');
+        for (let opt of selRol.options) { opt.selected = (opt.value === d.rol); }
+
+        new bootstrap.Modal(document.getElementById('modalEditarUsuario')).show();
+    }
 
     /* Rellenar el modal de edición de película con los datos del botón pulsado */
     function abrirEditPelicula(btn) {

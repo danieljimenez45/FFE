@@ -1,6 +1,6 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Iniciar sesión — FFE Cinema{% endblock %}
+{% block titulo %}{{ message('login.page.title') }}{% endblock %}
 
 {% block contenido %}
 <div class="row justify-content-center">
@@ -10,7 +10,7 @@
             <div class="card-body p-4">
 
                 <h2 class="card-title text-center mb-4">
-                    <i class="bi bi-person-circle me-2"></i>Iniciar sesión
+                    <i class="bi bi-person-circle me-2"></i>{{ message('login.heading') }}
                 </h2>
 
                 {# mensajes de estado #}
@@ -44,13 +44,13 @@
 
                     <div class="mb-3">
                         <label for="username" class="form-label fw-semibold">
-                            <i class="bi bi-person me-1"></i>Usuario
+                            <i class="bi bi-person me-1"></i>{{ message('login.label.username') }}
                         </label>
                         <input type="text"
                                id="username"
                                name="username"
                                class="form-control"
-                               placeholder="Introduce tu usuario"
+                               placeholder="{{ message('login.placeholder.username') }}"
                                autocomplete="username"
                                required
                                autofocus>
@@ -58,20 +58,20 @@
 
                     <div class="mb-4">
                         <label for="password" class="form-label fw-semibold">
-                            <i class="bi bi-lock me-1"></i>Contraseña
+                            <i class="bi bi-lock me-1"></i>{{ message('login.label.password') }}
                         </label>
                         <input type="password"
                                id="password"
                                name="password"
                                class="form-control"
-                               placeholder="Introduce tu contraseña"
+                               placeholder="{{ message('login.placeholder.password') }}"
                                autocomplete="current-password"
                                required>
                     </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn boton-sesion py-2">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Entrar
+                            <i class="bi bi-box-arrow-in-right me-1"></i>{{ message('login.btn.submit') }}
                         </button>
                     </div>
 
@@ -79,8 +79,8 @@
 
                 <hr class="my-3">
                 <p class="text-center mb-0 small">
-                    ¿No tienes cuenta?
-                    <a href="/auth/register" class="fw-semibold">Regístrate</a>
+                    {{ message('login.no.account') }}
+                    <a href="/auth/register" class="fw-semibold">{{ message('login.link.register') }}</a>
                 </p>
 
             </div>

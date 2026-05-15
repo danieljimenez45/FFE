@@ -3,83 +3,83 @@ insert into PELICULAS
 values
 
 ('Toy Story', 'AVENTURAS',
- 'sinopsis.toystory',
+ 'Los juguetes cobran vida cuando los humanos no están.',
  81, 'John Lasseter', '1995-11-22', 'TP', true, 'toystory.jpg'),
 
 ('El Rey León', 'AVENTURAS',
- 'sinopsis.reyleon',
+ 'Un joven león debe asumir su destino como rey.',
  88, 'Roger Allers', '1994-06-15', 'TP', false, 'reyleon.jpg'),
 
 ('Regreso al Futuro', 'CIENCIA_FICCION',
- 'sinopsis.regresoalfuturo',
+ 'Un adolescente viaja accidentalmente al pasado.',
  116, 'Robert Zemeckis', '1985-07-03', 'TP', true, 'regresoalfuturo.jpg'),
 
 ('Forrest Gump', 'DRAMA',
- 'sinopsis.forrestgump',
+ 'La extraordinaria vida de un hombre sencillo.',
  142, 'Robert Zemeckis', '1994-07-06', 'MAYORES_7', true, 'forrestgump.jpg'),
 
 ('La La Land', 'ROMANCE',
- 'sinopsis.lalaland',
+ 'Una historia de amor entre música y cine.',
  128, 'Damien Chazelle', '2016-12-09', 'MAYORES_7', true, 'lalaland.jpg'),
 
 ('Inception', 'CIENCIA_FICCION',
- 'sinopsis.inception',
+ 'Un ladrón roba secretos a través de los sueños.',
  148, 'Christopher Nolan', '2010-07-16', 'MAYORES_12', true, 'inception.jpg'),
 
 ('Interstellar', 'CIENCIA_FICCION',
- 'sinopsis.interstellar',
+ 'Exploradores viajan a través de un agujero de gusano.',
  169, 'Christopher Nolan', '2014-11-07', 'MAYORES_12', false, 'interstellar.jpg'),
 
 ('El Señor de los Anillos: La Comunidad del Anillo', 'FANTASIA',
- 'sinopsis.lotr',
+ 'Un hobbit inicia un viaje para destruir un anillo.',
  178, 'Peter Jackson', '2001-12-19', 'MAYORES_12', true, 'lotr.jpg'),
 
 ('Jurassic Park', 'CIENCIA_FICCION',
- 'sinopsis.jurassicpark',
+ 'Dinosaurios clonados escapan de control.',
  127, 'Steven Spielberg', '1993-06-11', 'MAYORES_12', false, 'jurassicpark.jpg'),
 
 ('Gladiator', 'ACCION',
- 'sinopsis.gladiator',
+ 'Un general romano busca venganza.',
  155, 'Ridley Scott', '2000-05-05', 'MAYORES_16', true, 'gladiator.jpg'),
 
 ('Matrix', 'CIENCIA_FICCION',
- 'sinopsis.matrix',
+ 'Un hacker descubre la verdad sobre su realidad.',
  136, 'Lana Wachowski', '1999-03-31', 'MAYORES_16', false, 'matrix.jpg'),
 
 ('Alien', 'TERROR',
- 'sinopsis.alien',
+ 'Una criatura mortal acecha a una tripulación espacial.',
  117, 'Ridley Scott', '1979-05-25', 'MAYORES_16', true, 'alien.jpg'),
 
 ('El Sexto Sentido', 'SUSPENSE',
- 'sinopsis.sextosentido',
+ 'Un niño afirma ver personas muertas.',
  107, 'M. Night Shyamalan', '1999-08-06', 'MAYORES_16', true, 'sextosentido.jpg'),
 
 ('Pulp Fiction', 'DRAMA',
- 'sinopsis.pulpfiction',
+ 'Historias entrelazadas del crimen en Los Ángeles.',
  154, 'Quentin Tarantino', '1994-10-14', 'MAYORES_18', true, 'pulpfiction.jpg'),
 
 ('El Lobo de Wall Street', 'DRAMA',
- 'sinopsis.lobowallstreet',
+ 'El ascenso y caída de un corredor de bolsa.',
  180, 'Martin Scorsese', '2013-12-25', 'MAYORES_18', false, 'lobowallstreet.jpg'),
 
 ('Joker', 'DRAMA',
- 'sinopsis.joker',
+ 'El origen oscuro de un villano.',
  122, 'Todd Phillips', '2019-10-04', 'MAYORES_18', true, 'joker.jpg'),
 
 ('La Máscara', 'COMEDIA',
- 'sinopsis.lamascara',
+ 'Un hombre descubre una máscara con poderes.',
  101, 'Chuck Russell', '1994-07-29', 'MAYORES_7', true, 'lamascara.jpg'),
 
 ('Resacón en Las Vegas', 'COMEDIA',
- 'sinopsis.resacon',
+ 'Una despedida de soltero se sale de control.',
  100, 'Todd Phillips', '2009-06-05', 'MAYORES_16', true, 'resacon.jpg'),
 
 ('Ocho Apellidos Vascos', 'COMEDIA',
- 'sinopsis.ochoapellidosvascos',
+ 'Un andaluz viaja al País Vasco por amor.',
  98, 'Emilio Martínez-Lázaro', '2014-03-14', 'MAYORES_7', true, 'ochoapellidosvascos.jpg'),
 
 ('Seven', 'SUSPENSE',
- 'sinopsis.seven',
+ 'Un asesino en serie basado en los pecados capitales.',
  127, 'David Fincher', '1995-09-22', 'MAYORES_18', true, 'seven.jpg');
 
 ALTER TABLE PELICULAS ALTER COLUMN ID RESTART WITH 21;
