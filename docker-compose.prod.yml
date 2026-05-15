@@ -1,0 +1,60 @@
+# Producción con Docker: PostgreSQL + app (perfil prod)
+# Uso: docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+# Tras el primer arranque con datos creados, puedes poner JPA_DDL_AUTO=validate en .env
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ffe-db-prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ffe_pg_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - ffe-prod
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ffe-app-prod
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      PORT: ${PORT}
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      JPA_DDL_AUTO: ${JPA_DDL_AUTO}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE}
+      POSTER_DIR: /app/uploads/peliculas
+      APPLICATION_TITLE: ${APPLICATION_TITLE}
+      APPLICATION_VERSION: ${APPLICATION_VERSION}
+      API_VERSION: ${API_VERSION}
+    volumes:
+      - ffe_uploads_prod:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ffe-prod
+
+volumes:
+  ffe_pg_prod_data:
+  ffe_uploads_prod:
+
+networks:
+  ffe-prod:
+    driver: bridge

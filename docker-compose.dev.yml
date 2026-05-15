@@ -1,0 +1,52 @@
+# Desarrollo con Docker: PostgreSQL + app (perfil dev)
+# Uso: docker compose -f docker-compose.dev.yml --env-file .env up --build
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ffe-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ffe_pg_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ffe-app-dev
+    restart: unless-stopped
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      PORT: ${PORT}
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      H2_CONSOLE_ENABLED: "false"
+      POSTER_DIR: /app/uploads/peliculas
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      APPLICATION_TITLE: ${APPLICATION_TITLE}
+      APPLICATION_VERSION: ${APPLICATION_VERSION}
+      API_VERSION: ${API_VERSION}
+    volumes:
+      - ffe_uploads_dev:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  ffe_pg_dev_data:
+  ffe_uploads_dev:
