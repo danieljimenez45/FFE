@@ -1,64 +1,87 @@
-<footer class="container-fluid mt-0 bg-black text-center py-3">
+<footer class="container-fluid bg-black text-center py-2 footer-cine">
+
     <div class="row align-items-center">
 
+        <!-- AUTORES -->
         <div class="col-md-6">
-            <h2 class="autores mb-3">
-                {{ message('footer.autores') }}
-            </h2>
 
-            <ul class="list-group-flush p-0 mb-0">
-                <li class="list-group-item text-white fs-5 bg-black">
-                    Marius Puruguay Lopez
-                </li>
-                <li class="list-group-item text-white fs-5 bg-black">
-                    Patrick Bogdan Firczyk Ruiz
-                </li>
-                <li class="list-group-item text-white fs-5 bg-black">
-                    Daniel Jiménez Rodríguez
-                </li>
-                <li class="list-group-item text-white fs-6 bg-black">
-                    2 DAW
-                </li>
-            </ul>
+            <div class="row align-items-center">
+
+                <div class="col-12 col-md-5 text-center text-md-end">
+                    <h2 class="autores mb-2 mb-md-0">
+                        {{ message('footer.autores') }}
+                    </h2>
+                </div>
+
+                <div class="col-12 col-md-7 text-center text-md-start">
+                    <ul class="list-group-flush p-0 mb-0 footer-lista-autores">
+
+                        <li class="list-group-item text-white bg-black">
+                            Marius Puruguay Lopez
+                        </li>
+
+                        <li class="list-group-item text-white bg-black">
+                            Patrick Bogdan Firczyk Ruiz
+                        </li>
+
+                        <li class="list-group-item text-white bg-black">
+                            Daniel Jiménez Rodríguez
+                        </li>
+
+                        <li class="list-group-item text-white bg-black">
+                            2 DAW
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
         </div>
 
+        <!-- REDES -->
         <div class="col-md-6 mt-3 mt-md-0">
-            <div class="d-flex justify-content-center align-items-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <a href="https://github.com/danieljimenez45/FFE" target="_blank">
-                            <i class="bi bi-github iconos-enlaces"></i>
-                        </a>
-                    </li>
 
-                    <li class="list-inline-item ms-3">
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="bi bi-instagram iconos-enlaces"></i>
-                        </a>
-                    </li>
+            <ul class="list-inline mb-2">
 
-                    <li class="list-inline-item ms-3">
-                        <a href="https://x.com/?lang=es" target="_blank">
-                            <i class="bi bi-twitter-x iconos-enlaces"></i>
-                        </a>
-                    </li>
+                <li class="list-inline-item mx-2">
+                    <a href="https://github.com/danieljimenez45/FFE" target="_blank">
+                        <i class="bi bi-github iconos-enlaces"></i>
+                    </a>
+                </li>
 
-                    <li class="list-inline-item ms-3">
-                        <a href="https://www.tiktok.com/es-419/" target="_blank">
-                            <i class="bi bi-tiktok iconos-enlaces"></i>
-                        </a>
-                    </li>
+                <li class="list-inline-item mx-2">
+                    <a href="https://www.instagram.com/" target="_blank">
+                        <i class="bi bi-instagram iconos-enlaces"></i>
+                    </a>
+                </li>
 
-                    <li class="list-inline-item ms-3">
-                        <a href="https://www.google.com/maps/" target="_blank">
-                            <i class="bi bi-geo-alt-fill iconos-enlaces"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <li class="list-inline-item mx-2">
+                    <a href="https://x.com/?lang=es" target="_blank">
+                        <i class="bi bi-twitter-x iconos-enlaces"></i>
+                    </a>
+                </li>
+
+                <li class="list-inline-item mx-2">
+                    <a href="https://www.tiktok.com/es-419/" target="_blank">
+                        <i class="bi bi-tiktok iconos-enlaces"></i>
+                    </a>
+                </li>
+
+                <li class="list-inline-item mx-2">
+                    <a href="https://www.google.com/maps/place/Centro+Comercial+Las+Rosas/@40.4178986,-3.6226657,3a,75y,102.44h,99.78t/data=!3m7!1e1!3m5!1sDtJdlMg0S1Jd61kp35XBjw!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-9.780848831800526%26panoid%3DDtJdlMg0S1Jd61kp35XBjw%26yaw%3D102.4422123472505!7i16384!8i8192!4m6!3m5!1s0xd422f7f71c8fe67:0x6543e4447e93c468!8m2!3d40.418737!4d-3.62096!16s%2Fg%2F11bxdrtk_n?entry=ttu&g_ep=EgoyMDI2MDUxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                        <i class="bi bi-geo-alt-fill iconos-enlaces"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+            <p class="autores footer-copy mb-0">
+                &copy; 2026 {{ message('footer.banner') }}
+            </p>
+
         </div>
 
     </div>
 
-    <p class="autores fs-5 mt-3 mb-0">&copy; 2026 {{ message('footer.banner') }}</p>
 </footer>

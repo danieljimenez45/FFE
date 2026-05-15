@@ -2,83 +2,83 @@ insert into PELICULAS
 (id, titulo, genero, sinopsis, duracion, director, estreno, clasificacion_edad, activa, imagen)
 values
 
-(1, 'Toy Story', 'AVENTURAS',
+(1, 'pelicula.titulo.toy_story', 'AVENTURAS',
  'sinopsis.toystory',
  81, 'John Lasseter', '1995-11-22', 'TP',true, 'toystory.jpg'),
 
-(2, 'El Rey León', 'AVENTURAS',
+(2, 'pelicula.titulo.el_rey_leon', 'AVENTURAS',
  'sinopsis.reyleon',
  88, 'Roger Allers', '1994-06-15', 'TP', false, 'reyleon.jpg'),
 
-(3, 'Regreso al Futuro', 'CIENCIA_FICCION',
+(3, 'pelicula.titulo.regreso_al_futuro', 'CIENCIA_FICCION',
  'sinopsis.regresoalfuturo',
  116, 'Robert Zemeckis', '1985-07-03', 'TP', true, 'regresoalfuturo.jpg'),
 
-(4, 'Forrest Gump', 'DRAMA',
+(4, 'pelicula.titulo.forrest_gump', 'DRAMA',
  'sinopsis.forrestgump',
  142, 'Robert Zemeckis', '1994-07-06', 'MAYORES_7' ,true, 'forrestgump.jpg'),
 
-(5, 'La La Land', 'ROMANCE',
+(5, 'pelicula.titulo.la_la_land', 'ROMANCE',
  'sinopsis.lalaland',
  128, 'Damien Chazelle', '2016-12-09', 'MAYORES_7', true, 'lalaland.jpg'),
 
-(6, 'Inception', 'CIENCIA_FICCION',
+(6, 'pelicula.titulo.inception', 'CIENCIA_FICCION',
  'sinopsis.inception',
  148, 'Christopher Nolan', '2010-07-16', 'MAYORES_12', true, 'inception.jpg'),
 
-(7, 'Interstellar', 'CIENCIA_FICCION',
+(7, 'pelicula.titulo.interstellar', 'CIENCIA_FICCION',
  'sinopsis.interstellar',
  169, 'Christopher Nolan', '2014-11-07', 'MAYORES_12',false, 'interstellar.jpg'),
 
-(8, 'El Señor de los Anillos: La Comunidad del Anillo', 'FANTASIA',
+(8, 'pelicula.titulo.senor_anillos', 'FANTASIA',
  'sinopsis.lotr',
  178, 'Peter Jackson', '2001-12-19', 'MAYORES_12', true, 'lotr.jpg'),
 
-(9, 'Jurassic Park', 'CIENCIA_FICCION',
+(9, 'pelicula.titulo.jurassic_park', 'CIENCIA_FICCION',
  'sinopsis.jurassicpark',
  127, 'Steven Spielberg', '1993-06-11', 'MAYORES_12',false, 'jurassicpark.jpg'),
 
-(10, 'Gladiator', 'ACCION',
+(10, 'pelicula.titulo.gladiator', 'ACCION',
  'sinopsis.gladiator',
  155, 'Ridley Scott', '2000-05-05', 'MAYORES_16', true, 'gladiator.jpg'),
 
-(11, 'Matrix', 'CIENCIA_FICCION',
+(11, 'pelicula.titulo.matrix', 'CIENCIA_FICCION',
  'sinopsis.matrix',
  136, 'Lana Wachowski', '1999-03-31', 'MAYORES_16', false, 'matrix.jpg'),
 
-(12, 'Alien', 'TERROR',
+(12, 'pelicula.titulo.alien', 'TERROR',
  'sinopsis.alien',
  117, 'Ridley Scott', '1979-05-25', 'MAYORES_16', true, 'alien.jpg'),
 
-(13, 'El Sexto Sentido', 'SUSPENSE',
+(13, 'pelicula.titulo.sexto_sentido', 'SUSPENSE',
  'sinopsis.sextosentido',
  107, 'M. Night Shyamalan', '1999-08-06', 'MAYORES_16', true, 'sextosentido.jpg'),
 
-(14, 'Pulp Fiction', 'DRAMA',
+(14, 'pelicula.titulo.pulp_fiction', 'DRAMA',
  'sinopsis.pulpfiction',
  154, 'Quentin Tarantino', '1994-10-14', 'MAYORES_18', true, 'pulpfiction.jpg'),
 
-(15, 'El Lobo de Wall Street', 'DRAMA',
+(15, 'pelicula.titulo.lobo_wall', 'DRAMA',
  'sinopsis.lobowallstreet',
  180, 'Martin Scorsese', '2013-12-25', 'MAYORES_18', false, 'lobowallstreet.jpg'),
 
-(16, 'Joker', 'DRAMA',
+(16, 'pelicula.titulo.joker', 'DRAMA',
  'sinopsis.joker',
  122, 'Todd Phillips', '2019-10-04', 'MAYORES_18', true, 'joker.jpg'),
 
-(17, 'La Máscara', 'COMEDIA',
+(17, 'pelicula.titulo.mascara', 'COMEDIA',
  'sinopsis.lamascara',
  101, 'Chuck Russell', '1994-07-29', 'MAYORES_7', true, 'lamascara.jpg'),
 
-(18, 'Resacón en Las Vegas', 'COMEDIA',
+(18, 'pelicula.titulo.resacon', 'COMEDIA',
  'sinopsis.resacon',
  100, 'Todd Phillips', '2009-06-05', 'MAYORES_16', true, 'resacon.jpg'),
 
-(19, 'Ocho Apellidos Vascos', 'COMEDIA',
+(19, 'pelicula.titulo.ocho_apellidos', 'COMEDIA',
  'sinopsis.ochoapellidosvascos',
  98, 'Emilio Martínez-Lázaro', '2014-03-14', 'MAYORES_7',true, 'ochoapellidosvascos.jpg'),
 
-(20, 'Seven', 'SUSPENSE',
+(20, 'pelicula.titulo.seven', 'SUSPENSE',
  'sinopsis.seven',
  127, 'David Fincher', '1995-09-22', 'MAYORES_18', true, 'seven.jpg');
 
