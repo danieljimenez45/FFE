@@ -1,5 +1,6 @@
 package com.entradas_cine.ffe.cine.rest.sesiones.services;
 
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ public interface SesionService {
     List<SesionResponseDto> findProximasSesiones();
 
     Page<SesionResponseDto> findByPelicula(Long peliculaId, Pageable pageable);
+
+    SesionResponseDto create(SesionCreateDto dto);
 
     SesionResponseDto update(Long id, SesionUpdateDto dto);
 

@@ -1,190 +1,192 @@
 insert into PELICULAS
-(id, titulo, genero, sinopsis, duracion, director, estreno, clasificacion_edad, activa, imagen)
+(titulo, genero, sinopsis, duracion, director, estreno, clasificacion_edad, activa, imagen)
 values
 
-(1, 'Toy Story', 'AVENTURAS',
+('Toy Story', 'AVENTURAS',
  'sinopsis.toystory',
- 81, 'John Lasseter', '1995-11-22', 'TP',true, 'toystory.jpg'),
+ 81, 'John Lasseter', '1995-11-22', 'TP', true, 'toystory.jpg'),
 
-(2, 'El Rey León', 'AVENTURAS',
+('El Rey León', 'AVENTURAS',
  'sinopsis.reyleon',
  88, 'Roger Allers', '1994-06-15', 'TP', false, 'reyleon.jpg'),
 
-(3, 'Regreso al Futuro', 'CIENCIA_FICCION',
+('Regreso al Futuro', 'CIENCIA_FICCION',
  'sinopsis.regresoalfuturo',
  116, 'Robert Zemeckis', '1985-07-03', 'TP', true, 'regresoalfuturo.jpg'),
 
-(4, 'Forrest Gump', 'DRAMA',
+('Forrest Gump', 'DRAMA',
  'sinopsis.forrestgump',
- 142, 'Robert Zemeckis', '1994-07-06', 'MAYORES_7' ,true, 'forrestgump.jpg'),
+ 142, 'Robert Zemeckis', '1994-07-06', 'MAYORES_7', true, 'forrestgump.jpg'),
 
-(5, 'La La Land', 'ROMANCE',
+('La La Land', 'ROMANCE',
  'sinopsis.lalaland',
  128, 'Damien Chazelle', '2016-12-09', 'MAYORES_7', true, 'lalaland.jpg'),
 
-(6, 'Inception', 'CIENCIA_FICCION',
+('Inception', 'CIENCIA_FICCION',
  'sinopsis.inception',
  148, 'Christopher Nolan', '2010-07-16', 'MAYORES_12', true, 'inception.jpg'),
 
-(7, 'Interstellar', 'CIENCIA_FICCION',
+('Interstellar', 'CIENCIA_FICCION',
  'sinopsis.interstellar',
- 169, 'Christopher Nolan', '2014-11-07', 'MAYORES_12',false, 'interstellar.jpg'),
+ 169, 'Christopher Nolan', '2014-11-07', 'MAYORES_12', false, 'interstellar.jpg'),
 
-(8, 'El Señor de los Anillos: La Comunidad del Anillo', 'FANTASIA',
+('El Señor de los Anillos: La Comunidad del Anillo', 'FANTASIA',
  'sinopsis.lotr',
  178, 'Peter Jackson', '2001-12-19', 'MAYORES_12', true, 'lotr.jpg'),
 
-(9, 'Jurassic Park', 'CIENCIA_FICCION',
+('Jurassic Park', 'CIENCIA_FICCION',
  'sinopsis.jurassicpark',
- 127, 'Steven Spielberg', '1993-06-11', 'MAYORES_12',false, 'jurassicpark.jpg'),
+ 127, 'Steven Spielberg', '1993-06-11', 'MAYORES_12', false, 'jurassicpark.jpg'),
 
-(10, 'Gladiator', 'ACCION',
+('Gladiator', 'ACCION',
  'sinopsis.gladiator',
  155, 'Ridley Scott', '2000-05-05', 'MAYORES_16', true, 'gladiator.jpg'),
 
-(11, 'Matrix', 'CIENCIA_FICCION',
+('Matrix', 'CIENCIA_FICCION',
  'sinopsis.matrix',
  136, 'Lana Wachowski', '1999-03-31', 'MAYORES_16', false, 'matrix.jpg'),
 
-(12, 'Alien', 'TERROR',
+('Alien', 'TERROR',
  'sinopsis.alien',
  117, 'Ridley Scott', '1979-05-25', 'MAYORES_16', true, 'alien.jpg'),
 
-(13, 'El Sexto Sentido', 'SUSPENSE',
+('El Sexto Sentido', 'SUSPENSE',
  'sinopsis.sextosentido',
  107, 'M. Night Shyamalan', '1999-08-06', 'MAYORES_16', true, 'sextosentido.jpg'),
 
-(14, 'Pulp Fiction', 'DRAMA',
+('Pulp Fiction', 'DRAMA',
  'sinopsis.pulpfiction',
  154, 'Quentin Tarantino', '1994-10-14', 'MAYORES_18', true, 'pulpfiction.jpg'),
 
-(15, 'El Lobo de Wall Street', 'DRAMA',
+('El Lobo de Wall Street', 'DRAMA',
  'sinopsis.lobowallstreet',
  180, 'Martin Scorsese', '2013-12-25', 'MAYORES_18', false, 'lobowallstreet.jpg'),
 
-(16, 'Joker', 'DRAMA',
+('Joker', 'DRAMA',
  'sinopsis.joker',
  122, 'Todd Phillips', '2019-10-04', 'MAYORES_18', true, 'joker.jpg'),
 
-(17, 'La Máscara', 'COMEDIA',
+('La Máscara', 'COMEDIA',
  'sinopsis.lamascara',
  101, 'Chuck Russell', '1994-07-29', 'MAYORES_7', true, 'lamascara.jpg'),
 
-(18, 'Resacón en Las Vegas', 'COMEDIA',
+('Resacón en Las Vegas', 'COMEDIA',
  'sinopsis.resacon',
  100, 'Todd Phillips', '2009-06-05', 'MAYORES_16', true, 'resacon.jpg'),
 
-(19, 'Ocho Apellidos Vascos', 'COMEDIA',
+('Ocho Apellidos Vascos', 'COMEDIA',
  'sinopsis.ochoapellidosvascos',
- 98, 'Emilio Martínez-Lázaro', '2014-03-14', 'MAYORES_7',true, 'ochoapellidosvascos.jpg'),
+ 98, 'Emilio Martínez-Lázaro', '2014-03-14', 'MAYORES_7', true, 'ochoapellidosvascos.jpg'),
 
-(20, 'Seven', 'SUSPENSE',
+('Seven', 'SUSPENSE',
  'sinopsis.seven',
  127, 'David Fincher', '1995-09-22', 'MAYORES_18', true, 'seven.jpg');
 
 
+-- Sesiones: IDs generados automáticamente por el motor (1-70 en orden de inserción)
+-- Las referencias id_pelicula coinciden con el orden de inserción de PELICULAS (1-20)
+
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (1, 1, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (2, 1, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (3, 1, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (4, 1, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (1, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (1, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (1, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (1, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 INSERT INTO SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (5, 2, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (6, 2, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (7, 2, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (8, 2, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
-
+    (2, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (2, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (2, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (2, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 INSERT INTO SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (9, 3, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (10, 3, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (11, 3, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (12, 3, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (3, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (3, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (3, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (3, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (13, 4, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (14, 4, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (15, 4, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (16, 4, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (4, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (4, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (4, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (4, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (17, 5, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (18, 5, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (19, 5, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (20, 5, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (5, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (5, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (5, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (5, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (21, 6, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (22, 6, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (23, 6, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (24, 6, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (6, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (6, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (6, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (6, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (25, 7, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (26, 7, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (27, 7, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (28, 7, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (7, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (7, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (7, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (7, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (29, 8, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (30, 8, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (31, 8, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (32, 8, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (8, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (8, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (8, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (8, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (33, 9, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (34, 9, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (35, 9, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (36, 9, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (9, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (9, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (9, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (9, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (37, 10, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (38, 10, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (39, 10, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (40, 10, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (10, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (10, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (10, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (10, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (41, 11, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (42, 11, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (43, 11, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (44, 11, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (11, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (11, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (11, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (11, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (45, 12, '2025-01-01', 'H16_00', 'SALA_5', 'NORMAL', 7.50),
-    (46, 12, '2025-01-01', 'H18_30', 'SALA_6', 'VOSE', 8.50),
-    (47, 13, '2025-01-01', 'H21_00', 'SALA_5', 'IMAX', 10.00),
-    (48, 13, '2025-01-01', 'H23_30', 'SALA_6', 'TRES_D', 11.50),
-    (49, 14, '2025-01-02', 'H16_00', 'SALA_5', 'NORMAL', 8.00),
-    (50, 14, '2025-01-02', 'H18_30', 'SALA_6', 'IMAX', 10.50),
-    (51, 15, '2025-01-02', 'H21_00', 'SALA_5', 'VOSE', 9.00),
-    (52, 15, '2025-01-02', 'H23_30', 'SALA_6', 'TRES_D', 11.00),
-    (53, 16, '2025-01-03', 'H18_30', 'SALA_5', 'NORMAL', 8.25),
-    (54, 16, '2025-01-03', 'H21_00', 'SALA_6', 'IMAX', 10.75);
+    (12, '2025-01-01', 'H16_00', 'SALA_5', 'NORMAL', 7.50),
+    (12, '2025-01-01', 'H18_30', 'SALA_6', 'VOSE', 8.50),
+    (13, '2025-01-01', 'H21_00', 'SALA_5', 'IMAX', 10.00),
+    (13, '2025-01-01', 'H23_30', 'SALA_6', 'TRES_D', 11.50),
+    (14, '2025-01-02', 'H16_00', 'SALA_5', 'NORMAL', 8.00),
+    (14, '2025-01-02', 'H18_30', 'SALA_6', 'IMAX', 10.50),
+    (15, '2025-01-02', 'H21_00', 'SALA_5', 'VOSE', 9.00),
+    (15, '2025-01-02', 'H23_30', 'SALA_6', 'TRES_D', 11.00),
+    (16, '2025-01-03', 'H18_30', 'SALA_5', 'NORMAL', 8.25),
+    (16, '2025-01-03', 'H21_00', 'SALA_6', 'IMAX', 10.75);
 
 insert into USUARIOS
 (username, nombre, apellidos, email, password, fecha_nacimiento, fecha_registro, rol)
@@ -224,36 +226,35 @@ values
     (48, 3, 7, 11.50, '2026-01-20 13:15:00'),
     (54, 2, 6, 10.75, '2026-01-20 13:20:00');
 
--- Sesiones adicionales (películas 17–20) tomadas del branch marius-frontend; ids nuevos para no romper ENTRADAS existentes
+-- Sesiones adicionales para películas 17-20
+insert into SESIONES
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+VALUES
+    (17, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (17, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (17, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (17, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (55, 17, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (56, 17, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (57, 17, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (58, 17, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (18, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (18, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (18, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (18, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (59, 18, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (60, 18, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (61, 18, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (62, 18, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (19, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (19, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (19, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (19, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
 
 insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
+(id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
 VALUES
-    (63, 19, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (64, 19, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (65, 19, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (66, 19, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
-
-insert into SESIONES
-(id, id_pelicula, fecha, horario, sala, tipo_proyeccion, precio)
-VALUES
-    (67, 20, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
-    (68, 20, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
-    (69, 20, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
-    (70, 20, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);
+    (20, '2024-12-31', 'H16_00', 'SALA_1', 'NORMAL', 8.00),
+    (20, '2024-12-31', 'H18_30', 'SALA_2', 'IMAX', 10.50),
+    (20, '2024-12-31', 'H21_00', 'SALA_3', 'VOSE', 9.00),
+    (20, '2024-12-31', 'H23_30', 'SALA_4', 'TRES_D', 11.00);

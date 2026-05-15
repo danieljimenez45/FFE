@@ -5,6 +5,7 @@ import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaUpdateEstadoDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.ClasificacionEdad;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
@@ -194,6 +195,36 @@ public class AdminController {
     }
 
     // -- Sesiones --------------------------------------------------
+
+    @PostMapping("/sesiones/crear")
+    public String crearSesion(
+            @RequestParam Long idPelicula,
+            @RequestParam String fecha,
+            @RequestParam String horario,
+            @RequestParam String sala,
+            @RequestParam String tipoProyeccion,
+            @RequestParam java.math.BigDecimal precio,
+            RedirectAttributes ra) {
+
+        try {
+            SesionCreateDto dto = SesionCreateDto.builder()
+                    .idPelicula(idPelicula)
+                    .fecha(LocalDate.parse(fecha))
+                    .horario(Horario.valueOf(horario))
+                    .sala(Sala.valueOf(sala))
+                    .tipoProyeccion(TipoProyeccion.valueOf(tipoProyeccion))
+                    .precio(precio)
+                    .build();
+            sesionService.create(dto);
+            ra.addFlashAttribute("successMsg", "Sesión creada correctamente.");
+            log.info("Admin creó sesión para película id={}", idPelicula);
+        } catch (DateTimeParseException e) {
+            ra.addFlashAttribute("errorMsg", "Fecha no válida.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMsg", "No se pudo crear la sesión: " + e.getMessage());
+        }
+        return "redirect:/admin#tab-sesiones";
+    }
 
     @PostMapping("/sesiones/{id}/editar")
     public String editarSesion(

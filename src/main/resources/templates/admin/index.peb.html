@@ -1,6 +1,6 @@
 {% extends "fragments/layout" %}
 
-{% block titulo %}Panel de administración — FFE Cinema{% endblock %}
+{% block titulo %}{{ message('admin.title') }}{% endblock %}
 
 {% block contenido %}
 
@@ -22,8 +22,8 @@
 <div class="d-flex align-items-center gap-3 mb-4">
     <i class="bi bi-shield-lock-fill fs-2 text-warning"></i>
     <div>
-        <h2 class="mb-0 fw-bold">Panel de administración</h2>
-        <p class="text-muted small mb-0">Gestión completa de usuarios, películas y sesiones</p>
+        <h2 class="mb-0 fw-bold text-white">{{ message('admin.heading') }}</h2>
+        <p class="small mb-0 text-white">{{ message('admin.subtitle') }}</p>
     </div>
 </div>
 
@@ -33,7 +33,7 @@
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-primary">{{ usuarios | length }}</div>
-                <div class="small text-muted"><i class="bi bi-people me-1"></i>Usuarios</div>
+                <div class="small text-muted"><i class="bi bi-people me-1"></i>{{ message('admin.card.usuarios') }}</div>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-success">{{ peliculas | length }}</div>
-                <div class="small text-muted"><i class="bi bi-film me-1"></i>Películas</div>
+                <div class="small text-muted"><i class="bi bi-film me-1"></i>{{ message('admin.card.peliculas') }}</div>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-info">{{ sesiones | length }}</div>
-                <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>Sesiones</div>
+                <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>{{ message('admin.card.sesiones') }}</div>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
         <button class="nav-link active" id="tab-usuarios-btn"
                 data-bs-toggle="tab" data-bs-target="#tab-usuarios"
                 type="button" role="tab" aria-controls="tab-usuarios" aria-selected="true">
-            <i class="bi bi-people me-1"></i>Usuarios
+            <i class="bi bi-people me-1"></i>{{ message('admin.tab.usuarios') }}
             <span class="badge bg-secondary ms-1">{{ usuarios | length }}</span>
         </button>
     </li>
@@ -69,7 +69,7 @@
         <button class="nav-link" id="tab-peliculas-btn"
                 data-bs-toggle="tab" data-bs-target="#tab-peliculas"
                 type="button" role="tab" aria-controls="tab-peliculas" aria-selected="false">
-            <i class="bi bi-film me-1"></i>Películas
+            <i class="bi bi-film me-1"></i>{{ message('admin.tab.peliculas') }}
             <span class="badge bg-secondary ms-1">{{ peliculas | length }}</span>
         </button>
     </li>
@@ -77,7 +77,7 @@
         <button class="nav-link" id="tab-sesiones-btn"
                 data-bs-toggle="tab" data-bs-target="#tab-sesiones"
                 type="button" role="tab" aria-controls="tab-sesiones" aria-selected="false">
-            <i class="bi bi-calendar-event me-1"></i>Sesiones
+            <i class="bi bi-calendar-event me-1"></i>{{ message('admin.tab.sesiones') }}
             <span class="badge bg-secondary ms-1">{{ sesiones | length }}</span>
         </button>
     </li>
@@ -90,24 +90,24 @@
 
         <div class="d-flex justify-content-end gap-2 mb-3">
             <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
-                <i class="bi bi-person-plus me-1"></i>Nuevo usuario
+                <i class="bi bi-person-plus me-1"></i>{{ message('admin.btn.nuevo.usuario') }}
             </button>
             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearAdmin">
-                <i class="bi bi-shield-plus me-1"></i>Nuevo admin
+                <i class="bi bi-shield-plus me-1"></i>{{ message('admin.btn.nuevo.admin') }}
             </button>
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover table-sm align-middle">
+            <table id="tabla-usuarios" class="table table-hover table-sm align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Rol</th>
-                        <th scope="col">Registro</th>
-                        <th scope="col" aria-label="Acciones"></th>
+                        <th scope="col" data-sortable data-col="0" data-type="num">{{ message('admin.col.id') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="1" data-type="str">{{ message('admin.col.username') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="2" data-type="str">{{ message('admin.col.nombre') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="3" data-type="str">{{ message('admin.col.email') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="4" data-type="str">{{ message('admin.col.rol') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="5" data-type="str">{{ message('admin.col.registro') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" aria-label="{{ message('admin.col.acciones') }}"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,20 +127,22 @@
                         <td class="small text-muted">{{ u.fechaRegistro }}</td>
                         <td>
                             <form method="post" action="/admin/usuarios/{{ u.id }}/eliminar"
-                                  onsubmit="return confirm('¿Eliminar al usuario {{ u.username }}?')">
+                                  data-confirm-msg="{{ (message('admin.confirm.eliminar.usuario') ~ ' ' ~ u.username ~ '?')| escape }}"
+                                  onsubmit="return confirm(this.dataset.confirmMsg)">
                                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
-                                <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar usuario">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="{{ message('admin.aria.eliminar.usuario') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="7" class="text-center text-muted">No hay usuarios registrados.</td></tr>
+                    <tr><td colspan="7" class="text-center text-muted">{{ message('admin.empty.usuarios') }}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        <div id="pag-usuarios" class="admin-pagination d-flex justify-content-center mt-3"></div>
     </div>
 
     {# tab películas #}
@@ -148,23 +150,23 @@
 
         <div class="d-flex justify-content-end mb-3">
             <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearPelicula">
-                <i class="bi bi-plus-circle me-1"></i>Nueva película
+                <i class="bi bi-plus-circle me-1"></i>{{ message('admin.btn.nueva.pelicula') }}
             </button>
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover table-sm align-middle">
+            <table id="tabla-peliculas" class="table table-hover table-sm align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Director</th>
-                        <th scope="col">Género</th>
-                        <th scope="col">Duración</th>
-                        <th scope="col">Estreno</th>
-                        <th scope="col">Clasificación</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col" aria-label="Acciones"></th>
+                        <th scope="col" data-sortable data-col="0" data-type="num">{{ message('admin.col.id') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="1" data-type="str">{{ message('admin.col.titulo') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="2" data-type="str">{{ message('admin.col.director') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="3" data-type="str">{{ message('admin.col.genero') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="4" data-type="num">{{ message('admin.col.duracion') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="5" data-type="str">{{ message('admin.col.estreno') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="6" data-type="str">{{ message('admin.col.clasificacion') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="7" data-type="str">{{ message('admin.col.estado') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" aria-label="{{ message('admin.col.acciones') }}"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,21 +175,21 @@
                         <td class="text-muted small">{{ p.id }}</td>
                         <td class="fw-semibold">{{ p.titulo }}</td>
                         <td class="small">{{ p.director }}</td>
-                        <td><span class="badge bg-primary">{{ p.genero.displayName }}</span></td>
-                        <td class="small">{{ p.duracion }} min</td>
+                        <td><span class="badge bg-primary">{{ message('genero.' ~ p.genero) }}</span></td>
+                        <td class="small" data-sort="{{ p.duracion }}">{{ p.duracion }} min</td>
                         <td class="small text-muted">{{ p.estreno }}</td>
-                        <td><span class="badge bg-secondary small">{{ p.clasificacionEdad.displayName }}</span></td>
+                        <td><span class="badge bg-secondary small">{{ message('clasificacion.' ~ p.clasificacionEdad) }}</span></td>
                         <td>
                             {% if p.activa %}
-                                <span class="badge bg-success">Activa</span>
+                                <span class="badge bg-success">{{ message('admin.estado.activa') }}</span>
                             {% else %}
-                                <span class="badge bg-secondary">Inactiva</span>
+                                <span class="badge bg-secondary">{{ message('admin.estado.inactiva') }}</span>
                             {% endif %}
                         </td>
                         <td>
                             <div class="d-flex gap-1">
                                 <button class="btn btn-outline-primary btn-sm"
-                                        aria-label="Editar película"
+                                        aria-label="{{ message('admin.aria.editar.pelicula') }}"
                                         data-id="{{ p.id }}"
                                         data-titulo="{{ p.titulo | escape }}"
                                         data-director="{{ p.director | escape }}"
@@ -203,14 +205,15 @@
                                     <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                                     <button type="submit"
                                             class="btn btn-sm {% if p.activa %}btn-outline-secondary{% else %}btn-outline-success{% endif %}"
-                                            aria-label="{% if p.activa %}Desactivar{% else %}Activar{% endif %}">
+                                            aria-label="{% if p.activa %}{{ message('admin.aria.desactivar') }}{% else %}{{ message('admin.aria.activar') }}{% endif %}">
                                         <i class="bi {% if p.activa %}bi-eye-slash{% else %}bi-eye{% endif %}"></i>
                                     </button>
                                 </form>
                                 <form method="post" action="/admin/peliculas/{{ p.id }}/eliminar"
-                                      onsubmit="return confirm('¿Eliminar la película {{ p.titulo }}?')">
+                                      data-confirm-msg="{{ (message('admin.confirm.eliminar.pelicula') ~ ' ' ~ p.titulo ~ '?')| escape }}"
+                                      onsubmit="return confirm(this.dataset.confirmMsg)">
                                     <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar película">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="{{ message('admin.aria.eliminar.pelicula') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -218,44 +221,51 @@
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="9" class="text-center text-muted">No hay películas registradas.</td></tr>
+                    <tr><td colspan="9" class="text-center text-muted">{{ message('admin.empty.peliculas') }}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        <div id="pag-peliculas" class="admin-pagination d-flex justify-content-center mt-3"></div>
     </div>
 
     {# tab sesiones #}
     <div class="tab-pane fade" id="tab-sesiones" role="tabpanel" aria-labelledby="tab-sesiones-btn">
 
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrearSesion">
+                <i class="bi bi-plus-circle me-1"></i>{{ message('admin.btn.nueva.sesion') }}
+            </button>
+        </div>
+
         <div class="table-responsive">
-            <table class="table table-hover table-sm align-middle">
+            <table id="tabla-sesiones" class="table table-hover table-sm align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Película</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Horario</th>
-                        <th scope="col">Sala</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col" aria-label="Acciones"></th>
+                        <th scope="col" data-sortable data-col="0" data-type="num">{{ message('admin.col.id') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="1" data-type="str">{{ message('admin.col.pelicula') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="2" data-type="str">{{ message('admin.col.fecha') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="3" data-type="str">{{ message('admin.col.horario') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="4" data-type="str">{{ message('admin.col.sala') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="5" data-type="str">{{ message('admin.col.tipo') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="6" data-type="num">{{ message('admin.col.precio') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" aria-label="{{ message('admin.col.acciones') }}"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for s in sesiones %}
                     <tr>
                         <td class="text-muted small">{{ s.id }}</td>
-                        <td class="fw-semibold">{{ s.pelicula.titulo }}</td>
+                        <td class="fw-semibold">{{ s.pelicula }}</td>
                         <td class="small">{{ s.fecha }}</td>
-                        <td><span class="badge bg-info text-dark">{{ s.horario.displayName }}</span></td>
-                        <td class="small">{{ s.sala.displayName }}</td>
-                        <td><span class="badge bg-primary">{{ s.tipoProyeccion.displayName }}</span></td>
-                        <td class="small fw-semibold">{{ s.precio }} €</td>
+                        <td><span class="badge bg-info text-dark">{{ message('horario.' ~ s.horario) }}</span></td>
+                        <td class="small">{{ message('sala.' ~ s.sala) }}</td>
+                        <td><span class="badge bg-primary">{{ message('proyeccion.' ~ s.tipoProyeccion) }}</span></td>
+                        <td class="small fw-semibold" data-sort="{{ s.precio }}">{{ s.precio }} €</td>
                         <td>
                             <div class="d-flex gap-1">
                                 <button class="btn btn-outline-primary btn-sm"
-                                        aria-label="Editar sesión"
+                                        aria-label="{{ message('admin.aria.editar.sesion') }}"
                                         data-id="{{ s.id }}"
                                         data-fecha="{{ s.fecha }}"
                                         data-horario="{{ s.horario }}"
@@ -266,9 +276,10 @@
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <form method="post" action="/admin/sesiones/{{ s.id }}/eliminar"
-                                      onsubmit="return confirm('¿Eliminar la sesión #{{ s.id }}?')">
+                                      data-confirm-msg="{{ (message('admin.confirm.eliminar.sesion') ~ ' ' ~ s.id ~ '?')| escape }}"
+                                      onsubmit="return confirm(this.dataset.confirmMsg)">
                                     <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="Eliminar sesión">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" aria-label="{{ message('admin.aria.eliminar.sesion') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -276,11 +287,12 @@
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="8" class="text-center text-muted">No hay sesiones programadas.</td></tr>
+                    <tr><td colspan="8" class="text-center text-muted">{{ message('admin.empty.sesiones') }}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        <div id="pag-sesiones" class="admin-pagination d-flex justify-content-center mt-3"></div>
     </div>
 
 </div>
@@ -296,7 +308,7 @@
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCrearUsuarioLabel">
-                        <i class="bi bi-person-plus me-2"></i>Nuevo usuario
+                        <i class="bi bi-person-plus me-2"></i>{{ message('admin.modal.nuevo.usuario') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
@@ -304,9 +316,9 @@
                     {{ camposUsuario(today) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Crear usuario
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.crear.usuario') }}
                     </button>
                 </div>
             </form>
@@ -323,21 +335,21 @@
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header modal-header-admin">
                     <h5 class="modal-title" id="modalCrearAdminLabel">
-                        <i class="bi bi-shield-plus me-2"></i>Nuevo administrador
+                        <i class="bi bi-shield-plus me-2"></i>{{ message('admin.modal.nuevo.admin') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning py-2 small">
                         <i class="bi bi-exclamation-triangle me-1"></i>
-                        Este usuario tendrá acceso completo al panel de administración.
+                        {{ message('admin.modal.admin.warning') }}
                     </div>
                     {{ camposUsuario(today) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
                     <button type="submit" class="btn btn-warning">
-                        <i class="bi bi-check-lg me-1"></i>Crear administrador
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.crear.admin') }}
                     </button>
                 </div>
             </form>
@@ -354,57 +366,57 @@
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCrearPeliculaLabel">
-                        <i class="bi bi-film me-2"></i>Nueva película
+                        <i class="bi bi-film me-2"></i>{{ message('admin.modal.nueva.pelicula') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="cpTitulo" class="form-label fw-semibold">Título</label>
+                            <label for="cpTitulo" class="form-label fw-semibold">{{ message('admin.form.titulo') }}</label>
                             <input type="text" id="cpTitulo" name="titulo" class="form-control" required maxlength="60">
                         </div>
                         <div class="col-md-6">
-                            <label for="cpDirector" class="form-label fw-semibold">Director</label>
+                            <label for="cpDirector" class="form-label fw-semibold">{{ message('admin.form.director') }}</label>
                             <input type="text" id="cpDirector" name="director" class="form-control" required maxlength="40">
                         </div>
                         <div class="col-md-6">
-                            <label for="cpDuracion" class="form-label fw-semibold">Duración (min)</label>
+                            <label for="cpDuracion" class="form-label fw-semibold">{{ message('admin.form.duracion.min') }}</label>
                             <input type="number" id="cpDuracion" name="duracion" class="form-control" required min="1">
                         </div>
                         <div class="col-md-6">
-                            <label for="cpGenero" class="form-label fw-semibold">Género</label>
+                            <label for="cpGenero" class="form-label fw-semibold">{{ message('admin.form.genero') }}</label>
                             <select id="cpGenero" name="genero" class="form-select" required>
-                                <option value="" disabled selected>Selecciona...</option>
+                                <option value="" disabled selected>{{ message('admin.form.select.default') }}</option>
                                 {% for g in generos %}
                                 <option value="{{ g }}">{{ g.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="cpClasificacion" class="form-label fw-semibold">Clasificación de edad</label>
+                            <label for="cpClasificacion" class="form-label fw-semibold">{{ message('admin.form.clasificacion.edad') }}</label>
                             <select id="cpClasificacion" name="clasificacionEdad" class="form-select" required>
-                                <option value="" disabled selected>Selecciona...</option>
+                                <option value="" disabled selected>{{ message('admin.form.select.default') }}</option>
                                 {% for e in edades %}
                                 <option value="{{ e }}">{{ e.displayName }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="cpEstreno" class="form-label fw-semibold">Fecha de estreno</label>
+                            <label for="cpEstreno" class="form-label fw-semibold">{{ message('admin.form.fecha.estreno') }}</label>
                             <input type="date" id="cpEstreno" name="estreno" class="form-control" required>
                         </div>
                         <div class="col-12">
-                            <label for="cpSinopsis" class="form-label fw-semibold">Sinopsis</label>
+                            <label for="cpSinopsis" class="form-label fw-semibold">{{ message('admin.form.sinopsis') }}</label>
                             <textarea id="cpSinopsis" name="sinopsis" class="form-control" rows="3"
                                       required maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Crear película
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.crear.pelicula') }}
                     </button>
                 </div>
             </form>
@@ -421,26 +433,26 @@
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditarPeliculaLabel">
-                        <i class="bi bi-pencil-square me-2"></i>Editar película
+                        <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.pelicula') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="editPelTitulo" class="form-label fw-semibold">Título</label>
+                            <label for="editPelTitulo" class="form-label fw-semibold">{{ message('admin.form.titulo') }}</label>
                             <input type="text" id="editPelTitulo" name="titulo" class="form-control" required maxlength="60">
                         </div>
                         <div class="col-md-6">
-                            <label for="editPelDirector" class="form-label fw-semibold">Director</label>
+                            <label for="editPelDirector" class="form-label fw-semibold">{{ message('admin.form.director') }}</label>
                             <input type="text" id="editPelDirector" name="director" class="form-control" required maxlength="40">
                         </div>
                         <div class="col-md-6">
-                            <label for="editPelDuracion" class="form-label fw-semibold">Duración (min)</label>
+                            <label for="editPelDuracion" class="form-label fw-semibold">{{ message('admin.form.duracion.min') }}</label>
                             <input type="number" id="editPelDuracion" name="duracion" class="form-control" required min="1">
                         </div>
                         <div class="col-md-6">
-                            <label for="editPelGenero" class="form-label fw-semibold">Género</label>
+                            <label for="editPelGenero" class="form-label fw-semibold">{{ message('admin.form.genero') }}</label>
                             <select id="editPelGenero" name="genero" class="form-select" required>
                                 {% for g in generos %}
                                 <option value="{{ g }}">{{ g.displayName }}</option>
@@ -448,7 +460,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editPelClasificacion" class="form-label fw-semibold">Clasificación de edad</label>
+                            <label for="editPelClasificacion" class="form-label fw-semibold">{{ message('admin.form.clasificacion.edad') }}</label>
                             <select id="editPelClasificacion" name="clasificacionEdad" class="form-select" required>
                                 {% for e in edades %}
                                 <option value="{{ e }}">{{ e.displayName }}</option>
@@ -456,19 +468,19 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editPelEstreno" class="form-label fw-semibold">Fecha de estreno</label>
+                            <label for="editPelEstreno" class="form-label fw-semibold">{{ message('admin.form.fecha.estreno') }}</label>
                             <input type="date" id="editPelEstreno" name="estreno" class="form-control" required>
                         </div>
                         <div class="col-12">
-                            <label for="editPelSinopsis" class="form-label fw-semibold">Sinopsis</label>
+                            <label for="editPelSinopsis" class="form-label fw-semibold">{{ message('admin.form.sinopsis') }}</label>
                             <textarea id="editPelSinopsis" name="sinopsis" class="form-control" rows="3" required maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.guardar') }}
                     </button>
                 </div>
             </form>
@@ -485,18 +497,18 @@
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditarSesionLabel">
-                        <i class="bi bi-pencil-square me-2"></i>Editar sesión
+                        <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.sesion') }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="editSesionFecha" class="form-label fw-semibold">Fecha</label>
+                            <label for="editSesionFecha" class="form-label fw-semibold">{{ message('admin.col.fecha') }}</label>
                             <input type="date" id="editSesionFecha" name="fecha" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="editSesionHorario" class="form-label fw-semibold">Horario</label>
+                            <label for="editSesionHorario" class="form-label fw-semibold">{{ message('admin.col.horario') }}</label>
                             <select id="editSesionHorario" name="horario" class="form-select" required>
                                 {% for h in horarios %}
                                 <option value="{{ h }}">{{ h.displayName }}</option>
@@ -504,7 +516,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editSesionSala" class="form-label fw-semibold">Sala</label>
+                            <label for="editSesionSala" class="form-label fw-semibold">{{ message('admin.col.sala') }}</label>
                             <select id="editSesionSala" name="sala" class="form-select" required>
                                 {% for s in salas %}
                                 <option value="{{ s }}">{{ s.displayName }}</option>
@@ -512,7 +524,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editSesionTipo" class="form-label fw-semibold">Tipo de proyección</label>
+                            <label for="editSesionTipo" class="form-label fw-semibold">{{ message('admin.form.tipo.proyeccion') }}</label>
                             <select id="editSesionTipo" name="tipoProyeccion" class="form-select" required>
                                 {% for t in tiposProyeccion %}
                                 <option value="{{ t }}">{{ t.displayName }}</option>
@@ -520,16 +532,89 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="editSesionPrecio" class="form-label fw-semibold">Precio (€)</label>
+                            <label for="editSesionPrecio" class="form-label fw-semibold">{{ message('admin.form.precio.eur') }}</label>
                             <input type="number" id="editSesionPrecio" name="precio" class="form-control"
                                    required min="0" step="0.01">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-lg me-1"></i>Guardar cambios
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.guardar') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Modal: Crear sesión #}
+<div class="modal fade" id="modalCrearSesion" tabindex="-1"
+     aria-labelledby="modalCrearSesionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/sesiones/crear">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearSesionLabel">
+                        <i class="bi bi-calendar-plus me-2"></i>{{ message('admin.modal.nueva.sesion') }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="csPelicula" class="form-label fw-semibold">{{ message('admin.form.pelicula') }}</label>
+                            <select id="csPelicula" name="idPelicula" class="form-select" required>
+                                <option value="" disabled selected>{{ message('admin.form.select.pelicula') }}</option>
+                                {% for p in peliculas %}
+                                <option value="{{ p.id }}">{{ p.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="csFecha" class="form-label fw-semibold">{{ message('admin.col.fecha') }}</label>
+                            <input type="date" id="csFecha" name="fecha" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="csHorario" class="form-label fw-semibold">{{ message('admin.col.horario') }}</label>
+                            <select id="csHorario" name="horario" class="form-select" required>
+                                <option value="" disabled selected>{{ message('admin.form.select.default') }}</option>
+                                {% for h in horarios %}
+                                <option value="{{ h }}">{{ h.displayName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="csSala" class="form-label fw-semibold">{{ message('admin.col.sala') }}</label>
+                            <select id="csSala" name="sala" class="form-select" required>
+                                <option value="" disabled selected>{{ message('admin.form.select.default') }}</option>
+                                {% for s in salas %}
+                                <option value="{{ s }}">{{ s.displayName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="csTipo" class="form-label fw-semibold">{{ message('admin.form.tipo.proyeccion') }}</label>
+                            <select id="csTipo" name="tipoProyeccion" class="form-select" required>
+                                <option value="" disabled selected>{{ message('admin.form.select.default') }}</option>
+                                {% for t in tiposProyeccion %}
+                                <option value="{{ t }}">{{ t.displayName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="csPrecio" class="form-label fw-semibold">{{ message('admin.form.precio.eur') }}</label>
+                            <input type="number" id="csPrecio" name="precio" class="form-control"
+                                   required min="0" step="0.01" placeholder="{{ message('admin.form.precio.placeholder') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ message('admin.btn.cancelar') }}</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i>{{ message('admin.btn.crear.sesion') }}
                     </button>
                 </div>
             </form>
@@ -541,44 +626,182 @@
 {% macro camposUsuario(today) %}
 <div class="row g-3">
     <div class="col-12">
-        <label class="form-label fw-semibold">Username</label>
-        <input type="text" name="username" aria-label="Username" class="form-control" required minlength="3" maxlength="50">
+        <label class="form-label fw-semibold">{{ message('admin.form.username') }}</label>
+        <input type="text" name="username" aria-label="{{ message('admin.form.username') }}" class="form-control" required minlength="3" maxlength="50">
     </div>
     <div class="col-md-6">
-        <label class="form-label fw-semibold">Nombre</label>
-        <input type="text" name="nombre" aria-label="Nombre" class="form-control" required maxlength="100">
+        <label class="form-label fw-semibold">{{ message('admin.form.nombre') }}</label>
+        <input type="text" name="nombre" aria-label="{{ message('admin.form.nombre') }}" class="form-control" required maxlength="100">
     </div>
     <div class="col-md-6">
-        <label class="form-label fw-semibold">Apellidos</label>
-        <input type="text" name="apellidos" aria-label="Apellidos" class="form-control" required maxlength="150">
+        <label class="form-label fw-semibold">{{ message('admin.form.apellidos') }}</label>
+        <input type="text" name="apellidos" aria-label="{{ message('admin.form.apellidos') }}" class="form-control" required maxlength="150">
     </div>
     <div class="col-12">
-        <label class="form-label fw-semibold">Email</label>
-        <input type="email" name="email" aria-label="Email" class="form-control" required>
+        <label class="form-label fw-semibold">{{ message('admin.form.email') }}</label>
+        <input type="email" name="email" aria-label="{{ message('admin.form.email') }}" class="form-control" required>
     </div>
     <div class="col-md-6">
-        <label class="form-label fw-semibold">Contraseña</label>
-        <input type="password" name="password" aria-label="Contraseña" class="form-control" required minlength="6">
+        <label class="form-label fw-semibold">{{ message('admin.form.password') }}</label>
+        <input type="password" name="password" aria-label="{{ message('admin.form.password') }}" class="form-control" required minlength="6">
     </div>
     <div class="col-md-6">
-        <label class="form-label fw-semibold">Fecha de nacimiento</label>
-        <input type="date" name="fechaNacimiento" aria-label="Fecha de nacimiento" class="form-control" required max="{{ today }}">
+        <label class="form-label fw-semibold">{{ message('admin.form.fecha.nacimiento') }}</label>
+        <input type="date" name="fechaNacimiento" aria-label="{{ message('admin.form.fecha.nacimiento') }}" class="form-control" required max="{{ today }}">
     </div>
 </div>
 {% endmacro %}
 
 {# scripts #}
 <script>
-    /* Activar la pestaña correcta al volver tras un POST */
-    (function () {
-        const hash = window.location.hash;
-        if (hash) {
-            const btn = document.querySelector('[data-bs-target="' + hash + '"]');
-            if (btn) {
-                new bootstrap.Tab(btn).show();
+    /* ── AdminTable: paginación + ordenación client-side ─────────────────── */
+    /* Definición fuera del listener 'load' para que JS la conozca antes.     */
+    function AdminTable(tableId, paginationId, rowsPerPage) {
+        var self      = this;
+        self.tbody    = document.querySelector('#' + tableId + ' tbody');
+        self.headers  = document.querySelectorAll('#' + tableId + ' th[data-sortable]');
+        self.pagEl    = document.getElementById(paginationId);
+        self.rpp      = rowsPerPage || 10;
+        self.page     = 1;
+        self.col      = -1;
+        self.dir      = 'asc';
+
+        // Recoger filas de datos (excluir la fila de "sin datos" con colspan)
+        self.rows = Array.from(self.tbody.querySelectorAll('tr')).filter(function(r) {
+            return !r.querySelector('td[colspan]');
+        });
+
+        // Click en cabecera → ordenar
+        self.headers.forEach(function(th) {
+            th.addEventListener('click', function() {
+                var c = parseInt(th.dataset.col, 10);
+                if (self.col === c) {
+                    self.dir = self.dir === 'asc' ? 'desc' : 'asc';
+                } else {
+                    self.col = c;
+                    self.dir = 'asc';
+                }
+                self.page = 1;
+                self._render();
+            });
+        });
+
+        // Click en paginación → event delegation (un único listener en el contenedor)
+        if (self.pagEl) {
+            self.pagEl.addEventListener('click', function(e) {
+                var btn = e.target.closest('button[data-p]');
+                if (!btn) return;
+                var p     = parseInt(btn.dataset.p, 10);
+                var pages = Math.max(1, Math.ceil(self.rows.length / self.rpp));
+                if (p >= 1 && p <= pages) {
+                    self.page = p;
+                    self._render();
+                }
+            });
+        }
+
+        self._render();
+    }
+
+    AdminTable.prototype._val = function(row, col) {
+        var td = row.querySelectorAll('td')[col];
+        if (!td) return '';
+        return (td.dataset.sort !== undefined && td.dataset.sort !== '') ? td.dataset.sort : td.textContent.trim();
+    };
+
+    AdminTable.prototype._sorted = function() {
+        var self = this;
+        if (self.col < 0) return self.rows.slice();
+        var th = null;
+        self.headers.forEach(function(h) {
+            if (parseInt(h.dataset.col, 10) === self.col) th = h;
+        });
+        var type = th ? (th.dataset.type || 'str') : 'str';
+        return self.rows.slice().sort(function(a, b) {
+            var va = self._val(a, self.col);
+            var vb = self._val(b, self.col);
+            if (type === 'num') { va = parseFloat(va) || 0; vb = parseFloat(vb) || 0; }
+            var cmp = va < vb ? -1 : va > vb ? 1 : 0;
+            return self.dir === 'desc' ? -cmp : cmp;
+        });
+    };
+
+    AdminTable.prototype._render = function() {
+        var self   = this;
+        var sorted = self._sorted();
+        var total  = sorted.length;
+        var pages  = Math.max(1, Math.ceil(total / self.rpp));
+        if (self.page > pages) self.page = pages;
+        var start  = (self.page - 1) * self.rpp;
+
+        // Reordenar filas en el DOM y mostrar/ocultar según página actual
+        sorted.forEach(function(r, i) {
+            self.tbody.appendChild(r);
+            r.style.display = (i >= start && i < start + self.rpp) ? '' : 'none';
+        });
+
+        // Actualizar iconos de ordenación en las cabeceras
+        self.headers.forEach(function(th) {
+            var icon = th.querySelector('.sort-icon');
+            if (!icon) return;
+            var isActive = (parseInt(th.dataset.col, 10) === self.col);
+            if (isActive) {
+                icon.className  = 'sort-icon bi ' + (self.dir === 'asc' ? 'bi-chevron-up' : 'bi-chevron-down');
+                icon.style.opacity = '1';
+            } else {
+                icon.className  = 'sort-icon bi bi-chevron-expand';
+                icon.style.opacity = '0.35';
+            }
+        });
+
+        // Renderizar controles de paginación
+        if (!self.pagEl) return;
+        if (total <= self.rpp) { self.pagEl.innerHTML = ''; return; }
+
+        var cp   = self.page;
+        var html = '<ul class="pagination pagination-sm mb-0">';
+
+        html += '<li class="page-item' + (cp === 1 ? ' disabled' : '') + '">'
+              + '<button class="page-link" data-p="' + (cp - 1) + '">'
+              + '<i class="bi bi-chevron-left"></i></button></li>';
+
+        var prev = 0;
+        for (var i = 1; i <= pages; i++) {
+            var near = (i === 1 || i === pages || Math.abs(i - cp) <= 1);
+            if (near) {
+                if (prev > 0 && i - prev > 1) {
+                    html += '<li class="page-item disabled"><span class="page-link">&hellip;</span></li>';
+                }
+                html += '<li class="page-item' + (i === cp ? ' active' : '') + '">'
+                      + '<button class="page-link" data-p="' + i + '">' + i + '</button></li>';
+                prev = i;
             }
         }
-    })();
+
+        html += '<li class="page-item' + (cp === pages ? ' disabled' : '') + '">'
+              + '<button class="page-link" data-p="' + (cp + 1) + '">'
+              + '<i class="bi bi-chevron-right"></i></button></li>';
+        html += '</ul>';
+
+        self.pagEl.innerHTML = html;
+        // Los clicks los gestiona el listener delegado del constructor, no hacemos nada más aquí
+    };
+
+    /* ── Inicialización: esperar a que Bootstrap esté cargado ────────────── */
+    window.addEventListener('load', function () {
+
+        /* Activar la pestaña correcta al volver tras un POST */
+        var hash = window.location.hash;
+        if (hash) {
+            var tabBtn = document.querySelector('[data-bs-target="' + hash + '"]');
+            if (tabBtn) new bootstrap.Tab(tabBtn).show();
+        }
+
+        /* Inicializar las tres tablas */
+        new AdminTable('tabla-usuarios',  'pag-usuarios',  10);
+        new AdminTable('tabla-peliculas', 'pag-peliculas', 10);
+        new AdminTable('tabla-sesiones',  'pag-sesiones',  10);
+    });
 
     /* Rellenar el modal de edición de película con los datos del botón pulsado */
     function abrirEditPelicula(btn) {
