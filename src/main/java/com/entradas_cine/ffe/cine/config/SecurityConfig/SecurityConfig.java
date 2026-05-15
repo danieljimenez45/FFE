@@ -4,6 +4,7 @@ import com.entradas_cine.ffe.cine.config.ApiRoutes;
 import com.entradas_cine.ffe.cine.config.auth.AuthUsersService;
 import com.entradas_cine.ffe.cine.config.auth.JwtAuthenticationFilter;
 import com.entradas_cine.ffe.cine.config.auth.JwtService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -236,6 +237,7 @@ public class SecurityConfig {
     @Bean
     @Order(3)
     @Profile("dev")
+    @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
     public SecurityFilterChain h2FilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher(PathRequest.toH2Console())
