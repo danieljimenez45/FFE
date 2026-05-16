@@ -25,7 +25,8 @@ import java.util.List;
 public class PeliculaServiceImpl implements PeliculaService {
 
     private final PeliculaRepository peliculaRepository;
-    private final PeliculaMapper peliculaMapper;
+    private final PeliculaMapper     peliculaMapper;
+    private final TraduccionService  traduccionService;
 
     @Override
     public PeliculaResponseDto findById(Long id) {
@@ -47,6 +48,9 @@ public class PeliculaServiceImpl implements PeliculaService {
         pelicula.setActiva(true);
 
         Pelicula saved = peliculaRepository.save(pelicula);
+
+        // Lanzar traducción asíncrona — no bloquea la respuesta al admin
+        traduccionService.traducirPelicula(saved.getId());
 
         return peliculaMapper.toResponseDto(saved);
     }
@@ -96,7 +100,12 @@ public class PeliculaServiceImpl implements PeliculaService {
         Pelicula pelicula = peliculaRepository.findById(id)
                 .orElseThrow(() -> new PeliculaNotFound(id));
         peliculaMapper.actualizarPelicula(pelicula, dto);
-        return peliculaMapper.toResponseDto(peliculaRepository.save(pelicula));
+        Pelicula updated = peliculaRepository.save(pelicula);
+
+        // Regenerar traducciones con el nuevo título/sinopsis
+        traduccionService.traducirPelicula(updated.getId());
+
+        return peliculaMapper.toResponseDto(updated);
     }
 
     @Override
