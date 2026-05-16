@@ -946,41 +946,91 @@ th[data-sortable]:hover .sort-icon {
    FOOTER
 ========================= */
 .footer-cine{
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.footer-cine .row {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.footer-cine .row > [class*="col-"] {
+    width: auto;
+    flex: 0 0 auto;
+}
+
+.footer-cine .row .row {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.footer-cine h2.autores {
+    font-size: 1rem;
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+.footer-lista-autores {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .footer-lista-autores .list-group-item{
-    font-size: 1rem;
-    padding: 0.1rem 0;
+    font-size: 0.9rem;
+    padding: 0;
     border: none;
+    display: inline;
+}
+
+.footer-lista-autores .list-group-item:not(:last-child)::after {
+    content: " \2022";
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 0.35rem;
 }
 
 .footer-copy{
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin: 0 !important;
+    white-space: nowrap;
 }
 
 .iconos-enlaces{
-    font-size: 2rem;
+    font-size: 1.4rem;
+}
+
+.footer-cine .list-inline {
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+.footer-cine .list-inline-item {
+    margin: 0 0.35rem !important;
 }
 
 /* MOVIL */
 @media (max-width: 768px){
-
-    .autores{
-        font-size: 1.8rem;
+    .footer-cine{
+        padding-top: 0.65rem;
+        padding-bottom: 0.65rem;
     }
 
-    .footer-lista-autores{
-        text-align: center;
+    .footer-cine h2.autores,
+    .footer-lista-autores .list-group-item,
+    .footer-copy{
+        font-size: 0.82rem;
     }
 
     .iconos-enlaces{
-        font-size: 1.8rem;
-    }
-
-    .footer-copy{
-        margin-top: 0.5rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -1112,7 +1162,8 @@ th[data-sortable]:hover .sort-icon {
     grid-template-columns: 340px 1fr 260px;
     gap: 50px;
     max-width: 1400px;
-    margin: 70px auto;
+    width: 100%;
+    margin: 40px auto;
     align-items: start;
 }
 
@@ -1237,4 +1288,63 @@ th[data-sortable]:hover .sort-icon {
 .titulo-sesiones{
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2.5rem;
+}
+
+@media (max-width: 1200px) {
+    .detalle-pelicula {
+        grid-template-columns: 280px 1fr 220px;
+        gap: 28px;
+    }
+
+    .detalle-columna-poster {
+        width: 280px;
+    }
+}
+
+@media (max-width: 992px) {
+    .detalle-pelicula {
+        grid-template-columns: 280px 1fr;
+        gap: 24px;
+        margin: 28px auto;
+    }
+
+    .detalle-columna-lateral {
+        grid-column: 1 / -1;
+        border-left: 0;
+        border-top: 2px solid rgba(255,255,255,0.1);
+        padding-left: 10px;
+        padding-top: 18px;
+    }
+
+    .detalle-columna-info h1 {
+        font-size: 3.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .detalle-pelicula {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin: 20px auto;
+    }
+
+    .detalle-columna-poster {
+        width: 100%;
+    }
+
+    .detalle-columna-info h1 {
+        font-size: 2.2rem;
+        margin-bottom: 14px;
+    }
+
+    .detalle-columna-info p,
+    .detalle-columna-lateral p {
+        font-size: 1.05rem;
+        line-height: 1.55;
+    }
+
+    .detalle-columna-info strong,
+    .detalle-columna-lateral strong {
+        font-size: 1.25rem;
+    }
 }
