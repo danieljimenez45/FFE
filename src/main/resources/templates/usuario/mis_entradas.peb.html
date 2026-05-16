@@ -1,0 +1,78 @@
+{% extends "fragments/layout" %}
+
+{% block titulo %}{{ message('mis.entradas.page.title') }}{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <i class="bi bi-ticket-perforated-fill" style="font-size: 2.5rem; color: #e0a830;"></i>
+            <div>
+                <h1 class="h3 fw-bold text-white mb-0">{{ message('mis.entradas.heading') }}</h1>
+                <p class="mb-0 small text-white">{{ message('mis.entradas.subtitle') }}</p>
+            </div>
+        </div>
+
+        {% if entradas is empty %}
+        <div class="card card-panel shadow-sm text-center p-5">
+            <i class="bi bi-ticket text-muted mb-3" style="font-size: 3rem;"></i>
+            <p class="text-muted mb-4">{{ message('mis.entradas.empty') }}</p>
+            <a href="/peliculas/lista_peliculas" class="btn btn-warning fw-semibold">
+                <i class="bi bi-film me-2"></i>{{ message('mis.entradas.btn.cartelera') }}
+            </a>
+        </div>
+        {% else %}
+        <div class="card card-panel shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                        <tr class="text-muted small">
+                            <th scope="col">{{ message('mis.entradas.col.pelicula') }}</th>
+                            <th scope="col">{{ message('mis.entradas.col.sesion') }}</th>
+                            <th scope="col">{{ message('mis.entradas.col.butaca') }}</th>
+                            <th scope="col">{{ message('mis.entradas.col.precio') }}</th>
+                            <th scope="col">{{ message('mis.entradas.col.factura') }}</th>
+                            <th scope="col" class="text-end">{{ message('mis.entradas.col.acciones') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entrada in entradas %}
+                        <tr>
+                            <td class="fw-semibold">{{ entrada.tituloPelicula }}</td>
+                            <td class="small">
+                                {% if entrada.fechaSesion is not null %}
+                                    {{ entrada.fechaSesion }}<br>
+                                {% endif %}
+                                <span class="text-muted">{{ entrada.horario }} · {{ entrada.sala }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ message('seats.fila') }} {{ entrada.fila }} · {{ entrada.numero }}
+                                </span>
+                            </td>
+                            <td>{{ entrada.precio }} €</td>
+                            <td class="small font-monospace text-muted">{{ entrada.codigoFactura }}</td>
+                            <td class="text-end">
+                                <a href="/facturas/{{ entrada.numeroFactura }}/pdf"
+                                   class="btn btn-sm btn-outline-light"
+                                   title="{{ message('mis.entradas.btn.ver.factura') }}">
+                                    <i class="bi bi-receipt"></i>
+                                </a>
+                                <a href="/facturas/{{ entrada.numeroFactura }}/pdf/descargar?dl=true"
+                                   class="btn btn-sm btn-warning"
+                                   title="{{ message('confirmacion.btn.pdf') }}">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
