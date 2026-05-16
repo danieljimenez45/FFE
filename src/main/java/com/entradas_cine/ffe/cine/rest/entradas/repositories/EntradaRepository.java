@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,8 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
     /** Elimina las filas de la tabla de unión FACTURAS_ENTRADAS para todas las
      *  entradas que pertenezcan a sesiones de la película indicada. Debe ejecutarse
      *  antes de borrar la película para evitar FK violations. */
-    @Modifying
+    @Modifying(clearAutomatically = true)
+    @Transactional
     @Query(value = """
             DELETE FROM FACTURAS_ENTRADAS
             WHERE entrada_id IN (

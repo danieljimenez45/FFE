@@ -3,6 +3,7 @@ package com.entradas_cine.ffe.cine.rest.peliculas.repositories;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.PeliculaTraduccion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -13,5 +14,6 @@ public interface PeliculaTraduccionRepository extends JpaRepository<PeliculaTrad
     boolean existsByPeliculaId(Long peliculaId);
 
     @Modifying
+    @Transactional
     void deleteByPeliculaId(Long peliculaId);
 }
