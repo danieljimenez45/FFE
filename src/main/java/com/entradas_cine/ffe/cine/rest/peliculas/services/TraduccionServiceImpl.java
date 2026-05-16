@@ -64,7 +64,7 @@ public class TraduccionServiceImpl implements TraduccionService {
                 log.info("  → traducción '{}' guardada para id={}", locale, peliculaId);
 
                 // Pausa entre locales para no saturar el rate-limit de DeepL free
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
                 log.warn("  → traducción interrumpida para id={}", peliculaId);
