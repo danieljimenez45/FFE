@@ -1,107 +1,94 @@
 
 {% extends "fragments/layout" %}
 
-{% block titulo %}{{ message('label.peliculas.detalle') }}{% endblock %}
+{% block titulo %}
+    {{ message('label.peliculas.detalle') }}
+{% endblock %}
 
 {% block contenido %}
+    <!-- PARTE DE ARRIBA DE LA PAGINA-->
+    <section class="detalle-pelicula">
 
-<div>
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="detalle-columna-poster">
+            <img class="imagen-detalle-pelicula"
+                 src="/images/peliculas/{{ pelicula.imagen }}"
+                 alt="{{ pelicula.titulo }}">
 
-    <div class="col-md-4 mb-4 opacity-100">
-        <div class="card-body peli-contenedor">
-            <h5 class="card-title">{{ pelicula.titulo }}</h5>
+            <button class="btn boton-sesiones-detalle"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sesiones">
+                comprar entradas
+                <i class="bi bi-ticket-perforated"></i>
+            </button>
+        </div>
 
-            <p class="card-text text-muted fs-6">
-                {{ message('label.peliculas.genero') }}:
+        <!-- COLUMNA CENTRAL -->
+        <div class="detalle-columna-info">
+            <h1>{{ pelicula.titulo }}</h1>
+
+            <p>
+                <strong>{{ message('label.director') }}:</strong><br>
+                {{ pelicula.director }}
+            </p>
+
+            <p>
+                <strong>{{ message('label.sinopsis') }}:</strong><br>
+                {{ message(pelicula.sinopsis) }}
+            </p>
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <aside class="detalle-columna-lateral">
+            <p>
+                <strong>{{ message('label.peliculas.genero') }}:</strong><br>
                 {{ message('genero.' ~ pelicula.genero) }}
-                --
-                {{ message('label.duracion') }}:
+            </p>
+
+            <p>
+                <strong>{{ message('label.duracion') }}:</strong><br>
                 {{ pelicula.duracion }} min
             </p>
 
-            <p class="card-text">
-                {{ message('label.sinopsis') }}:
-                <button type="button" class="btn boton-sipno"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#sinopsis{{ pelicula.id }}">
-                    {{ message('label.mas') }}
-                </button>
+            <p>
+                <strong>{{ message('label.clasificacion') }}:</strong><br>
+                {{ message('clasificacion.' ~ pelicula.clasificacionEdad) }}
             </p>
 
-            <div class="collapse mt-2" id="sinopsis{{ pelicula.id }}">
-                <div class="card-text">
-                    {{ message(pelicula.sinopsis) }}
-                </div>
-            </div>
+            <p>
+                <strong>{{ message('label.estreno') }}:</strong><br>
+                {{ pelicula.estreno }}
+            </p>
+        </aside>
 
-            <p class="card-text">{{ message('label.director') }}: {{ pelicula.director }}</p>
-            <p class="card-text">{{ message('label.estreno') }}: {{ pelicula.estreno }}</p>
-            <p class="card-text">{{ message('label.clasificacion') }}: {{ message('clasificacion.' ~ pelicula.clasificacionEdad) }}</p>
-            <p class="card-text">{{ message('label.cartelera') }}: {{ message('cartelera.' ~ pelicula.activa) }}</p>
+    </section>
 
-            <p class="card-text">
-                {{ message('nav.sessions') }}:
-                <button type="button" class="btn boton-sesion btn-sm"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#sesiones{{ pelicula.id }}">
-                    {{ message('label.ver.sesiones') }}
-                </button>
+    <!-- SESIONES -->
+    <div class="collapse" id="sesiones">
+        <div class="container py-4 text-white d-flex flex-column align-items-center justify-content-center">
+            <h1 class="mb-3 titulo-sesiones">{{ pelicula.titulo }}</h1>
+
+            <p class="mb-4 text-white">
+                {{ message('detail.instruccion') }}
             </p>
 
-            <div class="collapse mt-2" id="sesiones{{ pelicula.id }}">
-                <ul class="list-group list-group-flush">
-                    {% for sesion in pelicula.sesiones %}
-                    <li class="list-group-item d-flex border-dark justify-content-between align-items-center bg-transparent">
-                        <div>
-                            <div class="fw-bold">
-                                <i class="bi bi-clock pe-2"></i>
-                                {{ message('horario.' ~ sesion.horario) }}
-
-                                <i class="bi bi-door-open ms-2"></i>
-                                {{ message('sala.' ~ sesion.sala) }}
-                            </div>
-
-                            <small class="text-muted">
-                                <i class="bi bi-calendar-event pe-2"></i>
-                                {{ sesion.fecha }}
-
-                                <i class="bi bi-film ms-2"></i>
-                                {{ message('proyeccion.' ~ sesion.tipoProyeccion) }}
-                            </small>
-                        </div>
-
-                        <div class="fw-bold fs-4 text-success">
-                            {{ sesion.precio }}€ <i class="bi bi-ticket-perforated"></i>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
+            {% if sesiones is empty %}
+            <p class="text-white mb-0">{{ message('detail.sin.sesiones') }}</p>
+            {% else %}
+            <div class="d-flex flex-column gap-2">
+                {% for sesion in sesiones %}
+                <a class="btn boton-sesion text-center"
+                   href="/sesiones/{{ sesion.id }}/butacas">
+                    <i class="bi bi-ticket-perforated me-2"></i>
+                    {{ sesion.fecha }} - {{ message('horario.' ~ sesion.horario) }} - {{ message('sala.' ~ sesion.sala) }}
+                </a>
+                {% endfor %}
             </div>
-
+            {% endif %}
         </div>
+
     </div>
-</div>
 
-<div class="container py-4 text-white">
-    <h1 class="mb-3">{{ pelicula.titulo }}</h1>
-
-    <p class="mb-4 text-white">
-        {{ message('detail.instruccion') }}
-    </p>
-
-    {% if sesiones is empty %}
-    <p class="text-white mb-0">{{ message('detail.sin.sesiones') }}</p>
-    {% else %}
-    <div class="d-flex flex-column gap-2">
-        {% for sesion in sesiones %}
-        <a class="btn boton-sesion text-start"
-           href="/sesiones/{{ sesion.id }}/butacas">
-            <i class="bi bi-ticket-perforated me-2"></i>
-            {{ sesion.fecha }} - {{ message('horario.' ~ sesion.horario) }} - {{ message('sala.' ~ sesion.sala) }}
-        </a>
-        {% endfor %}
-    </div>
-    {% endif %}
-</div>
 
 {% endblock %}

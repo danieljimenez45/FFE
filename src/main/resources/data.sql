@@ -1,5 +1,5 @@
 insert into PELICULAS
-(id, titulo, genero, sinopsis, duracion, director, estreno, clasificacion_edad, activa, imagen)
+(titulo, genero, sinopsis, duracion, director, estreno, clasificacion_edad, activa, imagen)
 values
 
     ('Toy Story', 'AVENTURAS',
