@@ -13,10 +13,14 @@
     {% else %}
 
         <div class="row">
+
             {% for pelicula in peliculas %}
 
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4 pelicula-item"
+                     data-titulo="{{ pelicula.titulo | lower }}">
+
                     <a href="/peliculas/detalle/{{ pelicula.id }}" class="poster-hover">
+
                         <img class="card-img-top"
                              src="/images/peliculas/{{ pelicula.imagen }}"
                              alt="{{ pelicula.titulo }}">
@@ -25,16 +29,21 @@
                             <h3 class="poster-titulo">
                                 {{ pelicula.titulo }}
                             </h3>
+
                             <span class="btn btn-outline-secondary">
                                 {{ message('label.peliculas.detalle') }}
                             </span>
                         </div>
-
                     </a>
+
                 </div>
 
             {% endfor %}
         </div>
+
+        <p id="sin-resultados-peliculas" class="text-center text-white mt-4 d-none">
+            {{ message('error.buscar.peli') }}
+        </p>
 
     {% endif %}
 

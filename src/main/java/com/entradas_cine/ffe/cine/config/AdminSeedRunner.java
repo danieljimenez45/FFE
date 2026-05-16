@@ -22,8 +22,8 @@ import java.util.List;
 
 /**
  * Siembra todos los datos iniciales si la BD está vacía.
- * En dev el data.sql ya lo hace; en prod (BD persistente vacía en el primer
- * despliegue) este runner crea usuarios, películas y sesiones equivalentes.
+ * En dev lo hace data.sql; en prod (BD vacía en el primer despliegue o tras
+ * borrar el volumen) este runner crea los mismos usuarios, películas y sesiones.
  */
 @Slf4j
 @Component
@@ -105,102 +105,102 @@ public class AdminSeedRunner implements ApplicationRunner {
             pelicula("Toy Story",
                      Genero.AVENTURAS,
                      "Los juguetes cobran vida cuando los humanos no están.",
-                     81, "John Lasseter", "1995-11-22", ClasificacionEdad.TP, true, "toystory.jpg"),
+                     81, "John Lasseter", "2026-04-03", ClasificacionEdad.TP, true, "toystory.jpg"),
 
             pelicula("El Rey León",
                      Genero.AVENTURAS,
                      "Un joven león debe asumir su destino como rey.",
-                     88, "Roger Allers", "1994-06-15", ClasificacionEdad.TP, false, "reyleon.jpg"),
+                     88, "Roger Allers", "2026-04-07", ClasificacionEdad.TP, false, "reyleon.jpg"),
 
             pelicula("Regreso al Futuro",
                      Genero.CIENCIA_FICCION,
                      "Un adolescente viaja accidentalmente al pasado.",
-                     116, "Robert Zemeckis", "1985-07-03", ClasificacionEdad.TP, true, "regresoalfuturo.jpg"),
+                     116, "Robert Zemeckis", "2026-04-10", ClasificacionEdad.TP, true, "regresoalfuturo.jpg"),
 
             pelicula("Forrest Gump",
                      Genero.DRAMA,
                      "La extraordinaria vida de un hombre sencillo.",
-                     142, "Robert Zemeckis", "1994-07-06", ClasificacionEdad.MAYORES_7, true, "forrestgump.jpg"),
+                     142, "Robert Zemeckis", "2026-04-12", ClasificacionEdad.MAYORES_7, true, "forrestgump.jpg"),
 
             pelicula("La La Land",
                      Genero.ROMANCE,
                      "Una historia de amor entre música y cine.",
-                     128, "Damien Chazelle", "2016-12-09", ClasificacionEdad.MAYORES_7, true, "lalaland.jpg"),
+                     128, "Damien Chazelle", "2026-04-15", ClasificacionEdad.MAYORES_7, true, "lalaland.jpg"),
 
             pelicula("Inception",
                      Genero.CIENCIA_FICCION,
                      "Un ladrón roba secretos a través de los sueños.",
-                     148, "Christopher Nolan", "2010-07-16", ClasificacionEdad.MAYORES_12, true, "inception.jpg"),
+                     148, "Christopher Nolan", "2026-04-18", ClasificacionEdad.MAYORES_12, true, "inception.jpg"),
 
             pelicula("Interstellar",
                      Genero.CIENCIA_FICCION,
                      "Exploradores viajan a través de un agujero de gusano.",
-                     169, "Christopher Nolan", "2014-11-07", ClasificacionEdad.MAYORES_12, false, "interstellar.jpg"),
+                     169, "Christopher Nolan", "2026-04-21", ClasificacionEdad.MAYORES_12, false, "interstellar.jpg"),
 
             pelicula("El Señor de los Anillos: La Comunidad del Anillo",
                      Genero.FANTASIA,
                      "Un hobbit inicia un viaje para destruir un anillo.",
-                     178, "Peter Jackson", "2001-12-19", ClasificacionEdad.MAYORES_12, true, "lotr.jpg"),
+                     178, "Peter Jackson", "2026-04-23", ClasificacionEdad.MAYORES_12, true, "lotr.jpg"),
 
             pelicula("Jurassic Park",
                      Genero.CIENCIA_FICCION,
                      "Dinosaurios clonados escapan de control.",
-                     127, "Steven Spielberg", "1993-06-11", ClasificacionEdad.MAYORES_12, false, "jurassicpark.jpg"),
+                     127, "Steven Spielberg", "2026-04-25", ClasificacionEdad.MAYORES_12, false, "jurassicpark.jpg"),
 
             pelicula("Gladiator",
                      Genero.ACCION,
                      "Un general romano busca venganza.",
-                     155, "Ridley Scott", "2000-05-05", ClasificacionEdad.MAYORES_16, true, "gladiator.jpg"),
+                     155, "Ridley Scott", "2026-04-02", ClasificacionEdad.MAYORES_16, true, "gladiator.jpg"),
 
             pelicula("Matrix",
                      Genero.CIENCIA_FICCION,
                      "Un hacker descubre la verdad sobre su realidad.",
-                     136, "Lana Wachowski", "1999-03-31", ClasificacionEdad.MAYORES_16, false, "matrix.jpg"),
+                     136, "Lana Wachowski", "2026-04-05", ClasificacionEdad.MAYORES_16, false, "matrix.jpg"),
 
             pelicula("Alien",
                      Genero.TERROR,
                      "Una criatura mortal acecha a una tripulación espacial.",
-                     117, "Ridley Scott", "1979-05-25", ClasificacionEdad.MAYORES_16, true, "alien.jpg"),
+                     117, "Ridley Scott", "2026-04-08", ClasificacionEdad.MAYORES_16, true, "alien.jpg"),
 
             pelicula("El Sexto Sentido",
                      Genero.SUSPENSE,
                      "Un niño afirma ver personas muertas.",
-                     107, "M. Night Shyamalan", "1999-08-06", ClasificacionEdad.MAYORES_16, true, "sextosentido.jpg"),
+                     107, "M. Night Shyamalan", "2026-04-11", ClasificacionEdad.MAYORES_16, true, "sextosentido.jpg"),
 
             pelicula("Pulp Fiction",
                      Genero.DRAMA,
                      "Historias entrelazadas del crimen en Los Ángeles.",
-                     154, "Quentin Tarantino", "1994-10-14", ClasificacionEdad.MAYORES_18, true, "pulpfiction.jpg"),
+                     154, "Quentin Tarantino", "2026-04-14", ClasificacionEdad.MAYORES_18, true, "pulpfiction.jpg"),
 
             pelicula("El Lobo de Wall Street",
                      Genero.DRAMA,
                      "El ascenso y caída de un corredor de bolsa.",
-                     180, "Martin Scorsese", "2013-12-25", ClasificacionEdad.MAYORES_18, false, "lobowallstreet.jpg"),
+                     180, "Martin Scorsese", "2026-04-17", ClasificacionEdad.MAYORES_18, false, "lobowallstreet.jpg"),
 
             pelicula("Joker",
                      Genero.DRAMA,
                      "El origen oscuro de un villano.",
-                     122, "Todd Phillips", "2019-10-04", ClasificacionEdad.MAYORES_18, true, "joker.jpg"),
+                     122, "Todd Phillips", "2026-04-20", ClasificacionEdad.MAYORES_18, true, "joker.jpg"),
 
             pelicula("La Máscara",
                      Genero.COMEDIA,
                      "Un hombre descubre una máscara con poderes.",
-                     101, "Chuck Russell", "1994-07-29", ClasificacionEdad.MAYORES_7, true, "lamascara.jpg"),
+                     101, "Chuck Russell", "2026-04-22", ClasificacionEdad.MAYORES_7, true, "lamascara.jpg"),
 
             pelicula("Resacón en Las Vegas",
                      Genero.COMEDIA,
                      "Una despedida de soltero se sale de control.",
-                     100, "Todd Phillips", "2009-06-05", ClasificacionEdad.MAYORES_16, true, "resacon.jpg"),
+                     100, "Todd Phillips", "2026-04-26", ClasificacionEdad.MAYORES_16, true, "resacon.jpg"),
 
             pelicula("Ocho Apellidos Vascos",
                      Genero.COMEDIA,
                      "Un andaluz viaja al País Vasco por amor.",
-                     98, "Emilio Martínez-Lázaro", "2014-03-14", ClasificacionEdad.MAYORES_7, true, "ochoapellidosvascos.jpg"),
+                     98, "Emilio Martínez-Lázaro", "2026-04-28", ClasificacionEdad.MAYORES_7, true, "ochoapellidosvascos.jpg"),
 
             pelicula("Seven",
                      Genero.SUSPENSE,
                      "Un asesino en serie basado en los pecados capitales.",
-                     127, "David Fincher", "1995-09-22", ClasificacionEdad.MAYORES_18, true, "seven.jpg")
+                     127, "David Fincher", "2026-04-30", ClasificacionEdad.MAYORES_18, true, "seven.jpg")
         ));
 
         log.info("DataSeedRunner: {} películas sembradas.", peliculas.size());
@@ -224,7 +224,7 @@ public class AdminSeedRunner implements ApplicationRunner {
     }
 
     // -------------------------------------------------------------------------
-    // Sesiones — mismas que data.sql (películas 1-11 en 2024-12-31, 12-16 en 2025-01, 17-20)
+    // Sesiones — equivalentes a data.sql (fecha = estreno de cada película)
     // -------------------------------------------------------------------------
     private void seedSesiones(List<Pelicula> peliculas) {
         if (sesionRepository.count() > 0) {
@@ -232,19 +232,10 @@ public class AdminSeedRunner implements ApplicationRunner {
             return;
         }
 
-        // Sesiones estándar para películas 0-10 (índice 0-based)
-        LocalDate fecha1 = LocalDate.of(2024, 12, 31);
         for (int i = 0; i <= 10; i++) {
-            Pelicula p = peliculas.get(i);
-            sesionRepository.saveAll(List.of(
-                sesion(p, fecha1, Horario.H16_00, Sala.SALA_1, TipoProyeccion.NORMAL, "8.00"),
-                sesion(p, fecha1, Horario.H18_30, Sala.SALA_2, TipoProyeccion.IMAX,   "10.50"),
-                sesion(p, fecha1, Horario.H21_00, Sala.SALA_3, TipoProyeccion.VOSE,   "9.00"),
-                sesion(p, fecha1, Horario.H23_30, Sala.SALA_4, TipoProyeccion.TRES_D, "11.00")
-            ));
+            seedBloqueEstandar(peliculas.get(i));
         }
 
-        // Películas 12-15 (índice 11-14) — salas 5 y 6, fechas 2025-01-01 y 2025-01-02
         Pelicula p12 = peliculas.get(11);
         Pelicula p13 = peliculas.get(12);
         Pelicula p14 = peliculas.get(13);
@@ -252,30 +243,33 @@ public class AdminSeedRunner implements ApplicationRunner {
         Pelicula p16 = peliculas.get(15);
 
         sesionRepository.saveAll(List.of(
-            sesion(p12, LocalDate.of(2025, 1, 1), Horario.H16_00, Sala.SALA_5, TipoProyeccion.NORMAL, "7.50"),
-            sesion(p12, LocalDate.of(2025, 1, 1), Horario.H18_30, Sala.SALA_6, TipoProyeccion.VOSE,   "8.50"),
-            sesion(p13, LocalDate.of(2025, 1, 1), Horario.H21_00, Sala.SALA_5, TipoProyeccion.IMAX,   "10.00"),
-            sesion(p13, LocalDate.of(2025, 1, 1), Horario.H23_30, Sala.SALA_6, TipoProyeccion.TRES_D, "11.50"),
-            sesion(p14, LocalDate.of(2025, 1, 2), Horario.H16_00, Sala.SALA_5, TipoProyeccion.NORMAL, "8.00"),
-            sesion(p14, LocalDate.of(2025, 1, 2), Horario.H18_30, Sala.SALA_6, TipoProyeccion.IMAX,   "10.50"),
-            sesion(p15, LocalDate.of(2025, 1, 2), Horario.H21_00, Sala.SALA_5, TipoProyeccion.VOSE,   "9.00"),
-            sesion(p15, LocalDate.of(2025, 1, 2), Horario.H23_30, Sala.SALA_6, TipoProyeccion.TRES_D, "11.00"),
-            sesion(p16, LocalDate.of(2025, 1, 3), Horario.H18_30, Sala.SALA_5, TipoProyeccion.NORMAL, "8.25"),
-            sesion(p16, LocalDate.of(2025, 1, 3), Horario.H21_00, Sala.SALA_6, TipoProyeccion.IMAX,   "10.75")
+            sesion(p12, p12.getEstreno(), Horario.H16_00, Sala.SALA_5, TipoProyeccion.NORMAL, "7.50"),
+            sesion(p12, p12.getEstreno(), Horario.H18_30, Sala.SALA_6, TipoProyeccion.VOSE,   "8.50"),
+            sesion(p13, p13.getEstreno(), Horario.H21_00, Sala.SALA_5, TipoProyeccion.IMAX,   "10.00"),
+            sesion(p13, p13.getEstreno(), Horario.H23_30, Sala.SALA_6, TipoProyeccion.TRES_D, "11.50"),
+            sesion(p14, p14.getEstreno(), Horario.H16_00, Sala.SALA_5, TipoProyeccion.NORMAL, "8.00"),
+            sesion(p14, p14.getEstreno(), Horario.H18_30, Sala.SALA_6, TipoProyeccion.IMAX,   "10.50"),
+            sesion(p15, p15.getEstreno(), Horario.H21_00, Sala.SALA_5, TipoProyeccion.VOSE,   "9.00"),
+            sesion(p15, p15.getEstreno(), Horario.H23_30, Sala.SALA_6, TipoProyeccion.TRES_D, "11.00"),
+            sesion(p16, p16.getEstreno(), Horario.H18_30, Sala.SALA_5, TipoProyeccion.NORMAL, "8.25"),
+            sesion(p16, p16.getEstreno(), Horario.H21_00, Sala.SALA_6, TipoProyeccion.IMAX,   "10.75")
         ));
 
-        // Películas 17-20 (índice 16-19) — mismo bloque que las primeras
         for (int i = 16; i <= 19; i++) {
-            Pelicula p = peliculas.get(i);
-            sesionRepository.saveAll(List.of(
-                sesion(p, fecha1, Horario.H16_00, Sala.SALA_1, TipoProyeccion.NORMAL, "8.00"),
-                sesion(p, fecha1, Horario.H18_30, Sala.SALA_2, TipoProyeccion.IMAX,   "10.50"),
-                sesion(p, fecha1, Horario.H21_00, Sala.SALA_3, TipoProyeccion.VOSE,   "9.00"),
-                sesion(p, fecha1, Horario.H23_30, Sala.SALA_4, TipoProyeccion.TRES_D, "11.00")
-            ));
+            seedBloqueEstandar(peliculas.get(i));
         }
 
         log.info("DataSeedRunner: sesiones sembradas.");
+    }
+
+    private void seedBloqueEstandar(Pelicula pelicula) {
+        LocalDate fecha = pelicula.getEstreno();
+        sesionRepository.saveAll(List.of(
+            sesion(pelicula, fecha, Horario.H16_00, Sala.SALA_1, TipoProyeccion.NORMAL, "8.00"),
+            sesion(pelicula, fecha, Horario.H18_30, Sala.SALA_2, TipoProyeccion.IMAX,   "10.50"),
+            sesion(pelicula, fecha, Horario.H21_00, Sala.SALA_3, TipoProyeccion.VOSE,   "9.00"),
+            sesion(pelicula, fecha, Horario.H23_30, Sala.SALA_4, TipoProyeccion.TRES_D, "11.00")
+        ));
     }
 
     private Sesion sesion(Pelicula pelicula, LocalDate fecha, Horario horario,

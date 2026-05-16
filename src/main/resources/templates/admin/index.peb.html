@@ -119,9 +119,9 @@
                         <td class="small">{{ u.email }}</td>
                         <td>
                             {% if u.rol.name == 'ADMIN' %}
-                                <span class="badge bg-danger">ADMIN</span>
+                                <span class="badge bg-danger">{{ message('admin.rol.admin') }}</span>
                             {% else %}
-                                <span class="badge bg-secondary">USER</span>
+                                <span class="badge bg-secondary">{{ message('admin.rol.user') }}</span>
                             {% endif %}
                         </td>
                         <td class="small text-muted">{{ u.fechaRegistro }}</td>
@@ -189,7 +189,7 @@
                         <td class="fw-semibold">{{ p.titulo }}</td>
                         <td class="small">{{ p.director }}</td>
                         <td><span class="badge bg-primary">{{ message('genero.' ~ p.genero) }}</span></td>
-                        <td class="small" data-sort="{{ p.duracion }}">{{ p.duracion }} min</td>
+                        <td class="small" data-sort="{{ p.duracion }}">{{ p.duracion }} {{ message('label.duracion.unit') }}</td>
                         <td class="small text-muted">{{ p.estreno }}</td>
                         <td><span class="badge bg-secondary small">{{ message('clasificacion.' ~ p.clasificacionEdad) }}</span></td>
                         <td>
@@ -930,7 +930,7 @@
                 const previewOk = preview && !preview.classList.contains('d-none');
                 if (!hasNew && (!hasExisting || !previewOk)) {
                     e.preventDefault();
-                    alert(formEditPel.dataset.errorCaratula || 'Debes tener una carátula.');
+                    alert(formEditPel.dataset.errorCaratula);
                 }
             });
         }

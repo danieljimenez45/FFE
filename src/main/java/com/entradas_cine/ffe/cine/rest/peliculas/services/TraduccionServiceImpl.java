@@ -95,4 +95,13 @@ public class TraduccionServiceImpl implements TraduccionService {
         dtos.forEach(dto -> aplicarTraduccion(dto, locale));
         return dtos;
     }
+
+    @Override
+    public String obtenerTituloTraducido(Long peliculaId, String tituloOriginal, String locale) {
+        if (locale == null || locale.equals("es")) return tituloOriginal;
+        return traduccionRepository
+                .findByPeliculaIdAndLocale(peliculaId, locale)
+                .map(PeliculaTraduccion::getTitulo)
+                .orElse(tituloOriginal);
+    }
 }

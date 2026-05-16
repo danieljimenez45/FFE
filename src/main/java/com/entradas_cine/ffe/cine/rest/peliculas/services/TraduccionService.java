@@ -24,4 +24,10 @@ public interface TraduccionService {
      * Aplica {@link #aplicarTraduccion} a toda una lista.
      */
     List<PeliculaResponseDto> aplicarTraducciones(List<PeliculaResponseDto> dtos, String locale);
+
+    /**
+     * Devuelve el título traducido para el locale dado.
+     * Si no existe traducción, devuelve el título original (fallback español).
+     */
+    String obtenerTituloTraducido(Long peliculaId, String tituloOriginal, String locale);
 }

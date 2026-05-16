@@ -38,8 +38,8 @@ public class PeliculaWebController {
     @GetMapping("/")
     @Transactional(readOnly = true)
     public String listarPeliculas(Model model) {
-        List<PeliculaResponseDto> peliculas = peliculaService.findAll();
-        logger.info("Total películas: {}", peliculas.size());
+        List<PeliculaResponseDto> peliculas = peliculaService.findAllActivas();
+        logger.info("Total películas activas: {}", peliculas.size());
         model.addAttribute("peliculas", peliculas);
         return "index";
     }
@@ -65,7 +65,7 @@ public class PeliculaWebController {
         String locale = LocaleContextHolder.getLocale().getLanguage();
 
         List<PeliculaResponseDto> peliculas = traduccionService.aplicarTraducciones(
-            peliculaService.findAll(), locale
+            peliculaService.findAllActivas(), locale
         );
         logger.info("Total películas (locale={}): {}", locale, peliculas.size());
 

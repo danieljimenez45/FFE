@@ -3,10 +3,12 @@ package com.entradas_cine.ffe.cine.web.controllers;
 import com.entradas_cine.ffe.cine.rest.facturas.dto.EntradaLineaDto;
 import com.entradas_cine.ffe.cine.rest.facturas.dto.FacturaResponseDto;
 import com.entradas_cine.ffe.cine.rest.facturas.services.FacturaService;
+import com.entradas_cine.ffe.cine.rest.peliculas.services.TraduccionService;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import com.entradas_cine.ffe.cine.rest.sesiones.repositories.SesionRepository;
 import com.entradas_cine.ffe.cine.web.dto.EntradaCompradaView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -25,12 +27,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MisEntradasController {
 
-    private final FacturaService facturaService;
-    private final SesionRepository sesionRepository;
+    private final FacturaService    facturaService;
+    private final SesionRepository  sesionRepository;
+    private final TraduccionService  traduccionService;
 
     @GetMapping
     @Transactional(readOnly = true)
     public String misEntradas(Model model) {
+        String locale = LocaleContextHolder.getLocale().getLanguage();
         List<FacturaResponseDto> facturas = facturaService.findMisFacturas();
         Map<Long, Sesion> sesionesPorId = new HashMap<>();
 
@@ -43,9 +47,13 @@ public class MisEntradasController {
                 Sesion sesion = sesionesPorId.computeIfAbsent(
                         linea.getIdSesion(),
                         id -> sesionRepository.findById(id).orElse(null));
-                String titulo = sesion != null && sesion.getPelicula() != null
-                        ? sesion.getPelicula().getTitulo()
-                        : "—";
+                String titulo = "—";
+                if (sesion != null && sesion.getPelicula() != null) {
+                    titulo = traduccionService.obtenerTituloTraducido(
+                            sesion.getPelicula().getId(),
+                            sesion.getPelicula().getTitulo(),
+                            locale);
+                }
                 String horario = sesion != null ? sesion.getHorario().getDisplayName() : "—";
                 String sala = sesion != null ? sesion.getSala().getDisplayName() : "—";
                 LocalDate fechaSesion = sesion != null ? sesion.getFecha() : null;

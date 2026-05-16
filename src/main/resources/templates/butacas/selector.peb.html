@@ -58,7 +58,7 @@
                                 <button type="button"
                                         class="butaca-btn {% if butaca.ocupada %}butaca-ocupada{% else %}butaca-libre{% endif %}"
                                         data-seat-key="{{ butaca.key }}"
-                                        data-seat-label="{{ message('seats.fila') }} {{ butaca.fila }}, butaca {{ butaca.numero }}"
+                                        data-seat-label="{{ message('seats.fila') }} {{ butaca.fila }}, {{ message('seats.label.butaca') }} {{ butaca.numero }}"
                                         {% if butaca.ocupada %}disabled aria-disabled="true"{% else %}aria-pressed="false"{% endif %}>
                                     <i class="bi bi-thunderbolt-fill"></i>
                                 </button>

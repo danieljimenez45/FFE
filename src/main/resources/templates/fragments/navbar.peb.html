@@ -35,7 +35,7 @@
 
         </ul>
 
-        <!-- Rayas navbar -->
+        <!-- ENLACES MOVIL -->
         <div class="collapse menu-lateral flex-grow-0 d-lg-none" id="menuLateral">
 
             <button class="cerrar-menu"
@@ -48,14 +48,14 @@
             <ul class="navbar-nav">
 
                 <li class="nav-item">
-                    <a class="nav-link d-inline-flex align-items-center" href="/">
-                        <i class="bi bi-house me-2" aria-hidden="true"></i>{{ message('nav.home') }}
+                    <a class="nav-link" href="/">
+                        {{ message('nav.home') }}
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link d-inline-flex align-items-center" href="/peliculas/lista_peliculas">
-                        <i class="bi bi-film me-2" aria-hidden="true"></i>{{ message('label.cartelera') }}
+                    <a class="nav-link" href="/peliculas/lista_peliculas">
+                        {{ message('label.cartelera') }}
                     </a>
                 </li>
 
@@ -83,12 +83,12 @@
             <!-- Buscador -->
             {% if request.requestURI == '/peliculas/lista_peliculas' %}
                 <form class="d-flex align-items-center gap-2 me-3">
-                    <label for="navSearch">
+                    <label for="buscadorPeliculas">
                         <i class="bi bi-search iconos"></i>
                     </label>
 
                     <input type="search"
-                           id="navSearch"
+                           id="buscadorPeliculas"
                            class="form-control text-center buscador"
                            placeholder="{{ message('nav.search') }}">
                 </form>
@@ -167,35 +167,35 @@
                         <li>
                             <a class="dropdown-item" href="?lang=es">
                                 <img src="https://flagcdn.com/w20/es.png" width="20" alt="ES">
-                                Español
+                                {{ message('lang.es') }}
                             </a>
                         </li>
 
                         <li>
                             <a class="dropdown-item" href="?lang=en">
                                 <img src="https://flagcdn.com/w20/gb.png" width="20" alt="EN">
-                                English
+                                {{ message('lang.en') }}
                             </a>
                         </li>
 
                         <li>
                             <a class="dropdown-item" href="?lang=fr">
                                 <img src="https://flagcdn.com/w20/fr.png" width="20" alt="FR">
-                                Français
+                                {{ message('lang.fr') }}
                             </a>
                         </li>
 
                         <li>
                             <a class="dropdown-item" href="?lang=de">
                                 <img src="https://flagcdn.com/w20/de.png" width="20" alt="DE">
-                                Deutsch
+                                {{ message('lang.de') }}
                             </a>
                         </li>
 
                         <li>
                             <a class="dropdown-item" href="?lang=pt">
                                 <img src="https://flagcdn.com/w20/pt.png" width="20" alt="PT">
-                                Português
+                                {{ message('lang.pt') }}
                             </a>
                         </li>
                     </ul>
