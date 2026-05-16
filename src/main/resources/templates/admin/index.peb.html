@@ -186,7 +186,7 @@
                     {% for p in peliculas %}
                     <tr>
                         <td class="text-muted small">{{ p.id }}</td>
-                        <td class="fw-semibold">{{ p.titulo }}</td>
+                        <td class="fw-semibold">{{ titulosTraducidos[p.id] }}</td>
                         <td class="small">{{ p.director }}</td>
                         <td><span class="badge bg-primary">{{ message('genero.' ~ p.genero) }}</span></td>
                         <td class="small" data-sort="{{ p.duracion }}">{{ p.duracion }} {{ message('label.duracion.unit') }}</td>

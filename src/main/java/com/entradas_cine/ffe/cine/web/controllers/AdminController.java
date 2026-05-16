@@ -4,7 +4,9 @@ import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaCreateDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaUpdateEstadoDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.ClasificacionEdad;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Genero;
+import com.entradas_cine.ffe.cine.rest.peliculas.dto.PeliculaResponseDto;
 import com.entradas_cine.ffe.cine.rest.peliculas.services.PeliculaService;
+import com.entradas_cine.ffe.cine.rest.peliculas.services.TraduccionService;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
@@ -26,9 +28,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Panel de administración web.
@@ -47,13 +54,23 @@ public class AdminController {
     private final SesionService sesionService;
     private final PeliculaPosterStorageService posterStorage;
     private final I18nService i18n;
+    private final TraduccionService traduccionService;
 
     // -- Dashboard principal --------------------------------------------------
 
     @GetMapping
     public String dashboard(Model model) {
+        String locale = LocaleContextHolder.getLocale().getLanguage();
+        List<PeliculaResponseDto> peliculas = peliculaService.findAll();
+        Map<Long, String> titulosTraducidos = peliculas.stream().collect(
+                Collectors.toMap(
+                        PeliculaResponseDto::getId,
+                        p -> traduccionService.obtenerTituloTraducido(p.getId(), p.getTitulo(), locale)
+                ));
+
         model.addAttribute("usuarios",  usuarioService.findAll());
-        model.addAttribute("peliculas", peliculaService.findAll());
+        model.addAttribute("peliculas", peliculas);
+        model.addAttribute("titulosTraducidos", titulosTraducidos);
         model.addAttribute("sesiones",  sesionService.findAll());
         model.addAttribute("generos",         Arrays.asList(Genero.values()));
         model.addAttribute("edades",          Arrays.asList(ClasificacionEdad.values()));

@@ -5,6 +5,7 @@ import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -39,4 +40,18 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
     Page<Entrada> findBySesionIdAndUsuarioId(@Param("sesionId") Long sesionId,
                                             @Param("usuarioId") Long usuarioId,
                                             Pageable pageable);
+
+    /** Elimina las filas de la tabla de unión FACTURAS_ENTRADAS para todas las
+     *  entradas que pertenezcan a sesiones de la película indicada. Debe ejecutarse
+     *  antes de borrar la película para evitar FK violations. */
+    @Modifying
+    @Query(value = """
+            DELETE FROM FACTURAS_ENTRADAS
+            WHERE entrada_id IN (
+                SELECT e.id FROM ENTRADAS e
+                JOIN SESIONES s ON e.id_sesion = s.id
+                WHERE s.id_pelicula = :peliculaId
+            )
+            """, nativeQuery = true)
+    void deleteFacturasEntradasByPeliculaId(@Param("peliculaId") Long peliculaId);
 }

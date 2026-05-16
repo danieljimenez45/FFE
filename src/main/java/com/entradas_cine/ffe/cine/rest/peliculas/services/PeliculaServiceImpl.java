@@ -9,7 +9,9 @@ import com.entradas_cine.ffe.cine.rest.peliculas.mappers.PeliculaMapper;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.ClasificacionEdad;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Genero;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
+import com.entradas_cine.ffe.cine.rest.entradas.repositories.EntradaRepository;
 import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaRepository;
+import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaTraduccionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,9 +26,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PeliculaServiceImpl implements PeliculaService {
 
-    private final PeliculaRepository peliculaRepository;
-    private final PeliculaMapper     peliculaMapper;
-    private final TraduccionService  traduccionService;
+    private final PeliculaRepository           peliculaRepository;
+    private final PeliculaTraduccionRepository  traduccionRepository;
+    private final EntradaRepository            entradaRepository;
+    private final PeliculaMapper               peliculaMapper;
+    private final TraduccionService            traduccionService;
 
     @Override
     public PeliculaResponseDto findById(Long id) {
@@ -153,11 +157,16 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public PeliculaResponseDto deleteById(Long id) {
         Pelicula pelicula = peliculaRepository.findById(id)
-                .orElseThrow(() ->  new PeliculaNotFound(id));
+                .orElseThrow(() -> new PeliculaNotFound(id));
 
-        pelicula.setActiva(false);
+        PeliculaResponseDto dto = peliculaMapper.toResponseDto(pelicula);
 
-        return peliculaMapper.toResponseDto(peliculaRepository.save(pelicula));
+        // Borrar traducciones antes de eliminar la película (FK constraint)
+        entradaRepository.deleteFacturasEntradasByPeliculaId(id);
+        traduccionRepository.deleteByPeliculaId(id);
+        peliculaRepository.delete(pelicula);
+
+        return dto;
     }
 
     

@@ -26,7 +26,8 @@ public class Pelicula {
     private Long id;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "pelicula", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pelicula", fetch = FetchType.EAGER,
+               cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Sesiones asociadas a la película", example = "Sesión de las 18:00")
     private List<Sesion> sesiones;
 

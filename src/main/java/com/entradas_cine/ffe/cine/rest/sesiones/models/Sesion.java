@@ -1,5 +1,6 @@
 package com.entradas_cine.ffe.cine.rest.sesiones.models;
 
+import com.entradas_cine.ffe.cine.rest.entradas.models.Entrada;
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @ToString
@@ -61,5 +63,11 @@ public class Sesion {
     @Column(nullable = false)
     @Schema(description = "Precio de la sesión", example = "10.50")
     private BigDecimal precio;
+
+
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entrada> entradas;
 
 }
