@@ -19,7 +19,7 @@
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#sesiones">
-                comprar entradas
+                {{ message('pag.det.entradas') }}
                 <i class="bi bi-ticket-perforated"></i>
             </button>
         </div>
@@ -70,7 +70,7 @@
             <h1 class="mb-3 titulo-sesiones">{{ pelicula.titulo }}</h1>
 
             <p class="mb-4 text-white">
-                {{ message('detail.instruccion') }}
+                {{ message('seats.instruction') }}
             </p>
 
             {% if sesiones is empty %}

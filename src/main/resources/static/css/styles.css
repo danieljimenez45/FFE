@@ -479,20 +479,22 @@ main {
 }
 
 .seat-grid-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.8rem;
+
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
+
     align-items: center;
-    width: fit-content;
-    margin: 0 auto;
 }
 
 .seat-row {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    min-width: max-content;
 }
 
 .seat-row-label {
@@ -504,9 +506,8 @@ main {
 }
 
 .seat-row-seats {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 2.35rem;
+    display: flex;
+    flex: 0 0 auto;
     gap: 0.45rem;
 }
 
