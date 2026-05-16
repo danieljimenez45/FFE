@@ -25,10 +25,9 @@
                 </a>
             </li>
 
-
         </ul>
 
-        <!-- Rayas navbar -->
+        <!-- ENLACES MOVIL -->
         <div class="collapse menu-lateral flex-grow-0 d-lg-none" id="menuLateral">
 
             <button class="cerrar-menu"
@@ -68,12 +67,12 @@
             <!-- Buscador -->
             {% if request.requestURI == '/peliculas/lista_peliculas' %}
                 <form class="d-flex align-items-center gap-2 me-3">
-                    <label for="navSearch">
+                    <label for="buscadorPeliculas">
                         <i class="bi bi-search iconos"></i>
                     </label>
 
                     <input type="search"
-                           id="navSearch"
+                           id="buscadorPeliculas"
                            class="form-control text-center buscador"
                            placeholder="{{ message('nav.search') }}">
                 </form>
