@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,8 +20,8 @@ import java.io.IOException;
 
 /**
  * Si la petición trae un Bearer JWT válido, deja al usuario autenticado en el contexto.
- * Si el token falla o no hay usuario, responde 401; si no hay token, deja pasar
- * y Spring aplica después las rutas públicas o protegidas.
+ * Si el token es inválido, caducado o el usuario no existe, se ignora la cabecera y la petición
+ * continúa como anónima (las rutas públicas siguen respondiendo; las protegidas devuelven 401).
  * Va solo en la cadena de seguridad de la API, no en la web con formulario y sesión.
  */
 @Slf4j
@@ -40,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        // Sin cabecera o sin "Bearer ": dejar pasar (rutas permitAll)
         if (!StringUtils.hasText(authHeader)
                 || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
             log.debug("Sin cabecera Authorization válida, continuando sin autenticar");
@@ -48,48 +48,48 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.debug("Cabecera Authorization encontrada, procesando token");
-        final String jwt = authHeader.substring(7);
+        final String jwt = authHeader.substring(7).trim();
+        if (!StringUtils.hasText(jwt)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        // Extraer username del token; si falla → 401
         final String userName;
         try {
             userName = jwtService.extractUserName(jwt);
         } catch (Exception e) {
-            log.warn("Token no válido: {}", e.getMessage());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    "Token no autorizado o no válido");
+            log.debug("Bearer ignorado (token no parseable): {}", e.getMessage());
+            filterChain.doFilter(request, response);
             return;
         }
 
-        log.debug("Username extraído del token: {}", userName);
+        if (!StringUtils.hasText(userName)
+                || SecurityContextHolder.getContext().getAuthentication() != null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        if (StringUtils.hasText(userName)
-                && SecurityContextHolder.getContext().getAuthentication() == null) {
+        final UserDetails userDetails;
+        try {
+            userDetails = authUsersService.loadUserByUsername(userName);
+        } catch (UsernameNotFoundException e) {
+            log.debug("Bearer ignorado (usuario no encontrado): {}", userName);
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-            // Cargar usuario desde BD; si no existe → 401
-            final UserDetails userDetails;
-            try {
-                userDetails = authUsersService.loadUserByUsername(userName);
-            } catch (Exception e) {
-                log.warn("Usuario no encontrado: {}", userName);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                        "Usuario no autorizado");
-                return;
-            }
-
-            // Validar token y establecer contexto de seguridad
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                log.debug("Token válido, autenticando usuario: {}", userName);
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request));
-                context.setAuthentication(authToken);
-                SecurityContextHolder.setContext(context);
-            }
+        if (jwtService.isTokenValid(jwt, userDetails)) {
+            log.debug("Token válido, autenticando usuario: {}", userName);
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+            authToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request));
+            context.setAuthentication(authToken);
+            SecurityContextHolder.setContext(context);
+        } else {
+            log.debug("Bearer ignorado (token no válido para el usuario): {}", userName);
         }
 
         filterChain.doFilter(request, response);

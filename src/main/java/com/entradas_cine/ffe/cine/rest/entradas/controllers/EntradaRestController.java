@@ -83,12 +83,12 @@ public class EntradaRestController {
     }
 
     /**
-     * Butacas ocupadas — público.
-     * Este endpoint no requiere autenticación para que el selector de asientos
-     * del frontend pueda mostrar qué butacas están libres antes del login.
+     * Butacas ocupadas de la sesión (fila/número). Requiere autenticación, alineado con la web.
      */
-    @Operation(summary = "Butacas ocupadas de una sesión", description = "Público — no requiere autenticación")
+    @Operation(summary = "Butacas ocupadas de una sesión")
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/sesion/{id}/butacas-ocupadas")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ButacaOcupadaResponseDto>> findButacasOcupadasBySesion(
             @PathVariable Long id) {
         log.info("EntradaRestController.findButacasOcupadasBySesion: {}", id);

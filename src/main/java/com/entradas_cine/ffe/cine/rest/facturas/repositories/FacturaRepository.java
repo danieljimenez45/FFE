@@ -15,4 +15,6 @@ public interface FacturaRepository extends JpaRepository<Factura, Long> {
     boolean existsByEntradasContaining(Entrada entrada);
 
     List<Factura> findByUsuarioId(Long usuarioId);
+
+    boolean existsByUsuario_IdAndEntradas_Id(Long usuarioId, Long entradaId);
 }

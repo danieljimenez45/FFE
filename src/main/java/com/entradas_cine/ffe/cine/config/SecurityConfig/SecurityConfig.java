@@ -32,10 +32,13 @@ import org.springframework.security.web.context.DelegatingSecurityContextReposit
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -97,9 +100,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${app.cors.allowed-origins:http://localhost:3010,http://127.0.0.1:3010}") String allowedOrigins) {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
+        List<String> origins = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+        configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(
                 List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
@@ -149,11 +157,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,
                     ApiRoutes.SESIONES + "/**").permitAll()
 
-                // Ocupación de butacas: hace falta antes de loguearse al elegir sitio
-                .requestMatchers(HttpMethod.GET,
-                    ApiRoutes.ENTRADAS + "/sesion/*/butacas-ocupadas").permitAll()
-
-                // Comprar y ver facturas: hace falta token de usuario
+                // Entradas, butacas ocupadas y facturas: hace falta token de usuario
                 .requestMatchers(HttpMethod.GET,
                     ApiRoutes.ENTRADAS + "/**").authenticated()
                 .requestMatchers(HttpMethod.POST,
@@ -277,10 +281,11 @@ public class SecurityConfig {
                     .includeSubDomains(true)))
             .authorizeHttpRequests(auth -> auth
 
-                // Home, login, registro y recursos estáticos sin sesión
+                // Cartelera, login, registro y recursos estáticos sin sesión
                 .requestMatchers(
                     "/",
-                    "/sesiones/*/butacas",
+                    "/peliculas/detalle/**",
+                    "/peliculas/lista_peliculas",
                     "/auth/login",
                     "/auth/register",
                     "/error",
@@ -297,12 +302,17 @@ public class SecurityConfig {
                 // Cualquier otra página: hay que haberse logueado por el formulario
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/auth/login-post")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/auth/login?error=true")
-                .permitAll())
+            .formLogin(form -> {
+                SavedRequestAwareAuthenticationSuccessHandler successHandler =
+                        new SavedRequestAwareAuthenticationSuccessHandler();
+                successHandler.setDefaultTargetUrl("/");
+                successHandler.setAlwaysUseDefaultTargetUrl(false);
+                form.loginPage("/auth/login")
+                    .loginProcessingUrl("/auth/login-post")
+                    .successHandler(successHandler)
+                    .failureUrl("/auth/login?error=true")
+                    .permitAll();
+            })
             .logout(logout -> logout
                 .logoutUrl("/auth/logout")
                 .logoutSuccessUrl("/")
