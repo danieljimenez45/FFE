@@ -13,11 +13,6 @@ main {
     flex: 1 0 auto;
 }
 
-.contenedor-padre {
-    background: #0b1a33;
-}
-
-
 /* =========================
    HEADER
 ========================= */
@@ -178,9 +173,9 @@ main {
 }
 
 .nav-link{
-    color: red;
+    color: orangered;
     font-weight: bold;
-    text-shadow: 0 0 3px red, 0 0 5px red;
+    text-shadow: 0 0 3px orangered, 0 0 5px orangered;
     transition: all ease 0.4s;
 }
 
@@ -414,7 +409,6 @@ main {
     border-color: rgba(60, 130, 220, 0.5);
     color: #aaccff;
 }
-
 
 .boton-sipno {
     color: #ffffff;
@@ -1106,4 +1100,140 @@ th[data-sortable]:hover .sort-icon {
     line-height: 1.2;
 
     text-shadow: 0 0 5px orangered, 0 0 10px #0d1832;
+}
+
+/* =========================
+   PAGINA DETALLE PELICULA
+========================= */
+
+.detalle-pelicula {
+    display: grid;
+    grid-template-columns: 340px 1fr 260px;
+    gap: 50px;
+    max-width: 1400px;
+    margin: 70px auto;
+    align-items: start;
+}
+
+/* COLUMNAS */
+
+.detalle-columna-poster,
+.detalle-columna-info,
+.detalle-columna-lateral {
+    padding: 10px;
+    color: white;
+}
+
+/* POSTER */
+
+.detalle-columna-poster {
+    width: 340px;
+}
+
+.imagen-detalle-pelicula {
+    width: 100%;
+    display: block;
+    border-radius: 14px;
+}
+
+/* TITULO */
+
+.detalle-columna-info h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #ff5c00;
+}
+
+
+/* TEXTOS */
+.detalle-columna-lateral {
+    border-left: 2px solid rgba(255,255,255,0.1);
+    padding-left: 40px;
+}
+
+.detalle-columna-info p,
+.detalle-columna-lateral p {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #e2e2e2;
+    letter-spacing: 0.5px;
+}
+
+.detalle-columna-info strong,
+.detalle-columna-lateral strong {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #ff5c00;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+}
+
+/* BOTON ENTRADAS */
+
+.boton-sesiones-detalle {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background-color: #ff5c00;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    transition: 0.3s;
+}
+
+.boton-sesiones-detalle:hover {
+    background-color: #ff7b2f;
+    transform: scale(1.03);
+}
+
+/* BOTON TRAILER */
+
+.boton-trailer {
+    margin-top: 20px;
+    padding: 12px 28px;
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    transition: 0.3s;
+}
+
+.boton-trailer:hover {
+    background-color: #ff4d5e;
+    transform: scale(1.05);
+}
+
+/* MODAL TRAILER */
+
+.trailer-content {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.trailer-content .modal-header {
+    background: transparent;
+    padding-bottom: 10px;
+}
+
+.trailer-content .modal-body {
+    padding: 0;
+}
+
+.trailer-content iframe {
+    border: none;
+    border-radius: 12px;
+}
+
+#modalTrailer .modal-dialog {
+    max-width: 1100px;
+}
+
+.titulo-sesiones{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
 }

@@ -39,7 +39,7 @@ class SesionServiceImplTest {
         SesionResponseDto result = sesionService.findById(1L);
 
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getPelicula()).isEqualTo("Toy Story");
+        assertThat(result.getPelicula()).isEqualTo("pelicula.titulo.toy_story");
         assertThat(result.getFecha()).isEqualTo(LocalDate.of(2024, 12, 31));
     }
 
@@ -57,7 +57,7 @@ class SesionServiceImplTest {
         List<SesionResponseDto> resultado = sesionService.findByPelicula(1L);
 
         assertThat(resultado).hasSize(4);
-        assertThat(resultado).allMatch(s -> s.getPelicula().equals("Toy Story"));
+        assertThat(resultado).allMatch(s -> s.getPelicula().equals("pelicula.titulo.toy_story"));
     }
 
     @Test
