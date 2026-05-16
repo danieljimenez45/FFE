@@ -44,6 +44,9 @@ public class PeliculaMapper {
         pelicula.setGenero(dto.getGenero());
         pelicula.setEstreno(dto.getEstreno());
         pelicula.setClasificacionEdad(dto.getClasificacionEdad());
+        if (dto.getImagen() != null) {
+            pelicula.setImagen(dto.getImagen());
+        }
     }
 
     public PeliculaResponseDto toResponseDto(Pelicula pelicula) {

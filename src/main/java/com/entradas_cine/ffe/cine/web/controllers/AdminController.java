@@ -15,12 +15,15 @@ import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioCreateDto;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
 import com.entradas_cine.ffe.cine.rest.usuarios.models.Rol;
 import com.entradas_cine.ffe.cine.rest.usuarios.services.UsuarioService;
+import com.entradas_cine.ffe.cine.web.services.I18nService;
+import com.entradas_cine.ffe.cine.web.services.PeliculaPosterStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -42,6 +45,8 @@ public class AdminController {
     private final UsuarioService usuarioService;
     private final PeliculaService peliculaService;
     private final SesionService sesionService;
+    private final PeliculaPosterStorageService posterStorage;
+    private final I18nService i18n;
 
     // -- Dashboard principal --------------------------------------------------
 
@@ -146,9 +151,17 @@ public class AdminController {
             @RequestParam String genero,
             @RequestParam String estreno,
             @RequestParam String clasificacionEdad,
+            @RequestParam(value = "caratula", required = false) MultipartFile caratula,
             RedirectAttributes ra) {
 
         try {
+            String imagen = peliculaService.findById(id).getImagen();
+
+            if (caratula != null && !caratula.isEmpty()) {
+                posterStorage.deleteUploadedIfPresent(imagen);
+                imagen = posterStorage.store(caratula, titulo);
+            }
+            posterStorage.requireValidPoster(imagen);
             PeliculaCreateDto dto = PeliculaCreateDto.builder()
                     .titulo(titulo)
                     .director(director)
@@ -157,10 +170,15 @@ public class AdminController {
                     .genero(Genero.valueOf(genero))
                     .estreno(LocalDate.parse(estreno))
                     .clasificacionEdad(ClasificacionEdad.valueOf(clasificacionEdad))
+                    .imagen(imagen)
                     .build();
             peliculaService.update(id, dto);
             ra.addFlashAttribute("successMsg", "Película «" + titulo + "» actualizada.");
             log.info("Admin editó película id={}", id);
+        } catch (IllegalArgumentException e) {
+            String key = e.getMessage();
+            ra.addFlashAttribute("errorMsg",
+                    key != null && key.startsWith("admin.") ? i18n.getMessage(key) : key);
         } catch (Exception e) {
             ra.addFlashAttribute("errorMsg", "No se pudo actualizar la película: " + e.getMessage());
         }
@@ -176,9 +194,11 @@ public class AdminController {
             @RequestParam String genero,
             @RequestParam String estreno,
             @RequestParam String clasificacionEdad,
+            @RequestParam("caratula") MultipartFile caratula,
             RedirectAttributes ra) {
 
         try {
+            String imagen = posterStorage.store(caratula, titulo);
             LocalDate fechaEstreno = LocalDate.parse(estreno);
             PeliculaCreateDto dto = PeliculaCreateDto.builder()
                     .titulo(titulo)
@@ -188,10 +208,15 @@ public class AdminController {
                     .genero(Genero.valueOf(genero))
                     .estreno(fechaEstreno)
                     .clasificacionEdad(ClasificacionEdad.valueOf(clasificacionEdad))
+                    .imagen(imagen)
                     .build();
             peliculaService.create(dto);
             ra.addFlashAttribute("successMsg", "Película «" + titulo + "» creada correctamente.");
             log.info("Admin creó película '{}'", titulo);
+        } catch (IllegalArgumentException e) {
+            String key = e.getMessage();
+            ra.addFlashAttribute("errorMsg",
+                    key != null && key.startsWith("admin.") ? i18n.getMessage(key) : key);
         } catch (DateTimeParseException e) {
             ra.addFlashAttribute("errorMsg", "Fecha de estreno no válida.");
         } catch (Exception e) {
@@ -253,10 +278,12 @@ public class AdminController {
             sesionService.create(dto);
             ra.addFlashAttribute("successMsg", "Sesión creada correctamente.");
             log.info("Admin creó sesión para película id={}", idPelicula);
+        } catch (IllegalArgumentException e) {
+            flashErrorAdmin(ra, e);
         } catch (DateTimeParseException e) {
             ra.addFlashAttribute("errorMsg", "Fecha no válida.");
         } catch (Exception e) {
-            ra.addFlashAttribute("errorMsg", "No se pudo crear la sesión: " + e.getMessage());
+            flashErrorGenerico(ra, e, "crear sesión");
         }
         return "redirect:/admin#tab-sesiones";
     }
@@ -282,8 +309,12 @@ public class AdminController {
             sesionService.update(id, dto);
             ra.addFlashAttribute("successMsg", "Sesión #" + id + " actualizada.");
             log.info("Admin editó sesión id={}", id);
+        } catch (IllegalArgumentException e) {
+            flashErrorAdmin(ra, e);
+        } catch (DateTimeParseException e) {
+            ra.addFlashAttribute("errorMsg", "Fecha no válida.");
         } catch (Exception e) {
-            ra.addFlashAttribute("errorMsg", "No se pudo actualizar la sesión: " + e.getMessage());
+            flashErrorGenerico(ra, e, "editar sesión id=" + id);
         }
         return "redirect:/admin#tab-sesiones";
     }
@@ -295,12 +326,24 @@ public class AdminController {
             ra.addFlashAttribute("successMsg", "Sesión eliminada correctamente.");
             log.info("Admin eliminó sesión id={}", id);
         } catch (Exception e) {
-            ra.addFlashAttribute("errorMsg", "No se pudo eliminar la sesión: " + e.getMessage());
+            flashErrorGenerico(ra, e, "eliminar sesión id=" + id);
         }
         return "redirect:/admin#tab-sesiones";
     }
 
     // -- Helper privado --------------------------------------------------
+
+    private void flashErrorAdmin(RedirectAttributes ra, IllegalArgumentException e) {
+        String key = e.getMessage();
+        ra.addFlashAttribute("errorMsg",
+                key != null && key.startsWith("admin.") ? i18n.getMessage(key) : key);
+    }
+
+    private void flashErrorGenerico(RedirectAttributes ra, Exception e, String contexto) {
+        log.warn("Admin: fallo al {} — {}", contexto, e.toString());
+        log.debug("Detalle", e);
+        ra.addFlashAttribute("errorMsg", i18n.getMessage("admin.error.generico"));
+    }
 
     private String crearUsuarioConRol(
             String username, String nombre, String apellidos,

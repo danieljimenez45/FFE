@@ -97,6 +97,7 @@ public class SesionServiceImpl implements  SesionService {
     @Override
     public SesionResponseDto create(SesionCreateDto dto) {
         log.info("Creando nueva sesión para película id={}", dto.getIdPelicula());
+        validarFechaSesion(dto.getFecha());
 
         Pelicula pelicula = peliculaRepository.findById(dto.getIdPelicula())
                 .orElseThrow(() -> new PeliculaNotFound(dto.getIdPelicula()));
@@ -108,6 +109,7 @@ public class SesionServiceImpl implements  SesionService {
     @Override
     public SesionResponseDto update(Long id, SesionUpdateDto dto) {
         log.info("Actualizando sesión con ID: {}", id);
+        validarFechaSesion(dto.getFecha());
         Sesion sesion = sesionRepository.findById(id)
                 .orElseThrow(() -> new SesionNotFound(id));
         sesionMapper.actualizarSesion(sesion, dto);
@@ -122,6 +124,12 @@ public class SesionServiceImpl implements  SesionService {
                 .orElseThrow(() -> new SesionNotFound(id));
 
         sesionRepository.delete(sesion);
+    }
+
+    private void validarFechaSesion(LocalDate fecha) {
+        if (fecha != null && fecha.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("admin.error.sesion.fecha.pasada");
+        }
     }
 
 }

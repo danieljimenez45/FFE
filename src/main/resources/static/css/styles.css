@@ -1030,6 +1030,68 @@ th[data-sortable]:hover .sort-icon {
     opacity: 1;
 }
 
+/* ADMIN — SUBIDA CARÁTULA */
+
+.poster-dropzone {
+    position: relative;
+    border: 2px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.poster-dropzone:hover,
+.poster-dropzone--dragover {
+    border-color: orangered;
+    background-color: rgba(207, 79, 0, 0.08);
+}
+
+.poster-dropzone--filled {
+    border-style: solid;
+    border-color: rgba(207, 79, 0, 0.6);
+}
+
+.poster-dropzone-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.poster-dropzone-icon {
+    font-size: 2rem;
+    color: orangered;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.poster-dropzone-title {
+    font-weight: 600;
+    color: #fff;
+}
+
+.poster-dropzone-hint {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.poster-dropzone-preview img {
+    max-height: 180px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.poster-dropzone-filename {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
 .poster-titulo{
     color: orangered;
 

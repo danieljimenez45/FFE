@@ -211,6 +211,7 @@
                                         data-genero="{{ p.genero }}"
                                         data-estreno="{{ p.estreno }}"
                                         data-clasificacion="{{ p.clasificacionEdad }}"
+                                        data-imagen="{{ p.imagen | escape }}"
                                         onclick="abrirEditPelicula(this)">
                                     <i class="bi bi-pencil"></i>
                                 </button>
@@ -431,7 +432,7 @@
      aria-labelledby="modalCrearPeliculaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post" action="/admin/peliculas/crear">
+            <form method="post" action="/admin/peliculas/crear" enctype="multipart/form-data" id="formCrearPelicula">
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCrearPeliculaLabel">
@@ -476,6 +477,23 @@
                             <input type="date" id="cpEstreno" name="estreno" class="form-control" required>
                         </div>
                         <div class="col-12">
+                            <label class="form-label fw-semibold">{{ message('admin.form.caratula') }}</label>
+                            <div id="cpCaratulaDropzone" class="poster-dropzone" tabindex="0" role="button"
+                                 aria-label="{{ message('admin.form.caratula.hint') }}">
+                                <input type="file" id="cpCaratula" name="caratula" class="poster-dropzone-input"
+                                       accept="image/jpeg,image/png" required>
+                                <div class="poster-dropzone-content" id="cpCaratulaPlaceholder">
+                                    <i class="bi bi-cloud-arrow-up poster-dropzone-icon"></i>
+                                    <p class="poster-dropzone-title mb-1">{{ message('admin.form.caratula.hint') }}</p>
+                                    <p class="poster-dropzone-hint mb-0">{{ message('admin.form.caratula.formats') }}</p>
+                                </div>
+                                <div class="poster-dropzone-preview d-none" id="cpCaratulaPreview">
+                                    <img id="cpCaratulaPreviewImg" src="" alt="{{ message('admin.form.caratula.preview') }}">
+                                    <p class="poster-dropzone-filename mb-0" id="cpCaratulaFileName"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <label for="cpSinopsis" class="form-label fw-semibold">{{ message('admin.form.sinopsis') }}</label>
                             <textarea id="cpSinopsis" name="sinopsis" class="form-control" rows="3"
                                       required maxlength="250"></textarea>
@@ -498,7 +516,8 @@
      aria-labelledby="modalEditarPeliculaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post" id="formEditarPelicula" action="">
+            <form method="post" id="formEditarPelicula" action="" enctype="multipart/form-data"
+                  data-error-caratula="{{ message('admin.error.caratula.requerida') }}">
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditarPeliculaLabel">
@@ -541,6 +560,25 @@
                             <input type="date" id="editPelEstreno" name="estreno" class="form-control" required>
                         </div>
                         <div class="col-12">
+                            <label class="form-label fw-semibold">{{ message('admin.form.caratula') }}</label>
+                            <input type="hidden" id="editPelImagenActual" value="">
+                            <div id="editPelCaratulaDropzone" class="poster-dropzone" tabindex="0" role="button"
+                                 aria-label="{{ message('admin.form.caratula.hint') }}">
+                                <input type="file" id="editPelCaratula" name="caratula" class="poster-dropzone-input"
+                                       accept="image/jpeg,image/png">
+                                <div class="poster-dropzone-content" id="editPelCaratulaPlaceholder">
+                                    <i class="bi bi-cloud-arrow-up poster-dropzone-icon"></i>
+                                    <p class="poster-dropzone-title mb-1">{{ message('admin.form.caratula.hint') }}</p>
+                                    <p class="poster-dropzone-hint mb-0">{{ message('admin.form.caratula.editar') }}</p>
+                                </div>
+                                <div class="poster-dropzone-preview d-none" id="editPelCaratulaPreview">
+                                    <img id="editPelCaratulaPreviewImg" src="" alt="{{ message('admin.form.caratula.preview') }}">
+                                    <p class="poster-dropzone-filename mb-0" id="editPelCaratulaFileName"></p>
+                                </div>
+                            </div>
+                            <p class="form-text mb-0">{{ message('admin.form.caratula.reemplazar') }}</p>
+                        </div>
+                        <div class="col-12">
                             <label for="editPelSinopsis" class="form-label fw-semibold">{{ message('admin.form.sinopsis') }}</label>
                             <textarea id="editPelSinopsis" name="sinopsis" class="form-control" rows="3" required maxlength="250"></textarea>
                         </div>
@@ -574,7 +612,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="editSesionFecha" class="form-label fw-semibold">{{ message('admin.col.fecha') }}</label>
-                            <input type="date" id="editSesionFecha" name="fecha" class="form-control" required>
+                            <input type="date" id="editSesionFecha" name="fecha" class="form-control" required min="{{ today }}">
                         </div>
                         <div class="col-md-6">
                             <label for="editSesionHorario" class="form-label fw-semibold">{{ message('admin.col.horario') }}</label>
@@ -644,7 +682,7 @@
                         </div>
                         <div class="col-12">
                             <label for="csFecha" class="form-label fw-semibold">{{ message('admin.col.fecha') }}</label>
-                            <input type="date" id="csFecha" name="fecha" class="form-control" required>
+                            <input type="date" id="csFecha" name="fecha" class="form-control" required min="{{ today }}">
                         </div>
                         <div class="col-md-6">
                             <label for="csHorario" class="form-label fw-semibold">{{ message('admin.col.horario') }}</label>
@@ -870,7 +908,120 @@
         new AdminTable('tabla-usuarios',  'pag-usuarios',  10);
         new AdminTable('tabla-peliculas', 'pag-peliculas', 10);
         new AdminTable('tabla-sesiones',  'pag-sesiones',  10);
+
+        window.editPeliculaDropzone = setupPosterDropzone({
+            dropzoneId: 'editPelCaratulaDropzone',
+            inputId: 'editPelCaratula',
+            placeholderId: 'editPelCaratulaPlaceholder',
+            previewId: 'editPelCaratulaPreview',
+            previewImgId: 'editPelCaratulaPreviewImg',
+            fileNameId: 'editPelCaratulaFileName',
+            modalId: 'modalEditarPelicula',
+            required: false
+        });
+        const formEditPel = document.getElementById('formEditarPelicula');
+        if (formEditPel) {
+            formEditPel.addEventListener('submit', function (e) {
+                const input = document.getElementById('editPelCaratula');
+                const actual = document.getElementById('editPelImagenActual');
+                const preview = document.getElementById('editPelCaratulaPreview');
+                const hasNew = input && input.files && input.files.length > 0;
+                const hasExisting = actual && actual.value && actual.value.trim();
+                const previewOk = preview && !preview.classList.contains('d-none');
+                if (!hasNew && (!hasExisting || !previewOk)) {
+                    e.preventDefault();
+                    alert(formEditPel.dataset.errorCaratula || 'Debes tener una carátula.');
+                }
+            });
+        }
+        setupPosterDropzone({
+            dropzoneId: 'cpCaratulaDropzone',
+            inputId: 'cpCaratula',
+            placeholderId: 'cpCaratulaPlaceholder',
+            previewId: 'cpCaratulaPreview',
+            previewImgId: 'cpCaratulaPreviewImg',
+            fileNameId: 'cpCaratulaFileName',
+            modalId: 'modalCrearPelicula',
+            required: true
+        });
     });
+
+    function setupPosterDropzone(cfg) {
+        const dropzone = document.getElementById(cfg.dropzoneId);
+        const input = document.getElementById(cfg.inputId);
+        const placeholder = document.getElementById(cfg.placeholderId);
+        const preview = document.getElementById(cfg.previewId);
+        const previewImg = document.getElementById(cfg.previewImgId);
+        const fileName = document.getElementById(cfg.fileNameId);
+        const modal = cfg.modalId ? document.getElementById(cfg.modalId) : null;
+        if (!dropzone || !input) return null;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+
+        function reset() {
+            input.value = '';
+            input.required = !!cfg.required;
+            placeholder.classList.remove('d-none');
+            preview.classList.add('d-none');
+            previewImg.removeAttribute('src');
+            fileName.textContent = '';
+            dropzone.classList.remove('poster-dropzone--filled', 'poster-dropzone--dragover');
+        }
+
+        function showPreview(src, label) {
+            previewImg.src = src;
+            fileName.textContent = label || '';
+            placeholder.classList.add('d-none');
+            preview.classList.remove('d-none');
+            dropzone.classList.add('poster-dropzone--filled');
+        }
+
+        function showFile(file) {
+            if (!file || !allowedTypes.includes(file.type)) return;
+            const reader = new FileReader();
+            reader.onload = function (e) { showPreview(e.target.result, file.name); };
+            reader.readAsDataURL(file);
+        }
+
+        function showExisting(imagen) {
+            reset();
+            if (!imagen || !String(imagen).trim()) return;
+            showPreview('/images/peliculas/' + encodeURI(imagen), imagen);
+        }
+
+        dropzone.addEventListener('click', function () { input.click(); });
+        dropzone.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                input.click();
+            }
+        });
+        input.addEventListener('change', function () {
+            if (input.files && input.files[0]) showFile(input.files[0]);
+        });
+        dropzone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            dropzone.classList.add('poster-dropzone--dragover');
+        });
+        dropzone.addEventListener('dragleave', function () {
+            dropzone.classList.remove('poster-dropzone--dragover');
+        });
+        dropzone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            dropzone.classList.remove('poster-dropzone--dragover');
+            const file = e.dataTransfer.files && e.dataTransfer.files[0];
+            if (!file) return;
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            showFile(file);
+        });
+        if (modal) {
+            modal.addEventListener('hidden.bs.modal', reset);
+        }
+
+        return { showExisting: showExisting, reset: reset };
+    }
 
     /* Rellenar el modal de edición de usuario con los datos del botón pulsado */
     function abrirEditUsuario(btn) {
@@ -903,6 +1054,11 @@
 
         const selClasif = document.getElementById('editPelClasificacion');
         for (let opt of selClasif.options) { opt.selected = (opt.value === d.clasificacion); }
+
+        document.getElementById('editPelImagenActual').value = d.imagen || '';
+        if (window.editPeliculaDropzone) {
+            window.editPeliculaDropzone.showExisting(d.imagen || '');
+        }
 
         new bootstrap.Modal(document.getElementById('modalEditarPelicula')).show();
     }
