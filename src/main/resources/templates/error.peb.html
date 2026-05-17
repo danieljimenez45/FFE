@@ -1,33 +1,46 @@
+{% extends "fragments/layout" %}
 
-{% block titulo %}
-    {{ message('error.page.title') }}
-
-{% endblock %}
+{% block titulo %}{{ message('error.page.title') }} {{ errorCode }}{% endblock %}
 
 {% block contenido %}
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 text-center">
 
-    <div class="container py-5 text-center text-light">
-        <div class="card bg-dark bg-opacity-75 shadow-lg border-danger p-5">
+        <div class="card card-panel shadow-lg p-4 p-md-5">
 
-            <h1 class="display-1 fw-bold text-danger">
-                {{ errorCode }}
-            </h1>
+            <div class="mb-3">
+                {% if errorCode == '404' %}
+                    <i class="bi bi-map" style="font-size: 4rem; color: #e0a830;"></i>
+                {% elseif errorCode == '403' %}
+                    <i class="bi bi-shield-x" style="font-size: 4rem; color: #dc3545;"></i>
+                {% elseif errorCode == '500' %}
+                    <i class="bi bi-bug" style="font-size: 4rem; color: #dc3545;"></i>
+                {% else %}
+                    <i class="bi bi-exclamation-triangle" style="font-size: 4rem; color: #e0a830;"></i>
+                {% endif %}
+            </div>
 
-            <h2 class="mb-4">
-                {{ errorTitle }}
-            </h2>
+            {% if errorCode == '404' %}
+            <h1 class="display-1 fw-bold mb-1" style="color: #e0a830;">{{ errorCode }}</h1>
+            {% else %}
+            <h1 class="display-1 fw-bold mb-1" style="color: #dc3545;">{{ errorCode }}</h1>
+            {% endif %}
 
-            <p class="lead">
-                {{ errorMessage }}
-            </p>
+            <h2 class="h4 fw-bold text-white mb-3">{{ errorTitle }}</h2>
 
-            <div>
-                <a href="{{ errorUrl }}" class="btn btn-danger">
-                    <i class="bi bi-house-door"></i>
+            <p class="text-muted mb-4">{{ errorMessage }}</p>
 
-                    {{ message('nav.home') }}
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a href="/" class="btn btn-warning fw-semibold">
+                    <i class="bi bi-house-door me-2"></i>{{ message('nav.home') }}
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>{{ message('error.btn.volver') }}
                 </a>
             </div>
+
         </div>
+
     </div>
+</div>
 {% endblock %}

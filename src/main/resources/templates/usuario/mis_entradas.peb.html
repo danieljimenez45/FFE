@@ -29,10 +29,10 @@
                     <thead>
                         <tr class="text-muted small">
                             <th scope="col">{{ message('mis.entradas.col.pelicula') }}</th>
-                            <th scope="col">{{ message('mis.entradas.col.sesion') }}</th>
+                            <th scope="col" class="entradas-col-sesion">{{ message('mis.entradas.col.sesion') }}</th>
                             <th scope="col">{{ message('mis.entradas.col.butaca') }}</th>
                             <th scope="col">{{ message('mis.entradas.col.precio') }}</th>
-                            <th scope="col">{{ message('mis.entradas.col.factura') }}</th>
+                            <th scope="col" class="entradas-col-factura">{{ message('mis.entradas.col.factura') }}</th>
                             <th scope="col" class="text-end">{{ message('mis.entradas.col.acciones') }}</th>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@
                         {% for entrada in entradas %}
                         <tr>
                             <td class="fw-semibold">{{ entrada.tituloPelicula }}</td>
-                            <td class="small">
+                            <td class="small entradas-col-sesion">
                                 {% if entrada.fechaSesion is not null %}
                                     {{ entrada.fechaSesion }}<br>
                                 {% endif %}
@@ -52,7 +52,7 @@
                                 </span>
                             </td>
                             <td>{{ entrada.precio }} €</td>
-                            <td class="small font-monospace text-muted">{{ entrada.codigoFactura }}</td>
+                            <td class="small font-monospace text-muted entradas-col-factura">{{ entrada.codigoFactura }}</td>
                             <td class="text-end">
                                 <a href="/facturas/{{ entrada.numeroFactura }}/pdf"
                                    class="btn btn-sm btn-outline-light"

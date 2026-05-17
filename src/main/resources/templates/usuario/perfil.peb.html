@@ -104,7 +104,7 @@
 {# Modal: Editar perfil #}
 <div class="modal fade" id="modalEditarPerfil" tabindex="-1"
      aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <form method="post" action="/perfil/editar">
                 <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">

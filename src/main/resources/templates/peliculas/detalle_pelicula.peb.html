@@ -65,7 +65,7 @@
     </section>
 
     <!-- SESIONES -->
-    <div class="collapse" id="sesiones">
+    <div class="collapse" id="sesiones" data-scroll-on-open="true">
         <div class="container py-4 text-white d-flex flex-column align-items-center justify-content-center">
             <h1 class="mb-3 titulo-sesiones">{{ pelicula.titulo }}</h1>
 
@@ -90,5 +90,10 @@
 
     </div>
 
+<script>
+    document.getElementById('sesiones').addEventListener('shown.bs.collapse', function () {
+        this.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+</script>
 
 {% endblock %}

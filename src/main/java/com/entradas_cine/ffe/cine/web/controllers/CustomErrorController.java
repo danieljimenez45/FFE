@@ -21,29 +21,35 @@ public class CustomErrorController implements ErrorController {
 
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        String errorTitle = "Error";
+        String errorTitle   = i18nService.getMessage("error.500");
         String errorMessage = i18nService.getMessage("error.general");
-        String errorCode = "500";
+        String errorCode    = "500";
 
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
             errorCode = String.valueOf(statusCode);
 
-            if (statusCode == HttpStatus.NOT_FOUND.value()){
-                errorTitle = i18nService.getMessage("error.404");
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                errorTitle   = i18nService.getMessage("error.404");
                 errorMessage = i18nService.getMessage("error.404.message");
-            }else if (statusCode == HttpStatus.FORBIDDEN.value()){
-                errorTitle = i18nService.getMessage("error.403");
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                errorTitle   = i18nService.getMessage("error.403");
                 errorMessage = i18nService.getMessage("error.403.message");
-            }else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
-                errorTitle = i18nService.getMessage("error.500");
+            } else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
+                errorTitle   = i18nService.getMessage("error.401");
+                errorMessage = i18nService.getMessage("error.401.message");
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                errorTitle   = i18nService.getMessage("error.500");
                 errorMessage = i18nService.getMessage("error.500.message");
+            } else if (statusCode == HttpStatus.SERVICE_UNAVAILABLE.value()) {
+                errorTitle   = i18nService.getMessage("error.503");
+                errorMessage = i18nService.getMessage("error.503.message");
             }
         }
 
-        model.addAttribute("errorTitle", errorTitle);
+        model.addAttribute("errorTitle",   errorTitle);
         model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("errorCode", errorCode);
+        model.addAttribute("errorCode",    errorCode);
 
         return "error";
     }

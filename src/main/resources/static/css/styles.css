@@ -897,6 +897,22 @@ th[data-sortable]:hover .sort-icon {
         margin-left: 0.5rem !important;
         margin-right: 0.5rem !important;
     }
+
+    /* Header */
+    .contenido-header {
+        width: 75%;
+    }
+
+    /* Admin nav-tabs: scroll horizontal en móvil */
+    .nav-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 1px;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tabs .nav-link { white-space: nowrap; }
 }
 
 /* =========================
@@ -1346,5 +1362,94 @@ th[data-sortable]:hover .sort-icon {
     .detalle-columna-info strong,
     .detalle-columna-lateral strong {
         font-size: 1.25rem;
+    }
+}
+
+/* =========================
+   RESPONSIVE ADICIONAL
+========================= */
+
+/* Footer: apilar en pantallas pequeñas */
+@media (max-width: 576px) {
+    .footer-cine .row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+    .footer-cine .row > [class*="col-"] {
+        width: 100%;
+        text-align: center;
+    }
+    .footer-cine .row .row {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .footer-lista-autores {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* Mis Entradas: ocultar columnas secundarias en móvil */
+@media (max-width: 576px) {
+    .entradas-col-sesion,
+    .entradas-col-factura {
+        display: none;
+    }
+}
+
+/* Confirmación: altura del embed PDF responsive */
+.confirmacion-pdf { height: 700px; }
+
+@media (max-width: 768px) {
+    .confirmacion-pdf { height: 420px; }
+}
+
+@media (max-width: 480px) {
+    .confirmacion-pdf { height: 300px; }
+}
+
+/* =========================
+   MÓVIL MUY PEQUEÑO (< 480px)
+========================= */
+@media (max-width: 480px) {
+
+    /* Header: más ancho para que el texto no se corte */
+    .contenido-header {
+        width: 88%;
+        padding-left: 3%;
+    }
+
+    .contenido-header h1 { font-size: 1.4rem; }
+    .contenido-header p  { font-size: 0.88rem; }
+
+    /* Botón de comprar entradas */
+    .boton-sesiones-detalle {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    /* Poster en cartelera: altura reducida */
+    .poster-hover img {
+        height: 280px;
+    }
+
+    /* Confirmación: compactar acciones */
+    .confirmacion-page .d-flex.gap-2 {
+        flex-direction: column;
+    }
+    .confirmacion-page .d-flex.gap-2 > * {
+        width: 100%;
+    }
+
+    /* Admin cards resumen: 1 por fila */
+    .admin-stat-card {
+        width: 100% !important;
+    }
+
+    /* Modal perfil: scrollable y sin overflow */
+    .modal-dialog {
+        margin: 0.5rem auto;
+        max-height: calc(100vh - 1rem);
     }
 }
