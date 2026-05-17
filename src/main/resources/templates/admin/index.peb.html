@@ -986,7 +986,7 @@
         function showExisting(imagen) {
             reset();
             if (!imagen || !String(imagen).trim()) return;
-            showPreview('/images/peliculas/' + encodeURI(imagen), imagen);
+            showPreview(imagen, imagen);
         }
 
         dropzone.addEventListener('click', function () { input.click(); });
