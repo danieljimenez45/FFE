@@ -898,9 +898,27 @@ th[data-sortable]:hover .sort-icon {
         margin-right: 0.5rem !important;
     }
 
-    /* Header */
+    /* Banner: en móvil el triángulo queda muy estrecho,
+       se convierte en overlay de ancho completo */
+    .forma-azul {
+        clip-path: none;
+        background: linear-gradient(
+            to right,
+            rgba(0, 40, 160, 0.90) 0%,
+            rgba(0, 10, 70,  0.55) 60%,
+            rgba(0,  5, 30,  0.10) 100%
+        );
+    }
+
     .contenido-header {
-        width: 75%;
+        width: 80%;
+        padding-left: 5%;
+    }
+
+    /* Navbar: botón login compacto */
+    .boton-sesion {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.92rem;
     }
 
     /* Admin nav-tabs: scroll horizontal en móvil */
@@ -1065,6 +1083,7 @@ th[data-sortable]:hover .sort-icon {
     width: 100%;
     height: 430px;
     object-fit: cover;
+    object-position: top center;
     transition: all 0.4s ease;
 }
 
@@ -1390,6 +1409,13 @@ th[data-sortable]:hover .sort-icon {
     }
 }
 
+/* Posters: 1 columna en xs → altura más razonable */
+@media (max-width: 575px) {
+    .poster-hover img {
+        height: 260px;
+    }
+}
+
 /* Mis Entradas: ocultar columnas secundarias en móvil */
 @media (max-width: 576px) {
     .entradas-col-sesion,
@@ -1429,9 +1455,9 @@ th[data-sortable]:hover .sort-icon {
         font-size: 0.9rem;
     }
 
-    /* Poster en cartelera: altura reducida */
+    /* Poster en cartelera: altura reducida en móvil */
     .poster-hover img {
-        height: 280px;
+        height: 320px;
     }
 
     /* Confirmación: compactar acciones */
