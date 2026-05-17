@@ -1497,11 +1497,6 @@ th[data-sortable]:hover .sort-icon {
         font-size: 0.9rem;
     }
 
-    /* Poster en cartelera: altura reducida en tablets (2 columnas) */
-    .poster-hover img {
-        height: 300px;
-    }
-
     /* Confirmación: compactar acciones */
     .confirmacion-page .d-flex.gap-2 {
         flex-direction: column;
