@@ -432,8 +432,7 @@
      aria-labelledby="modalCrearPeliculaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post" action="/admin/peliculas/crear" enctype="multipart/form-data" id="formCrearPelicula">
-                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+            <form method="post" action="/admin/peliculas/crear?{{ _csrf.parameterName }}={{ _csrf.token }}" enctype="multipart/form-data" id="formCrearPelicula">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCrearPeliculaLabel">
                         <i class="bi bi-film me-2"></i>{{ message('admin.modal.nueva.pelicula') }}
@@ -516,9 +515,10 @@
      aria-labelledby="modalEditarPeliculaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="post" id="formEditarPelicula" action="" enctype="multipart/form-data"
+            <form method="post" id="formEditarPelicula" action=""
+                  data-csrf-param="{{ _csrf.parameterName }}" data-csrf-token="{{ _csrf.token }}"
+                  enctype="multipart/form-data"
                   data-error-caratula="{{ message('admin.error.caratula.requerida') }}">
-                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEditarPeliculaLabel">
                         <i class="bi bi-pencil-square me-2"></i>{{ message('admin.modal.editar.pelicula') }}
@@ -1042,7 +1042,8 @@
     /* Rellenar el modal de edición de película con los datos del botón pulsado */
     function abrirEditPelicula(btn) {
         const d = btn.dataset;
-        document.getElementById('formEditarPelicula').action = '/admin/peliculas/' + d.id + '/editar';
+        const epForm = document.getElementById('formEditarPelicula');
+        epForm.action = '/admin/peliculas/' + d.id + '/editar?' + epForm.dataset.csrfParam + '=' + epForm.dataset.csrfToken;
         document.getElementById('editPelTitulo').value    = d.titulo;
         document.getElementById('editPelDirector').value  = d.director;
         document.getElementById('editPelSinopsis').value  = d.sinopsis;
