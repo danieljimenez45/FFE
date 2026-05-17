@@ -82,11 +82,16 @@
         <div class="d-flex justify-content-end align-items-center gap-3">
             <!-- Buscador -->
             {% if request.requestURI == '/peliculas/lista_peliculas' %}
-                <form class="d-none d-md-flex align-items-center gap-2 me-3">
-                    <label for="buscadorPeliculas">
+                <!-- Icono lupa solo en móvil -->
+                <button class="btn btn-link d-md-none p-0 navbar-search-toggle"
+                        type="button" aria-label="{{ message('nav.search') }}">
+                    <i class="bi bi-search text-white" style="font-size:1.3rem;"></i>
+                </button>
+                <!-- Barra completa en md+; en móvil se muestra al pulsar la lupa -->
+                <form class="navbar-search align-items-center gap-2" id="navbarSearchForm">
+                    <label for="buscadorPeliculas" class="d-none d-md-block">
                         <i class="bi bi-search iconos"></i>
                     </label>
-
                     <input type="search"
                            id="buscadorPeliculas"
                            class="form-control text-center buscador"
@@ -204,3 +209,27 @@
         </div>
     </div>
 </nav>
+
+<script>
+(function () {
+    const toggle = document.querySelector('.navbar-search-toggle');
+    const form   = document.getElementById('navbarSearchForm');
+    if (!toggle || !form) return;
+
+    toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const open = form.classList.toggle('navbar-search--open');
+        if (open) form.querySelector('input').focus();
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!form.contains(e.target) && !toggle.contains(e.target)) {
+            form.classList.remove('navbar-search--open');
+        }
+    });
+
+    form.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') form.classList.remove('navbar-search--open');
+    });
+})();
+</script>

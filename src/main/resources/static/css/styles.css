@@ -108,6 +108,49 @@ main {
 
 
 /* =========================
+   NAVBAR — BUSCADOR TOGGLE
+========================= */
+
+/* Por defecto: visible (flex) en md+, oculto en móvil */
+.navbar-search {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .navbar-search {
+        display: flex;
+    }
+    .navbar-search-toggle {
+        display: none !important;
+    }
+}
+
+/* En móvil, abierto: aparece como barra debajo del nav */
+@media (max-width: 767px) {
+    .navbar-search--open {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(10, 10, 10, 0.97);
+        padding: 0.6rem 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        animation: searchSlideDown 0.2s ease;
+    }
+
+    .navbar-search--open input {
+        flex: 1;
+    }
+}
+
+@keyframes searchSlideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
    NAVBAR
 ========================= */
 .rayas {
@@ -898,21 +941,14 @@ th[data-sortable]:hover .sort-icon {
         margin-right: 0.5rem !important;
     }
 
-    /* Banner: en móvil el triángulo queda muy estrecho,
-       se convierte en overlay de ancho completo */
+    /* Banner: ampliar el triángulo en móvil para que el texto no se salga */
     .forma-azul {
-        clip-path: none;
-        background: linear-gradient(
-            to right,
-            rgba(0, 40, 160, 0.90) 0%,
-            rgba(0, 10, 70,  0.55) 60%,
-            rgba(0,  5, 30,  0.10) 100%
-        );
+        clip-path: polygon(0 0, 0 0, 75% 50%, 0 100%);
     }
 
     .contenido-header {
-        width: 80%;
-        padding-left: 5%;
+        width: 62%;
+        padding-left: 4%;
     }
 
     /* Navbar: botón login compacto */
@@ -1409,10 +1445,12 @@ th[data-sortable]:hover .sort-icon {
     }
 }
 
-/* Posters: 1 columna en xs → altura más razonable */
+/* Posters: en xs (1 columna) usar aspect-ratio de cartel de cine para no recortar */
 @media (max-width: 575px) {
     .poster-hover img {
-        height: 260px;
+        height: auto;
+        aspect-ratio: 2 / 3;
+        object-position: center center;
     }
 }
 
@@ -1440,14 +1478,18 @@ th[data-sortable]:hover .sort-icon {
 ========================= */
 @media (max-width: 480px) {
 
-    /* Header: más ancho para que el texto no se corte */
+    /* Banner: triángulo casi completo en pantallas muy estrechas */
+    .forma-azul {
+        clip-path: polygon(0 0, 0 0, 88% 50%, 0 100%);
+    }
+
     .contenido-header {
-        width: 88%;
+        width: 76%;
         padding-left: 3%;
     }
 
-    .contenido-header h1 { font-size: 1.4rem; }
-    .contenido-header p  { font-size: 0.88rem; }
+    .contenido-header h1 { font-size: 1.3rem; }
+    .contenido-header p  { font-size: 0.85rem; }
 
     /* Botón de comprar entradas */
     .boton-sesiones-detalle {
@@ -1455,9 +1497,9 @@ th[data-sortable]:hover .sort-icon {
         font-size: 0.9rem;
     }
 
-    /* Poster en cartelera: altura reducida en móvil */
+    /* Poster en cartelera: altura reducida en tablets (2 columnas) */
     .poster-hover img {
-        height: 320px;
+        height: 300px;
     }
 
     /* Confirmación: compactar acciones */
