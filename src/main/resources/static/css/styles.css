@@ -74,6 +74,7 @@ main {
 
     object-fit: cover;
     object-position: right center;
+    transition: opacity 0.08s linear;
 }
 
 .overlay {

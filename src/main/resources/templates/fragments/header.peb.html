@@ -18,3 +18,39 @@
     </div>
 
 </header>
+
+<script>
+    (function () {
+        const video = document.getElementById('headerVideo');
+        if (!video) return;
+
+        const FADE = 1.5; // segundos de fade en cada extremo del loop
+
+        function tick() {
+            if (video.duration) {
+                const t         = video.currentTime;
+                const remaining = video.duration - t;
+
+                if (remaining < FADE) {
+                    // fade-out: de 1 a 0 conforme se acaba el vídeo
+                    video.style.opacity = (remaining / FADE).toFixed(3);
+                } else if (t < FADE) {
+                    // fade-in: de 0 a 1 al principio del bucle
+                    video.style.opacity = (t / FADE).toFixed(3);
+                } else {
+                    video.style.opacity = '1';
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // Al terminar: reiniciar y reproducir de nuevo
+        video.addEventListener('ended', function () {
+            video.currentTime = 0;
+            video.play();
+        });
+
+        // Arrancar el bucle de animación
+        requestAnimationFrame(tick);
+    })();
+</script>
