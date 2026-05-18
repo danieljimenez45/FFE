@@ -79,21 +79,29 @@ public class TraduccionServiceImpl implements TraduccionService {
     public PeliculaResponseDto aplicarTraduccion(PeliculaResponseDto dto, String locale) {
         if (locale == null || locale.equals("es")) return dto;
 
-        traduccionRepository
+        return traduccionRepository
             .findByPeliculaIdAndLocale(dto.getId(), locale)
-            .ifPresent(t -> {
-                dto.setTitulo(t.getTitulo());
-                dto.setSinopsis(t.getSinopsis());
-            });
-
-        return dto;
+            .map(t -> PeliculaResponseDto.builder()
+                    .id(dto.getId())
+                    .titulo(t.getTitulo())
+                    .sinopsis(t.getSinopsis())
+                    .director(dto.getDirector())
+                    .genero(dto.getGenero())
+                    .duracion(dto.getDuracion())
+                    .estreno(dto.getEstreno())
+                    .clasificacionEdad(dto.getClasificacionEdad())
+                    .activa(dto.getActiva())
+                    .imagen(dto.getImagen())
+                    .build())
+            .orElse(dto);
     }
 
     @Override
     public List<PeliculaResponseDto> aplicarTraducciones(List<PeliculaResponseDto> dtos, String locale) {
         if (locale == null || locale.equals("es")) return dtos;
-        dtos.forEach(dto -> aplicarTraduccion(dto, locale));
-        return dtos;
+        return dtos.stream()
+                .map(dto -> aplicarTraduccion(dto, locale))
+                .toList();
     }
 
     @Override
