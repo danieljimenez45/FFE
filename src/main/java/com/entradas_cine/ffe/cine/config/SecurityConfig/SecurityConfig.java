@@ -45,7 +45,7 @@ import java.util.List;
  * Configuración de seguridad de la aplicación.
  * Se definen varias cadenas de filtros en orden de prioridad:
  * la API REST usa JWT sin sesión, la web usa formulario de login con sesión y CSRF,
- * y en desarrollo se habilitan Swagger, GraphiQL y la consola H2.
+ * y en desarrollo se habilitan Swagger y la consola H2.
  */
 @Configuration
 @EnableWebSecurity
@@ -191,7 +191,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Sin perfil {@code dev}: bloquea documentación OpenAPI, Swagger UI, GraphQL y H2
+     * Sin perfil {@code dev}: bloquea documentación OpenAPI, Swagger UI y H2
      * en una cadena propia (sin formLogin). Así se devuelve 403 y no un 302 al login MVC.
      * Con {@code dev} activo no existe este bean; entra la cadena {@code swaggerFilterChain}.
      */
@@ -204,10 +204,6 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/v3/**",
                     "/swagger-ui.html",
-                    "/graphiql",
-                    "/graphiql/**",
-                    "/graphql",
-                    "/graphql/**",
                     "/h2-console/**")
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth.anyRequest().denyAll());
@@ -215,7 +211,7 @@ public class SecurityConfig {
     }
 
     // -------------------------------------------------------------------------
-    // En modo desarrollo: dejar entrar a Swagger y al playground de GraphQL
+    // En modo desarrollo: dejar entrar a Swagger
     // (si no existiera esta cadena, la parte web las taparía con la regla de “cerrado”).
     // -------------------------------------------------------------------------
     @Bean
@@ -226,11 +222,7 @@ public class SecurityConfig {
             .securityMatcher(
                 "/swagger-ui/**",
                 "/v3/**",
-                "/swagger-ui.html",
-                "/graphiql",
-                "/graphiql/**",
-                "/graphql",
-                "/graphql/**")
+                "/swagger-ui.html")
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
@@ -293,7 +285,6 @@ public class SecurityConfig {
                     "/js/**",
                     "/images/**",
                     "/video/**",
-                    "/webjars/**",
                     "/favicon.ico").permitAll()
 
                 // Panel de administración: solo ADMIN
