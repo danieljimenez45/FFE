@@ -13,6 +13,7 @@ import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
 import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionBadRequest;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.TipoProyeccion;
+import com.entradas_cine.ffe.cine.rest.entradas.services.EntradaService;
 import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioCreateDto;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioUpdateDto;
@@ -56,6 +57,7 @@ public class AdminController {
     private final PeliculaPosterStorageService posterStorage;
     private final I18nService i18n;
     private final TraduccionService traduccionService;
+    private final EntradaService entradaService;
 
     // -- Dashboard principal --------------------------------------------------
 
@@ -73,6 +75,7 @@ public class AdminController {
         model.addAttribute("peliculas", peliculas);
         model.addAttribute("titulosTraducidos", titulosTraducidos);
         model.addAttribute("sesiones",  sesionService.findAll());
+        model.addAttribute("entradasAdmin", entradaService.findAllForAdmin(locale));
         model.addAttribute("generos",         Arrays.asList(Genero.values()));
         model.addAttribute("edades",          Arrays.asList(ClasificacionEdad.values()));
         model.addAttribute("horarios",        Arrays.asList(Horario.values()));
@@ -351,6 +354,20 @@ public class AdminController {
             flashErrorGenerico(ra, e, "eliminar sesión id=" + id);
         }
         return "redirect:/admin#tab-sesiones";
+    }
+
+    // -- Entradas --------------------------------------------------
+
+    @PostMapping("/entradas/{id}/eliminar")
+    public String eliminarEntrada(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            entradaService.deleteById(id);
+            ra.addFlashAttribute("successMsg", i18n.getMessage("admin.success.eliminar.entrada"));
+            log.info("Admin eliminó entrada id={}", id);
+        } catch (Exception e) {
+            flashErrorGenerico(ra, e, "eliminar entrada id=" + id);
+        }
+        return "redirect:/admin#tab-entradas";
     }
 
     // -- Helper privado --------------------------------------------------

@@ -27,9 +27,9 @@
     </div>
 </div>
 
-{# tarjetas resumen #}
+{# tarjetas resumen: 2x2 en móvil, 4 en fila desde md #}
 <div class="row g-3 mb-4">
-    <div class="col-6 col-md-4">
+    <div class="col-6 col-md-3">
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-primary">{{ usuarios | length }}</div>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-md-4">
+    <div class="col-6 col-md-3">
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-success">{{ peliculas | length }}</div>
@@ -45,11 +45,19 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-md-4">
+    <div class="col-6 col-md-3">
         <div class="card card-panel text-center border-0 shadow-sm">
             <div class="card-body py-3">
                 <div class="fs-2 fw-bold text-info">{{ sesiones | length }}</div>
                 <div class="small text-muted"><i class="bi bi-calendar-event me-1"></i>{{ message('admin.card.sesiones') }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card card-panel text-center border-0 shadow-sm">
+            <div class="card-body py-3">
+                <div class="fs-2 fw-bold text-warning">{{ entradasAdmin | length }}</div>
+                <div class="small text-muted"><i class="bi bi-ticket-perforated me-1"></i>{{ message('admin.card.entradas') }}</div>
             </div>
         </div>
     </div>
@@ -79,6 +87,14 @@
                 type="button" role="tab" aria-controls="tab-sesiones" aria-selected="false">
             <i class="bi bi-calendar-event me-1"></i>{{ message('admin.tab.sesiones') }}
             <span class="badge bg-secondary ms-1">{{ sesiones | length }}</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-entradas-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-entradas"
+                type="button" role="tab" aria-controls="tab-entradas" aria-selected="false">
+            <i class="bi bi-ticket-perforated me-1"></i>{{ message('admin.tab.entradas') }}
+            <span class="badge bg-secondary ms-1">{{ entradasAdmin | length }}</span>
         </button>
     </li>
 </ul>
@@ -307,6 +323,71 @@
             </table>
         </div>
         <div id="pag-sesiones" class="admin-pagination d-flex justify-content-center mt-3"></div>
+    </div>
+
+    {# tab entradas #}
+    <div class="tab-pane fade" id="tab-entradas" role="tabpanel" aria-labelledby="tab-entradas-btn">
+        <div class="table-responsive">
+            <table id="tabla-entradas" class="table table-hover table-sm align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" data-sortable data-col="0" data-type="num">{{ message('admin.col.id') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="1" data-type="str">{{ message('admin.col.username') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="2" data-type="str">{{ message('admin.col.pelicula') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="3" data-type="str">{{ message('admin.col.sesion') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="4" data-type="num">{{ message('admin.col.butaca.precio') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="5" data-type="str">{{ message('admin.col.factura') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" data-sortable data-col="6" data-type="str">{{ message('admin.col.fecha.compra') }} <span class="sort-icon bi bi-chevron-expand"></span></th>
+                        <th scope="col" aria-label="{{ message('admin.col.acciones') }}"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in entradasAdmin %}
+                    <tr>
+                        <td class="text-muted small" data-sort="{{ e.id }}">{{ e.id }}</td>
+                        <td class="fw-semibold" data-sort="{{ e.username }}">{{ e.username }}</td>
+                        <td data-sort="{{ e.tituloPelicula }}">{{ e.tituloPelicula }}</td>
+                        <td class="small" data-sort="{{ e.fechaSesion }}">
+                            {{ e.fechaSesion }}<br>
+                            <span class="text-muted">{{ e.horarioDisplay }} · {{ e.salaDisplay }}</span>
+                        </td>
+                        <td class="small" data-sort="{{ e.precio }}">
+                            <span class="badge bg-secondary">{{ message('seats.fila') }} {{ e.fila }} · {{ e.numero }}</span>
+                            <span class="ms-1 fw-semibold">{{ e.precio }} €</span>
+                        </td>
+                        <td class="small font-monospace text-muted" data-sort="{{ e.codigoFactura }}">{{ e.codigoFactura }}</td>
+                        <td class="small text-muted" data-sort="{{ e.fechaCompra }}">{{ e.fechaCompra }}</td>
+                        <td>
+                            <div class="d-flex gap-1 justify-content-end">
+                                <a href="/facturas/{{ e.numeroFactura }}/pdf"
+                                   class="btn btn-outline-primary btn-sm"
+                                   title="{{ message('mis.entradas.btn.ver.factura') }}">
+                                    <i class="bi bi-receipt"></i>
+                                </a>
+                                <a href="/facturas/{{ e.numeroFactura }}/pdf/descargar?dl=true"
+                                   class="btn btn-warning btn-sm"
+                                   title="{{ message('confirmacion.btn.pdf') }}">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                <form method="post" action="/admin/entradas/{{ e.id }}/eliminar"
+                                      data-confirm-msg="{{ (message('admin.confirm.eliminar.entrada') ~ ' (' ~ e.username ~ ', F' ~ e.fila ~ '-B' ~ e.numero ~ ')?')|escape }}"
+                                      onsubmit="return confirm(this.dataset.confirmMsg)">
+                                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            aria-label="{{ message('admin.aria.eliminar.entrada') }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="8" class="text-center text-muted">{{ message('admin.empty.entradas') }}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="pag-entradas" class="admin-pagination d-flex justify-content-center mt-3"></div>
     </div>
 
 </div>
@@ -908,6 +989,7 @@
         new AdminTable('tabla-usuarios',  'pag-usuarios',  10);
         new AdminTable('tabla-peliculas', 'pag-peliculas', 10);
         new AdminTable('tabla-sesiones',  'pag-sesiones',  10);
+        new AdminTable('tabla-entradas',  'pag-entradas',  10);
 
         window.editPeliculaDropzone = setupPosterDropzone({
             dropzoneId: 'editPelCaratulaDropzone',

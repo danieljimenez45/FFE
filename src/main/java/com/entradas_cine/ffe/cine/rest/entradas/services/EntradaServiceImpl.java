@@ -9,9 +9,14 @@ import com.entradas_cine.ffe.cine.rest.entradas.exceptions.EntradaNotFound;
 import com.entradas_cine.ffe.cine.rest.entradas.mappers.EntradaMapper;
 import com.entradas_cine.ffe.cine.rest.entradas.models.Entrada;
 import com.entradas_cine.ffe.cine.rest.entradas.repositories.EntradaRepository;
+import com.entradas_cine.ffe.cine.rest.facturas.models.Factura;
 import com.entradas_cine.ffe.cine.rest.facturas.repositories.FacturaRepository;
+import com.entradas_cine.ffe.cine.rest.notificaciones.services.NotificacionService;
+import com.entradas_cine.ffe.cine.rest.usuarios.models.Usuario;
+import com.entradas_cine.ffe.cine.rest.peliculas.services.TraduccionService;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import com.entradas_cine.ffe.cine.rest.sesiones.repositories.SesionRepository;
+import com.entradas_cine.ffe.cine.web.dto.AdminEntradaView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,6 +37,8 @@ public class EntradaServiceImpl implements EntradaService {
     private final SesionRepository sesionRepository;
     private final FacturaRepository facturaRepository;
     private final SecurityCurrentUser securityCurrentUser;
+    private final TraduccionService traduccionService;
+    private final NotificacionService notificacionService;
 
     @Override
     public EntradaResponseDto create(EntradaCreateDto entradaCreateDto) {
@@ -131,12 +139,69 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<AdminEntradaView> findAllForAdmin(String locale) {
+        return entradaRepository.findAllForAdmin().stream()
+                .map(row -> new AdminEntradaView(
+                        row.id(),
+                        row.username(),
+                        row.nombre(),
+                        row.apellidos(),
+                        row.peliculaId(),
+                        traduccionService.obtenerTituloTraducido(
+                                row.peliculaId(), row.tituloPelicula(), locale),
+                        row.fechaSesion(),
+                        row.horario(),
+                        row.sala(),
+                        row.fila(),
+                        row.numero(),
+                        row.precio(),
+                        row.fechaCompra(),
+                        row.numeroFactura(),
+                        row.codigoFactura()))
+                .toList();
+    }
+
+    @Override
+    @Transactional
     public void deleteById(Long id) {
         log.info("Deleting Entrada by id {}", id);
 
         Entrada entrada = entradaRepository.findById(id).orElseThrow(() -> new EntradaNotFound(id));
+        Optional<Factura> facturaOpt = facturaRepository.findByEntradas_Id(id);
+
+        String peliculaTitulo = null;
+        var sesion = entrada.getSesion();
+        if (sesion != null && sesion.getPelicula() != null) {
+            peliculaTitulo = sesion.getPelicula().getTitulo();
+        }
+
+        Usuario usuarioAfectado = facturaOpt.map(Factura::getUsuario).orElse(null);
+        var fechaSesion = sesion != null ? sesion.getFecha() : null;
+        var horario = sesion != null && sesion.getHorario() != null
+                ? sesion.getHorario().getDisplayName() : "—";
+        var sala = sesion != null && sesion.getSala() != null
+                ? sesion.getSala().getDisplayName() : "—";
+        Float importe = entrada.getPrecio();
+
+        if (facturaOpt.isPresent()) {
+            entradaRepository.deleteFacturaEntradaLink(id);
+        }
 
         entradaRepository.delete(entrada);
+        entradaRepository.flush();
+
+        facturaOpt.ifPresent(factura -> {
+            Factura refreshed = facturaRepository.findById(factura.getId()).orElse(factura);
+            if (refreshed.getEntradas() == null || refreshed.getEntradas().isEmpty()) {
+                facturaRepository.delete(refreshed);
+            }
+        });
+
+        if (usuarioAfectado != null && peliculaTitulo != null && fechaSesion != null) {
+            notificacionService.crearAvisoReembolsoEntrada(
+                    usuarioAfectado, peliculaTitulo, fechaSesion, horario, sala, importe);
+        }
     }
 
     private boolean puedeVerEntrada(Entrada entrada) {

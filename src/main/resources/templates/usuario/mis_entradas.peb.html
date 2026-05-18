@@ -6,6 +6,22 @@
 <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
 
+        {% if notificaciones is not empty %}
+        {% for n in notificaciones %}
+        <div class="alert alert-warning d-flex align-items-start gap-2 mb-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+            <div class="flex-grow-1">
+                <strong>{{ n.titulo }}</strong>
+                <p class="mb-2 small">{{ n.cuerpo }}</p>
+                <form method="post" action="/mis-entradas/notificaciones/{{ n.id }}/leida" class="m-0">
+                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                    <button type="submit" class="btn btn-sm btn-outline-dark">{{ message('notificacion.btn.entendido') }}</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
         <div class="d-flex align-items-center gap-3 mb-4">
             <i class="bi bi-ticket-perforated-fill" style="font-size: 2.5rem; color: #e0a830;"></i>
             <div>

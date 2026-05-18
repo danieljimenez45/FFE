@@ -2,6 +2,7 @@ package com.entradas_cine.ffe.cine.rest.entradas.repositories;
 
 import com.entradas_cine.ffe.cine.rest.entradas.models.Entrada;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
+import com.entradas_cine.ffe.cine.web.dto.AdminEntradaView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -69,4 +70,25 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
             )
             """, nativeQuery = true)
     void deleteEntradasByPeliculaId(@Param("peliculaId") Long peliculaId);
+
+    @Query("""
+            SELECT new com.entradas_cine.ffe.cine.web.dto.AdminEntradaView(
+                e.id, u.username, u.nombre, u.apellidos,
+                p.id, p.titulo, s.fecha, s.horario, s.sala,
+                e.fila, e.numero, e.precio, e.fecha,
+                f.id, f.codigoFactura
+            )
+            FROM Factura f
+            JOIN f.usuario u
+            JOIN f.entradas e
+            JOIN e.sesion s
+            JOIN s.pelicula p
+            ORDER BY e.fecha DESC
+            """)
+    List<AdminEntradaView> findAllForAdmin();
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "DELETE FROM FACTURAS_ENTRADAS WHERE entrada_id = :entradaId", nativeQuery = true)
+    void deleteFacturaEntradaLink(@Param("entradaId") Long entradaId);
 }
