@@ -396,80 +396,97 @@ Limpiar y recompilar:
 5. 🧪 Fallan tests de peliculas/sesiones por titulos:
 	 - Revisar fixtures y aserciones para alinear con uso de claves i18n en data.sql.
 
-# ☁️ 12. Plantilla de Despliegue en la Nube (Borrador)
+# ☁️ 12. Despliegue en la Nube
 
-Esta seccion es una plantilla inicial para cuando se realice el despliegue real.
-Todavia no hay proveedor cerrado ni entorno definitivo.
+La aplicacion esta desplegada en produccion utilizando servicios cloud gestionados.
 
-### 🏗️ 12.1 Arquitectura objetivo (separada)
+### 🏗️ 12.1 Arquitectura desplegada
 
-Se desplegaran por separado:
+La arquitectura actual separa aplicacion y base de datos:
 
-1. Aplicacion backend/frontend (Spring Boot + Pebble).
-2. Base de datos (servicio independiente gestionado o autogestionado).
+1. 🖥️ Aplicacion Spring Boot + Pebble desplegada en Render.
+2. 🗄️ Base de datos PostgreSQL gestionada en Render.
 
-Esquema previsto:
+Esquema real:
 
 ```text
 👥 Usuarios (web/API)
 	|
 	v
-🖥️ Servicio APP (Cloud Run / VM / App Service / Container)
+☁️ Render Web Service
+(Spring Boot + Pebble)
 	|
 	v
-🗄️ Servicio BD (PostgreSQL/MySQL gestionado o VM dedicada)
+🗄️ PostgreSQL Render
+(Base de datos gestionada)
 ```
 
-### 📝 12.2 Decisiones pendientes (checklist)
+### ⚙️ 12.2 Configuracion de produccion
 
-- [ ] ☁️ Proveedor cloud definitivo (AWS / Azure / GCP / otro).
-- [ ] 🖥️ Servicio de ejecucion de la app (contenedor, PaaS o VM).
-- [ ] 🗄️ Motor final de base de datos (PostgreSQL/MySQL).
-- [ ] 🌐 Estrategia de red (IP privada, firewall, VPC, reglas de acceso).
-- [ ] 🔐 Dominio y HTTPS (certificados TLS).
-- [ ] 📈 Observabilidad (logs, metricas, alertas).
-- [ ] 💾 Estrategia de backups y restauracion.
-- [ ] 🔁 Pipeline CI/CD para despliegues.
+La aplicacion utiliza el perfil `prod` para el entorno desplegado.
 
-### 🔧 12.3 Variables de entorno para cloud (base)
+Variables de entorno configuradas:
 
-Estas variables ya existen en la app y sirven como base del despliegue:
+* ⚙️ SPRING_PROFILES_ACTIVE=prod
+* 🚪 PORT
+* 🗄️ DB_URL
+* 👤 DB_USERNAME
+* 🔑 DB_PASSWORD
+* 🔐 JWT_SECRET
+* ⏳ JWT_EXPIRATION
 
-- ⚙️ SPRING_PROFILES_ACTIVE=prod
-- 🚪 PORT
-- 🗄️ DB_URL
-- 👤 DB_USERNAME
-- 🔑 DB_PASSWORD
-- 🔐 JWT_SECRET
-- ⏳ JWT_EXPIRATION
+### 🗄️ 12.3 Base de datos
 
-### 🛡️ 12.4 Requisitos minimos de seguridad para el despliegue
+* 🐘 Motor utilizado: PostgreSQL.
+* ☁️ Servicio gestionado por Render.
+* 🔒 Conexion mediante credenciales privadas definidas en variables de entorno.
+* ♻️ Persistencia separada de la aplicacion para mantener datos entre despliegues.
 
-- 🚫 No exponer la base de datos a internet publica sin restricciones.
-- 🔒 Permitir conexion a BD solo desde la app (red privada o listas de IP).
-- 🔐 Guardar secretos en un gestor de secretos del cloud, no en repositorio.
-- 🌐 Forzar HTTPS y cookies seguras en produccion.
-- ♻️ Definir rotacion de secretos y politica de backups.
+### 🚀 12.4 Procedimiento de despliegue utilizado
 
-### 📋 12.5 Plantilla de procedimiento de despliegue (rellenar)
+1. 📦 Compilacion del proyecto Maven.
+2. ☁️ Creacion de un Web Service en Render conectado al repositorio GitHub.
+3. 🗄️ Creacion de instancia PostgreSQL en Render.
+4. 🔗 Configuracion de variables de entorno para conexion segura.
+5. 🚀 Despliegue automatico desde la rama principal del repositorio.
+6. ✅ Verificacion de arranque correcto, login y acceso a base de datos.
 
-1. 🗄️ Crear recurso de base de datos: [PENDIENTE].
-2. 👤 Crear usuario y esquema de aplicacion: [PENDIENTE].
-3. 🔒 Configurar conectividad segura app <-> BD: [PENDIENTE].
-4. ⚙️ Crear servicio de app y variables de entorno: [PENDIENTE].
-5. 🚀 Publicar version inicial: [PENDIENTE].
-6. 🧪 Ejecutar migraciones/validaciones: [PENDIENTE].
-7. ✅ Probar healthcheck, login y compra de entradas: [PENDIENTE].
-8. 📈 Configurar monitorizacion y alertas: [PENDIENTE].
+### 🛡️ 12.5 Medidas de seguridad aplicadas
 
-### 🧭 12.6 Datos a completar cuando se elija infraestructura
+* 🔐 Secretos y credenciales almacenados como variables de entorno.
+* 🚫 Datos sensibles fuera del repositorio.
+* 🌐 Acceso HTTPS proporcionado por Render.
+* 🛡️ Seguridad Spring Security activa en entorno productivo.
+* 🔒 Swagger, GraphiQL y H2 deshabilitados en produccion.
 
-- 🌐 URL publica app: [PENDIENTE]
-- 🗄️ Host/endpoint BD: [PENDIENTE]
-- 📍 Region cloud: [PENDIENTE]
-- 💾 Politica de backups: [PENDIENTE]
-- 👨‍💻 Responsable tecnico del despliegue: [PENDIENTE]
-- 📅 Fecha objetivo de salida: [PENDIENTE]
+### 📈 12.6 Escalabilidad y mantenimiento
+
+* ♻️ Render permite redespliegue automatico desde GitHub.
+* 📦 La aplicacion se ejecuta como servicio Java independiente.
+* 🗄️ La base de datos permanece persistente entre despliegues.
+* 🔄 La arquitectura permite migracion futura a Docker o Kubernetes sin cambios grandes en codigo.
+
+### 🧭 12.7 Datos del despliegue
+
+* ☁️ Plataforma cloud: Render.
+* 🗄️ Base de datos: PostgreSQL gestionado.
+* 🔄 Tipo de despliegue: CI/CD conectado a GitHub.
+* 🌐 URL publica app: https://ffe.onrender.com
+* 📍 Region cloud: Frankfurt (EU Central)
+* 👨‍💻 Responsables tecnicos:
+
+  * Marius Puruguay
+  * Patrick Firczyk
+  * Daniel Jimenez
+
+### 📋 12.8 Posibles mejoras futuras
+
+* 📈 Integracion de monitorizacion y metricas.
+* 💾 Backups automatizados programados.
+* 🐳 Contenerizacion completa con Docker.
+* 🔁 Pipeline CI/CD avanzado con tests automaticos previos a despliegue.
+* 🌐 Dominio personalizado y configuracion DNS propia.
+
 
 # 📌 13. Notas Finales
 
