@@ -2,13 +2,19 @@ package com.entradas_cine.ffe.cine.rest.sesiones;
 
 import com.entradas_cine.ffe.cine.rest.peliculas.exceptions.PeliculaNotFound;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionBadRequest;
 import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionNotFound;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.TipoProyeccion;
 import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -102,5 +108,57 @@ class SesionServiceImplTest {
     void deleteById_deberiaLanzarExcepcionSiNoExiste() {
         assertThatThrownBy(() -> sesionService.deleteById(9999L))
                 .isInstanceOf(SesionNotFound.class);
+    }
+
+    // --- create: validaciones ---
+
+    @Test
+    void create_deberiaLanzarSesionBadRequestSiFechaPasada() {
+        SesionCreateDto dto = SesionCreateDto.builder()
+                .idPelicula(1L)
+                .fecha(LocalDate.now().minusDays(1))
+                .horario(Horario.H16_00)
+                .sala(Sala.SALA_1)
+                .tipoProyeccion(TipoProyeccion.NORMAL)
+                .precio(new BigDecimal("8.00"))
+                .build();
+
+        assertThatThrownBy(() -> sesionService.create(dto))
+                .isInstanceOf(SesionBadRequest.class)
+                .hasMessage("admin.error.sesion.fecha.pasada");
+    }
+
+    @Test
+    void create_deberiaLanzarSesionBadRequestSiPrecioInvalido() {
+        SesionCreateDto dto = SesionCreateDto.builder()
+                .idPelicula(1L)
+                .fecha(LocalDate.now().plusDays(30))
+                .horario(Horario.H16_00)
+                .sala(Sala.SALA_1)
+                .tipoProyeccion(TipoProyeccion.NORMAL)
+                .precio(BigDecimal.ZERO)
+                .build();
+
+        assertThatThrownBy(() -> sesionService.create(dto))
+                .isInstanceOf(SesionBadRequest.class)
+                .hasMessage("admin.error.sesion.precio.invalido");
+    }
+
+    @Test
+    void create_deberiaLanzarSesionBadRequestSiSesionDuplicada() {
+        SesionResponseDto existente = sesionService.findById(1L);
+
+        SesionCreateDto dto = SesionCreateDto.builder()
+                .idPelicula(existente.getPeliculaId())
+                .fecha(existente.getFecha())
+                .horario(existente.getHorario())
+                .sala(existente.getSala())
+                .tipoProyeccion(existente.getTipoProyeccion())
+                .precio(new BigDecimal("9.00"))
+                .build();
+
+        assertThatThrownBy(() -> sesionService.create(dto))
+                .isInstanceOf(SesionBadRequest.class)
+                .hasMessage("admin.error.sesion.duplicada");
     }
 }
