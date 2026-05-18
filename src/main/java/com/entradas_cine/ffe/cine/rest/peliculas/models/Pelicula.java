@@ -26,7 +26,7 @@ public class Pelicula {
     private Long id;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "pelicula", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "pelicula", fetch = FetchType.LAZY,
                cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Sesiones asociadas a la película", example = "Sesión de las 18:00")
     private List<Sesion> sesiones;
@@ -52,12 +52,12 @@ public class Pelicula {
     @Schema(description = "Director de la película", example = "Christopher Nolan")
     private String director;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     @Schema(description = "Fecha de estreno de la película", example = "2010-07-16")
     private LocalDate estreno;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     @Schema(description = "Clasificación de la película", example = "MAYORES_12")
     private ClasificacionEdad clasificacionEdad;
 

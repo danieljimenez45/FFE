@@ -56,4 +56,17 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
             )
             """, nativeQuery = true)
     void deleteFacturasEntradasByPeliculaId(@Param("peliculaId") Long peliculaId);
+
+    /** Elimina las ENTRADAS cuya sesión pertenezca a la película indicada.
+     *  Debe ejecutarse después de vaciar FACTURAS_ENTRADAS y antes de borrar
+     *  la película, para que el cascade de JPA no encuentre referencias huérfanas. */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = """
+            DELETE FROM ENTRADAS
+            WHERE id_sesion IN (
+                SELECT id FROM SESIONES WHERE id_pelicula = :peliculaId
+            )
+            """, nativeQuery = true)
+    void deleteEntradasByPeliculaId(@Param("peliculaId") Long peliculaId);
 }

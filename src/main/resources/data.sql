@@ -4,83 +4,83 @@ values
 
     ('Toy Story', 'AVENTURAS',
      'Los juguetes cobran vida cuando los humanos no están.',
-     81, 'John Lasseter', '2026-04-03', 'TP', true, 'toystory.jpg'),
+     81, 'John Lasseter', '2026-04-03', 'TP', true, '/images/peliculas/toystory.jpg'),
 
     ('El Rey León', 'AVENTURAS',
      'Un joven león debe asumir su destino como rey.',
-     88, 'Roger Allers', '2026-04-07', 'TP', false, 'reyleon.jpg'),
+     88, 'Roger Allers', '2026-04-07', 'TP', false, '/images/peliculas/reyleon.jpg'),
 
     ('Regreso al Futuro', 'CIENCIA_FICCION',
      'Un adolescente viaja accidentalmente al pasado.',
-     116, 'Robert Zemeckis', '2026-04-10', 'TP', true, 'regresoalfuturo.jpg'),
+     116, 'Robert Zemeckis', '2026-04-10', 'TP', true, '/images/peliculas/regresoalfuturo.jpg'),
 
     ('Forrest Gump', 'DRAMA',
      'La extraordinaria vida de un hombre sencillo.',
-     142, 'Robert Zemeckis', '2026-04-12', 'MAYORES_7', true, 'forrestgump.jpg'),
+     142, 'Robert Zemeckis', '2026-04-12', 'MAYORES_7', true, '/images/peliculas/forrestgump.jpg'),
 
     ('La La Land', 'ROMANCE',
      'Una historia de amor entre música y cine.',
-     128, 'Damien Chazelle', '2026-04-15', 'MAYORES_7', true, 'lalaland.jpg'),
+     128, 'Damien Chazelle', '2026-04-15', 'MAYORES_7', true, '/images/peliculas/lalaland.jpg'),
 
     ('Inception', 'CIENCIA_FICCION',
      'Un ladrón roba secretos a través de los sueños.',
-     148, 'Christopher Nolan', '2026-04-18', 'MAYORES_12', true, 'inception.jpg'),
+     148, 'Christopher Nolan', '2026-04-18', 'MAYORES_12', true, '/images/peliculas/inception.jpg'),
 
     ('Interstellar', 'CIENCIA_FICCION',
      'Exploradores viajan a través de un agujero de gusano.',
-     169, 'Christopher Nolan', '2026-04-21', 'MAYORES_12', false, 'interstellar.jpg'),
+     169, 'Christopher Nolan', '2026-04-21', 'MAYORES_12', false, '/images/peliculas/interstellar.jpg'),
 
     ('El Señor de los Anillos: La Comunidad del Anillo', 'FANTASIA',
      'Un hobbit inicia un viaje para destruir un anillo.',
-     178, 'Peter Jackson', '2026-04-23', 'MAYORES_12', true, 'lotr.jpg'),
+     178, 'Peter Jackson', '2026-04-23', 'MAYORES_12', true, '/images/peliculas/lotr.jpg'),
 
     ('Jurassic Park', 'CIENCIA_FICCION',
      'Dinosaurios clonados escapan de control.',
-     127, 'Steven Spielberg', '2026-04-25', 'MAYORES_12', false, 'jurassicpark.jpg'),
+     127, 'Steven Spielberg', '2026-04-25', 'MAYORES_12', false, '/images/peliculas/jurassicpark.jpg'),
 
     ('Gladiator', 'ACCION',
      'Un general romano busca venganza.',
-     155, 'Ridley Scott', '2026-04-02', 'MAYORES_16', true, 'gladiator.jpg'),
+     155, 'Ridley Scott', '2026-04-02', 'MAYORES_16', true, '/images/peliculas/gladiator.jpg'),
 
     ('Matrix', 'CIENCIA_FICCION',
      'Un hacker descubre la verdad sobre su realidad.',
-     136, 'Lana Wachowski', '2026-04-05', 'MAYORES_16', false, 'matrix.jpg'),
+     136, 'Lana Wachowski', '2026-04-05', 'MAYORES_16', false, '/images/peliculas/matrix.jpg'),
 
     ('Alien', 'TERROR',
      'Una criatura mortal acecha a una tripulación espacial.',
-     117, 'Ridley Scott', '2026-04-08', 'MAYORES_16', true, 'alien.jpg'),
+     117, 'Ridley Scott', '2026-04-08', 'MAYORES_16', true, '/images/peliculas/alien.jpg'),
 
     ('El Sexto Sentido', 'SUSPENSE',
      'Un niño afirma ver personas muertas.',
-     107, 'M. Night Shyamalan', '2026-04-11', 'MAYORES_16', true, 'sextosentido.jpg'),
+     107, 'M. Night Shyamalan', '2026-04-11', 'MAYORES_16', true, '/images/peliculas/sextosentido.jpg'),
 
     ('Pulp Fiction', 'DRAMA',
      'Historias entrelazadas del crimen en Los Ángeles.',
-     154, 'Quentin Tarantino', '2026-04-14', 'MAYORES_18', true, 'pulpfiction.jpg'),
+     154, 'Quentin Tarantino', '2026-04-14', 'MAYORES_18', true, '/images/peliculas/pulpfiction.jpg'),
 
     ('El Lobo de Wall Street', 'DRAMA',
      'El ascenso y caída de un corredor de bolsa.',
-     180, 'Martin Scorsese', '2026-04-17', 'MAYORES_18', false, 'lobowallstreet.jpg'),
+     180, 'Martin Scorsese', '2026-04-17', 'MAYORES_18', false, '/images/peliculas/lobowallstreet.jpg'),
 
     ('Joker', 'DRAMA',
      'El origen oscuro de un villano.',
-     122, 'Todd Phillips', '2026-04-20', 'MAYORES_18', true, 'joker.jpg'),
+     122, 'Todd Phillips', '2026-04-20', 'MAYORES_18', true, '/images/peliculas/joker.jpg'),
 
     ('La Máscara', 'COMEDIA',
      'Un hombre descubre una máscara con poderes.',
-     101, 'Chuck Russell', '2026-04-22', 'MAYORES_7', true, 'lamascara.jpg'),
+     101, 'Chuck Russell', '2026-04-22', 'MAYORES_7', true, '/images/peliculas/lamascara.jpg'),
 
     ('Resacón en Las Vegas', 'COMEDIA',
      'Una despedida de soltero se sale de control.',
-     100, 'Todd Phillips', '2026-04-26', 'MAYORES_16', true, 'resacon.jpg'),
+     100, 'Todd Phillips', '2026-04-26', 'MAYORES_16', true, '/images/peliculas/resacon.jpg'),
 
     ('Ocho Apellidos Vascos', 'COMEDIA',
      'Un andaluz viaja al País Vasco por amor.',
-     98, 'Emilio Martínez-Lázaro', '2026-04-28', 'MAYORES_7', true, 'ochoapellidosvascos.jpg'),
+     98, 'Emilio Martínez-Lázaro', '2026-04-28', 'MAYORES_7', true, '/images/peliculas/ochoapellidosvascos.jpg'),
 
     ('Seven', 'SUSPENSE',
      'Un asesino en serie basado en los pecados capitales.',
-     127, 'David Fincher', '2026-04-30', 'MAYORES_18', true, 'seven.jpg');
+     127, 'David Fincher', '2026-04-30', 'MAYORES_18', true, '/images/peliculas/seven.jpg');
 
 ALTER TABLE PELICULAS ALTER COLUMN ID RESTART WITH 21;
 

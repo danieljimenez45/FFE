@@ -163,9 +163,14 @@ public class PeliculaServiceImpl implements PeliculaService {
 
         PeliculaResponseDto dto = peliculaMapper.toResponseDto(pelicula);
 
-        // Borrar traducciones antes de eliminar la película (FK constraint)
+        // Orden de borrado para respetar FK constraints en PostgreSQL:
+        // 1. Filas de la tabla de unión FACTURAS_ENTRADAS (referencia a ENTRADAS)
         entradaRepository.deleteFacturasEntradasByPeliculaId(id);
+        // 2. ENTRADAS cuya sesión pertenezca a esta película
+        entradaRepository.deleteEntradasByPeliculaId(id);
+        // 3. Traducciones de la película
         traduccionRepository.deleteByPeliculaId(id);
+        // 4. La película en sí (el cascade elimina sus SESIONES automáticamente)
         peliculaRepository.delete(pelicula);
 
         return dto;
