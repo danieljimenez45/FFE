@@ -29,15 +29,18 @@ public class CustomErrorController implements ErrorController {
             int statusCode = Integer.parseInt(status.toString());
             errorCode = String.valueOf(statusCode);
 
-            if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                errorTitle   = i18nService.getMessage("error.404");
-                errorMessage = i18nService.getMessage("error.404.message");
-            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                errorTitle   = i18nService.getMessage("error.403");
-                errorMessage = i18nService.getMessage("error.403.message");
+            if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+                errorTitle   = i18nService.getMessage("error.400");
+                errorMessage = i18nService.getMessage("error.400.message");
             } else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 errorTitle   = i18nService.getMessage("error.401");
                 errorMessage = i18nService.getMessage("error.401.message");
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                errorTitle   = i18nService.getMessage("error.403");
+                errorMessage = i18nService.getMessage("error.403.message");
+            } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                errorTitle   = i18nService.getMessage("error.404");
+                errorMessage = i18nService.getMessage("error.404.message");
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 errorTitle   = i18nService.getMessage("error.500");
                 errorMessage = i18nService.getMessage("error.500.message");

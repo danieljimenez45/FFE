@@ -9,7 +9,9 @@
         <div class="card card-panel shadow-lg p-4 p-md-5">
 
             <div class="mb-3">
-                {% if errorCode == '404' %}
+                {% if errorCode == '400' %}
+                    <i class="bi bi-slash-circle" style="font-size: 4rem; color: #e0a830;"></i>
+                {% elseif errorCode == '404' %}
                     <i class="bi bi-map" style="font-size: 4rem; color: #e0a830;"></i>
                 {% elseif errorCode == '403' %}
                     <i class="bi bi-shield-x" style="font-size: 4rem; color: #dc3545;"></i>
@@ -20,7 +22,7 @@
                 {% endif %}
             </div>
 
-            {% if errorCode == '404' %}
+            {% if errorCode == '400' or errorCode == '404' %}
             <h1 class="display-1 fw-bold mb-1" style="color: #e0a830;">{{ errorCode }}</h1>
             {% else %}
             <h1 class="display-1 fw-bold mb-1" style="color: #dc3545;">{{ errorCode }}</h1>
