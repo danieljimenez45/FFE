@@ -50,7 +50,8 @@ public class PerfilController {
 
         String username = authentication.getName();
         try {
-            // Fetch current user to preserve their rol — users cannot change their own role
+            // El rol NUNCA se lee del request: se fuerza desde BD para que ningún
+            // usuario pueda escalar sus propios privilegios enviando un parámetro rol.
             UsuarioResponseDto current = usuarioService.findByUsername(username);
             String pwd = (password != null && !password.isBlank()) ? password : null;
             UsuarioUpdateDto dto = UsuarioUpdateDto.builder()

@@ -10,14 +10,13 @@ import com.entradas_cine.ffe.cine.rest.facturas.exceptions.FacturaNotFound;
 import com.entradas_cine.ffe.cine.rest.facturas.mappers.FacturaMapper;
 import com.entradas_cine.ffe.cine.rest.facturas.models.Factura;
 import com.entradas_cine.ffe.cine.rest.facturas.repositories.FacturaRepository;
+import com.entradas_cine.ffe.cine.config.auth.SecurityCurrentUser;
 import com.entradas_cine.ffe.cine.rest.usuarios.exceptions.UsuarioNotFound;
 import com.entradas_cine.ffe.cine.rest.usuarios.models.Usuario;
 import com.entradas_cine.ffe.cine.rest.usuarios.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +31,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FacturaServiceImpl implements FacturaService {
 
-    private final FacturaRepository facturaRepository;
-    private final EntradaRepository entradaRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final FacturaMapper facturaMapper;
+    private final FacturaRepository  facturaRepository;
+    private final EntradaRepository  entradaRepository;
+    private final UsuarioRepository  usuarioRepository;
+    private final FacturaMapper      facturaMapper;
+    private final SecurityCurrentUser securityCurrentUser;
 
     @Override
     public FacturaResponseDto create(FacturaCreateDto dto) {
@@ -43,19 +43,16 @@ public class FacturaServiceImpl implements FacturaService {
         // Si no es ADMIN, ignoramos el idUsuario del DTO y usamos el del token
         // para evitar que un usuario cree facturas a nombre de otro (IDOR).
         final Long idUsuarioEfectivo;
-        boolean esAdmin = SecurityContextHolder.getContext().getAuthentication()
-                .getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        if (esAdmin) {
+        if (securityCurrentUser.isAdmin()) {
             // ADMIN puede crear facturas para cualquier usuario (dto.idUsuario obligatorio)
+            if (dto.getIdUsuario() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Un administrador debe indicar el idUsuario al crear una factura");
+            }
             idUsuarioEfectivo = dto.getIdUsuario();
         } else {
             // USER: el idUsuario del DTO se ignora; se usa el del usuario autenticado
-            String username = usernameActual();
-            idUsuarioEfectivo = usuarioRepository.findByUsername(username)
-                    .orElseThrow(() -> new UsuarioNotFound(username))
-                    .getId();
+            idUsuarioEfectivo = securityCurrentUser.getUserId();
         }
 
         Usuario usuario = usuarioRepository.findById(idUsuarioEfectivo)
@@ -93,9 +90,11 @@ public class FacturaServiceImpl implements FacturaService {
         Factura factura = facturaRepository.findById(id)
                 .orElseThrow(() -> new FacturaNotFound(id));
 
-        if (!esAdminOPropietario(factura.getUsuario().getUsername())) {
+        String usernameActual = securityCurrentUser.getUsername();
+        boolean esPropietario = factura.getUsuario().getUsername().equals(usernameActual);
+        if (!securityCurrentUser.isAdmin() && !esPropietario) {
             log.warn("Acceso denegado: usuario '{}' intentó ver la factura {}",
-                    usernameActual(), id);
+                    usernameActual, id);
             // Devolvemos 404 en vez de 403 para no filtrar si la factura existe
             throw new FacturaNotFound(id);
         }
@@ -123,9 +122,10 @@ public class FacturaServiceImpl implements FacturaService {
         }
 
         // Un USER solo puede ver sus propias facturas
-        if (!esAdminOPropietarioPorId(usuarioId)) {
+        boolean esPropietario = securityCurrentUser.getUserId().equals(usuarioId);
+        if (!securityCurrentUser.isAdmin() && !esPropietario) {
             log.warn("Acceso denegado: usuario '{}' intentó ver facturas del usuario {}",
-                    usernameActual(), usuarioId);
+                    securityCurrentUser.getUsername(), usuarioId);
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "No tienes permiso para ver las facturas de otro usuario");
         }
@@ -140,7 +140,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     @Transactional(readOnly = true)
     public List<FacturaResponseDto> findMisFacturas() {
-        String username = usernameActual();
+        String username = securityCurrentUser.getUsername();
         log.info("Buscando facturas del usuario autenticado: {}", username);
 
         Usuario usuario = usuarioRepository.findByUsername(username)
@@ -156,42 +156,6 @@ public class FacturaServiceImpl implements FacturaService {
             throw new FacturaNotFound(id);
         }
         facturaRepository.deleteById(id);
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers de control de acceso
-    // -------------------------------------------------------------------------
-
-    /** Devuelve el username del usuario autenticado actualmente. */
-    private String usernameActual() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autenticado");
-        }
-        return auth.getName();
-    }
-
-    /** true si el usuario en sesión es ADMIN o es el propietario (por username). */
-    private boolean esAdminOPropietario(String usernameDelRecurso) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) return false;
-        boolean esAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        return esAdmin || auth.getName().equals(usernameDelRecurso);
-    }
-
-    /** true si el usuario en sesión es ADMIN o su id coincide con usuarioId. */
-    private boolean esAdminOPropietarioPorId(Long usuarioId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) return false;
-        boolean esAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        if (esAdmin) return true;
-
-        // Cargar el id del usuario autenticado para comparar
-        return usuarioRepository.findByUsername(auth.getName())
-                .map(u -> u.getId().equals(usuarioId))
-                .orElse(false);
     }
 
     private String generarCodigoFacturaUnico() {

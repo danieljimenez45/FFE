@@ -17,8 +17,7 @@ import java.util.List;
 @Schema(description = "Datos necesarios para crear una factura")
 public class FacturaCreateDto {
 
-    @NotNull(message = "El id del usuario no puede ser nulo")
-    @Schema(description = "Identificador del usuario", example = "1")
+    @Schema(description = "Identificador del usuario. Opcional para usuarios normales (se usa el del token). Obligatorio si el llamante es ADMIN y quiere crear la factura a nombre de otro usuario.", example = "1")
     private Long idUsuario;
 
     @NotEmpty(message = "La lista de entradas no puede estar vacia")
