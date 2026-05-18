@@ -51,6 +51,7 @@ public class SesionMapper {
     public SesionResponseDto toResponseDto(Sesion sesion) {
         return SesionResponseDto.builder()
                 .id(sesion.getId())
+                .peliculaId(sesion.getPelicula().getId())
                 .pelicula(sesion.getPelicula().getTitulo())
                 .fecha(sesion.getFecha())
                 .horario(sesion.getHorario())

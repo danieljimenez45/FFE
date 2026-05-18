@@ -6,7 +6,10 @@ import com.entradas_cine.ffe.cine.rest.peliculas.repositories.PeliculaRepository
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionResponseDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
+import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionBadRequest;
 import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionNotFound;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
 import com.entradas_cine.ffe.cine.rest.sesiones.mappers.SesionMapper;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import com.entradas_cine.ffe.cine.rest.sesiones.repositories.SesionRepository;
@@ -15,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -97,10 +102,13 @@ public class SesionServiceImpl implements  SesionService {
     @Override
     public SesionResponseDto create(SesionCreateDto dto) {
         log.info("Creando nueva sesión para película id={}", dto.getIdPelicula());
-        validarFechaSesion(dto.getFecha());
 
         Pelicula pelicula = peliculaRepository.findById(dto.getIdPelicula())
                 .orElseThrow(() -> new PeliculaNotFound(dto.getIdPelicula()));
+
+        validarFechaSesion(dto.getFecha());
+        validarPrecio(dto.getPrecio());
+        validarSesionNoDuplicada(pelicula, dto.getFecha(), dto.getHorario(), dto.getSala(), null);
 
         Sesion sesion = sesionMapper.toSesionCreate(dto, pelicula);
         return sesionMapper.toResponseDto(sesionRepository.save(sesion));
@@ -109,14 +117,22 @@ public class SesionServiceImpl implements  SesionService {
     @Override
     public SesionResponseDto update(Long id, SesionUpdateDto dto) {
         log.info("Actualizando sesión con ID: {}", id);
-        validarFechaSesion(dto.getFecha());
+
         Sesion sesion = sesionRepository.findById(id)
                 .orElseThrow(() -> new SesionNotFound(id));
+
         sesionMapper.actualizarSesion(sesion, dto);
+
+        validarFechaSesion(sesion.getFecha());
+        validarPrecio(sesion.getPrecio());
+        validarSesionNoDuplicada(
+                sesion.getPelicula(), sesion.getFecha(), sesion.getHorario(), sesion.getSala(), id);
+
         return sesionMapper.toResponseDto(sesionRepository.save(sesion));
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         log.info("Eliminando sesion con ID: {}", id);
 
@@ -128,7 +144,24 @@ public class SesionServiceImpl implements  SesionService {
 
     private void validarFechaSesion(LocalDate fecha) {
         if (fecha != null && fecha.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("admin.error.sesion.fecha.pasada");
+            throw new SesionBadRequest("admin.error.sesion.fecha.pasada");
+        }
+    }
+
+    private void validarPrecio(BigDecimal precio) {
+        if (precio == null || precio.signum() <= 0) {
+            throw new SesionBadRequest("admin.error.sesion.precio.invalido");
+        }
+    }
+
+    private void validarSesionNoDuplicada(
+            Pelicula pelicula, LocalDate fecha, Horario horario, Sala sala, Long excludeId) {
+        boolean duplicada = excludeId == null
+                ? sesionRepository.existsByPeliculaAndFechaAndHorarioAndSala(pelicula, fecha, horario, sala)
+                : sesionRepository.existsByPeliculaAndFechaAndHorarioAndSalaAndIdNot(
+                        pelicula, fecha, horario, sala, excludeId);
+        if (duplicada) {
+            throw new SesionBadRequest("admin.error.sesion.duplicada");
         }
     }
 

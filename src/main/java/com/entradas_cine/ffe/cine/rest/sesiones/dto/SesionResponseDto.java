@@ -19,6 +19,9 @@ public class SesionResponseDto {
     @Schema(example = "10")
     private Long id;
 
+    @Schema(example = "3")
+    private Long peliculaId;
+
     @Schema(example = "Inception")
     private String pelicula;
 

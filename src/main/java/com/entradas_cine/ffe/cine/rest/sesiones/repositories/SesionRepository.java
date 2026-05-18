@@ -1,8 +1,9 @@
 package com.entradas_cine.ffe.cine.rest.sesiones.repositories;
 
 import com.entradas_cine.ffe.cine.rest.peliculas.models.Pelicula;
-import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
+import com.entradas_cine.ffe.cine.rest.sesiones.models.Sesion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +40,10 @@ public interface SesionRepository extends JpaRepository<Sesion, Long> {
 
 
     List<Sesion> findByFechaAfter(LocalDate fecha);
+
+    boolean existsByPeliculaAndFechaAndHorarioAndSala(
+            Pelicula pelicula, LocalDate fecha, Horario horario, Sala sala);
+
+    boolean existsByPeliculaAndFechaAndHorarioAndSalaAndIdNot(
+            Pelicula pelicula, LocalDate fecha, Horario horario, Sala sala, Long id);
 }

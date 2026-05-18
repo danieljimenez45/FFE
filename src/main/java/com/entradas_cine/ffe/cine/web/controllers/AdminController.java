@@ -11,6 +11,7 @@ import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionCreateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.dto.SesionUpdateDto;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Horario;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.Sala;
+import com.entradas_cine.ffe.cine.rest.sesiones.exceptions.SesionBadRequest;
 import com.entradas_cine.ffe.cine.rest.sesiones.models.TipoProyeccion;
 import com.entradas_cine.ffe.cine.rest.sesiones.services.SesionService;
 import com.entradas_cine.ffe.cine.rest.usuarios.dto.UsuarioCreateDto;
@@ -295,6 +296,8 @@ public class AdminController {
             sesionService.create(dto);
             ra.addFlashAttribute("successMsg", "Sesión creada correctamente.");
             log.info("Admin creó sesión para película id={}", idPelicula);
+        } catch (SesionBadRequest e) {
+            flashErrorAdmin(ra, e);
         } catch (IllegalArgumentException e) {
             flashErrorAdmin(ra, e);
         } catch (DateTimeParseException e) {
@@ -326,6 +329,8 @@ public class AdminController {
             sesionService.update(id, dto);
             ra.addFlashAttribute("successMsg", "Sesión #" + id + " actualizada.");
             log.info("Admin editó sesión id={}", id);
+        } catch (SesionBadRequest e) {
+            flashErrorAdmin(ra, e);
         } catch (IllegalArgumentException e) {
             flashErrorAdmin(ra, e);
         } catch (DateTimeParseException e) {
@@ -350,7 +355,7 @@ public class AdminController {
 
     // -- Helper privado --------------------------------------------------
 
-    private void flashErrorAdmin(RedirectAttributes ra, IllegalArgumentException e) {
+    private void flashErrorAdmin(RedirectAttributes ra, RuntimeException e) {
         String key = e.getMessage();
         ra.addFlashAttribute("errorMsg",
                 key != null && key.startsWith("admin.") ? i18n.getMessage(key) : key);
